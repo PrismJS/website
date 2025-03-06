@@ -227,7 +227,7 @@ var setTheme;
 					{
 						tag: 'a',
 						prop: {
-							href: 'plugins/' + id
+							href: 'https://prismjs.com/plugins/' + id
 						},
 						contents: plugin.title || plugin
 					},
