@@ -172,9 +172,9 @@ var setTheme;
 	}
 
 	setTheme = function (id) {
-		var link = $$('link[href^="themes/prism"]')[0];
+		var link = $$('link[href^="https://prismjs.com/themes/prism"]')[0];
 
-		link.href = themes.meta.path.replace(/\{id\}/g, id);
+		link.href = ("https://prismjs.com/" + themes.meta.path).replace(/\{id\}/g, id);
 		localStorage.setItem('theme', id);
 	};
 
