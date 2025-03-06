@@ -530,7 +530,7 @@
 					newCode.className = codeElement.className;
 					newCode.textContent = text;
 
-					Prism.highlightElement(newCode, true, function () {
+					Prism.highlightElement(newCode, false, function () {
 						pre.replaceChild(newCode, codeElement);
 					});
 
