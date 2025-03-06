@@ -20,12 +20,13 @@
 
 	var languages = components.languages;
 
+	const SOURCE_URL = "https://prismjs.com/";
 	Promise.all(Object.keys(languages).filter(function (id) { return id !== 'meta'; }).map(function (id) {
 		var language = languages[id];
 
 		language.enabled = language.option === 'default';
-		language.path = languages.meta.path.replace(/\{id\}/g, id) + '.js';
-		language.examplesPath = languages.meta.examplesPath.replace(/\{id\}/g, id) + '.html';
+		language.path = (SOURCE_URL + languages.meta.path).replace(/\{id\}/g, id) + '.js';
+		language.examplesPath = (SOURCE_URL + languages.meta.examplesPath).replace(/\{id\}/g, id) + '.html';
 
 		return fileExists(language.examplesPath).then(function (exists) {
 			return { id: id, exists: exists };
