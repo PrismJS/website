@@ -1,3 +1,5 @@
+const SOURCE_URL = "https://prismjs.com/";
+
 (function () {
 
 	if (!document.body.addEventListener) {
@@ -172,9 +174,9 @@ var setTheme;
 	}
 
 	setTheme = function (id) {
-		var link = $$('link[href^="https://prismjs.com/themes/prism"]')[0];
+		var link = $$(`link[href^="${SOURCE_URL}themes/prism"]`)[0];
 
-		link.href = ("https://prismjs.com/" + themes.meta.path).replace(/\{id\}/g, id);
+		link.href = (SOURCE_URL + themes.meta.path).replace(/\{id\}/g, id);
 		localStorage.setItem('theme', id);
 	};
 
