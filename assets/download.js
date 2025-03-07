@@ -390,7 +390,7 @@
 							if (info.enabled) {
 
 								if (!file.contentsPromise) {
-									file.contentsPromise = getFileContents("https://get.prismjs.com/" + path);
+									file.contentsPromise = getFileContents("https://dev.prismjs.com/" + path);
 								}
 
 								total[type] += size;
@@ -621,7 +621,7 @@
 	 * @returns {Promise<string>}
 	 */
 	function getVersion() {
-		return getFileContents('https://get.prismjs.com/package.json').then(function (jsonStr) {
+		return getFileContents('https://dev.prismjs.com/package.json').then(function (jsonStr) {
 			return JSON.parse(jsonStr).version;
 		});
 	}
