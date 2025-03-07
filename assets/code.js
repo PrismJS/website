@@ -119,32 +119,6 @@ const SOURCE_URL = "https://dev.prismjs.com/";
 	});
 }());
 
-// calc()
-(function () {
-	if (!window.PrefixFree) {
-		return;
-	}
-
-	if (PrefixFree.functions.indexOf('calc') == -1) {
-		var style = document.createElement('_').style;
-		style.width = 'calc(1px + 1%)';
-
-		if (!style.width) {
-			// calc not supported
-			var header = $('header');
-			var footer = $('footer');
-
-			function calculatePadding() {
-				header.style.padding =
-				footer.style.padding = '30px ' + (innerWidth / 2 - 450) + 'px';
-			}
-
-			addEventListener('resize', calculatePadding);
-			calculatePadding();
-		}
-	}
-}());
-
 // setTheme is intentionally global,
 // so it can be accessed from download.js
 var setTheme;
