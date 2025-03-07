@@ -20,7 +20,7 @@
 
 	var languages = components.languages;
 
-	const SOURCE_URL = "https://prismjs.com/";
+	const SOURCE_URL = "https://get.prismjs.com/";
 	Promise.all(Object.keys(languages).filter(function (id) { return id !== 'meta'; }).map(function (id) {
 		var language = languages[id];
 
@@ -153,7 +153,7 @@
 		}
 		if (deps.length) {
 			header += '<p>';
-			header += '<a href="https://prismjs.com/extending.html#dependencies"><strong>Dependencies:</strong></a>';
+			header += '<a href="https://get.prismjs.com/extending.html#dependencies"><strong>Dependencies:</strong></a>';
 			header += ' This component';
 			if (deps.length === 1) {
 				header += ' ' + deps[0] + '.';
