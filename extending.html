@@ -7,7 +7,7 @@
 <title>Extending Prism ▲ Prism</title>
 <link rel="stylesheet" href="assets/style.css" />
 <link rel="stylesheet" href="https://prismjs.com/themes/prism.css" data-noprefix />
-<link rel="stylesheet" href="https://prismjs.com/plugins/line-highlight/prism-line-highlight.css" data-noprefix />
+<link rel="stylesheet" href="https://plugins.prismjs.com/line-highlight/prism-line-highlight.css" data-noprefix />
 <script src="assets/vendor/prefixfree.min.js"></script>
 <style>
 ol.indent {
@@ -580,7 +580,7 @@ Brief description.</code></pre>
 
 	<h2 id="resolving-dependencies">Resolving dependencies</h2>
 
-	<p>We consider the dependencies of components an implementation detail, so they may change from release to release. Prism will usually resolve dependencies for you automatically. So you won't have to worry about dependency loading if you <a href="download.html">download</a> a bundle or use the <code>loadLanguages</code> function in NodeJS, the <a href="plugins/autoloader/">AutoLoader</a>, or our Babel plugin.</p>
+	<p>We consider the dependencies of components an implementation detail, so they may change from release to release. Prism will usually resolve dependencies for you automatically. So you won't have to worry about dependency loading if you <a href="download.html">download</a> a bundle or use the <code>loadLanguages</code> function in NodeJS, the <a href="https://plugins.prismjs.com/autoloader/">AutoLoader</a>, or our Babel plugin.</p>
 
 	<p>If you have to resolve dependencies yourself, use the <code>getLoader</code> function exported by <a href="https://github.com/PrismJS/prism/blob/master/dependencies.js"><code>dependencies.js</code></a>. Example:</p>
 
@@ -626,8 +626,8 @@ loader.load(id => {
 
 <script src="assets/vendor/utopia.js"></script>
 <script src="https://prismjs.com/prism.js"></script>
-<script src="https://prismjs.com/plugins/autoloader/prism-autoloader.js"></script>
-<script src="https://prismjs.com/plugins/line-highlight/prism-line-highlight.js"></script>
+<script src="https://plugins.prismjs.com/autoloader/prism-autoloader.js"></script>
+<script src="https://plugins.prismjs.com/line-highlight/prism-line-highlight.js"></script>
 <script src="https://prismjs.com/components.js"></script>
 <script src="assets/code.js"></script>
 
