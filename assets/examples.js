@@ -20,13 +20,12 @@
 
 	var languages = components.languages;
 
-	const SOURCE_URL = "https://get.prismjs.com/";
 	Promise.all(Object.keys(languages).filter(function (id) { return id !== 'meta'; }).map(function (id) {
 		var language = languages[id];
 
 		language.enabled = language.option === 'default';
-		language.path = (SOURCE_URL + languages.meta.path).replace(/\{id\}/g, id) + '.js';
-		language.examplesPath = (SOURCE_URL + languages.meta.examplesPath).replace(/\{id\}/g, id) + '.html';
+		language.path = languages.meta.path.replace(/\{id\}/g, id) + '.js';
+		language.examplesPath = languages.meta.examplesPath.replace(/\{id\}/g, id) + '.html';
 
 		return fileExists(language.examplesPath).then(function (exists) {
 			return { id: id, exists: exists };
@@ -153,7 +152,7 @@
 		}
 		if (deps.length) {
 			header += '<p>';
-			header += '<a href="https://get.prismjs.com/extending.html#dependencies"><strong>Dependencies:</strong></a>';
+			header += '<a href="extending.html#dependencies"><strong>Dependencies:</strong></a>';
 			header += ' This component';
 			if (deps.length === 1) {
 				header += ' ' + deps[0] + '.';
