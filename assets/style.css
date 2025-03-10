@@ -116,7 +116,7 @@ mark {
 }
 
 header,
-body > section {
+body > main {
 	display: block;
 	max-width: 900px;
 	margin: auto;
@@ -416,38 +416,44 @@ footer {
 	bottom: 15px;
 	max-width: calc(50% - 450px - 40px);
 	font-size: 80%;
-    z-index: 999;
-    background: white;
-    color: rgba(0,0,0,.5);
-    padding: 0 10px 10px;
+	z-index: 999;
+	background: white;
+	color: rgba(0,0,0,.5);
+	padding: 0 10px 10px;
 	border-radius: 0 3px 3px 0;
 	box-sizing: border-box;
-}
 
-@media (max-width: 1200px) {
-	#toc {
-		 display: none;
+	&:hover {
+		color: rgba(0,0,0,1);
 	}
-}
 
-#toc:hover {
-    color: rgba(0,0,0,1);
-}
-
-	#toc h1 {
+	h2 {
+		font-family: Rockwell, Arvo, serif;
 		font-size: 180%;
 		margin-top: .75rem;
 	}
 
-	#toc li {
+	li {
 		list-style: none;
 		line-height: 1.2;
 		padding: .2em 0;
+
+		a {
+			padding: .2em 0;
+		}
 	}
 
-	#toc li a {
-		padding: .2em 0;
+	> nav.toc {
+		li > ul {
+			margin-inline-start: .5rem;
+		}
 	}
+
+	@media (max-width: 1200px) {
+		display: none;
+	}
+}
+
 
 #logo {
 	float: right;
@@ -488,29 +494,36 @@ label a.owner:not(:hover) {
 	color: #aaa;
 }
 
-#languages-list ul {
+#languages-list {
 	column-count: 3;
-}
-	#languages-list li {
+	column-gap: 2em;
+
+	li {
 		padding: .2em;
 	}
-	#languages-list li[data-id="javascript"] {
+	
+	li[data-id="javascript"] {
 		border-bottom: 1px solid #aaa;
 		padding-bottom: 1em;
 		margin-bottom: 1em;
 		margin-right: 1em;
 	}
+}
 
 ul.plugin-list {
 	column-count: 2;
-}
-	ul.plugin-list > li {
+	column-gap: 2em;
+
+	> li {
 		break-inside: avoid;
 		page-break-inside: avoid;
+
+		> a {
+			font-size: 110%;
+		}
+
+		> div {
+			margin-bottom: .5em;
+		}
 	}
-	ul.plugin-list > li > a {
-		font-size: 110%;
-	}
-	ul.plugin-list > li > div {
-		margin-bottom: .5em;
-	}
+}

@@ -1,0 +1,8 @@
+<ul class="plugin-list">
+	{% for id, plugin in allPlugins -%}
+	<li>
+		<a href="https://plugins.prismjs.com/{{ id }}">{{ plugin.title }}</a>
+		<div>{{ plugin.description | safe }}</div>
+	</li>
+	{% endfor -%}
+</ul>

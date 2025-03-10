@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<title>
+	{{ title }}{{ " ▲" if title }} Prism
+</title>
+<meta name="viewport" content="width=device-width" />
+<meta charset="utf-8" />
+<link rel="icon" href="assets/logo.svg" />
+<link rel="stylesheet" href="assets/style.css" />
+<link rel="stylesheet" href="https://dev.prismjs.com/themes/prism.css" />
+
+<script>var _gaq = [["_setAccount", "UA-33746269-1"], ["_trackPageview"]];</script>
+<script src="https://www.google-analytics.com/ga.js" async></script>
+<script>
+	// Just a lil’ script to show off that inline JS gets highlighted
+	console.log("foo");
+</script>
+</head>
+<body>
+
+{{ content | safe }}
+
+<footer>
+	<img id="logo" src="https://lea.verou.me/logo.svg" />
+	<p>Handcrafted with &hearts;, by
+		<a href="https://lea.verou.me" target="_blank">Lea Verou</a>,
+		<a href="https://github.com/Golmote" target="_blank">Golmote</a>,
+		<a href="https://github.com/mAAdhaTTah" target="_blank">James DiGioia</a>,
+		<a href="https://github.com/RunDevelopment" target="_blank">Michael Schmidt</a>
+		&amp; <a href="https://github.com/PrismJS/prism/graphs/contributors" target="_blank">all these awesome people</a>
+	</p>
+	<nav>
+	{% include "partials/_nav-links.njk" %}
+	</nav>
+</footer>
+
+<script src="https://dev.prismjs.com/prism.js"></script>
+<script src="https://plugins.prismjs.com/keep-markup/prism-keep-markup.js"></script>
+<script src="assets/theme-switcher.js" type="module"></script>
+
+</body>
+</html>

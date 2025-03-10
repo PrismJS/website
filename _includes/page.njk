@@ -1,0 +1,51 @@
+---
+layout: "plain.njk"
+---
+
+<header>
+	<div class="intro">
+		<h1><a href="index.html"><img src="assets/logo.svg" alt="Prism" /></a></h1>
+
+		<a href="download.html" class="download-button">Download</a>
+
+		<p>
+			Prism is a lightweight, extensible syntax highlighter, built with modern web standards in mind.
+			It’s used in millions of websites, including some of those you visit daily.
+		</p>
+	</div>
+
+	<div id="theme">
+		<p>Theme:</p>
+		{%- for id, theme in allThemes %}
+		<input type="radio" name="theme" id="theme-{{ id }}" value="{{ id }}" />
+		<label for="theme-{{ id }}">{{ theme.title or theme}}</label>
+		{%- endfor %}
+	</div>
+
+	{% if home -%}
+	<ul id="features">
+		{%- for feature in features %}
+		<li>
+			<strong>{{ feature.title }}</strong>
+			{{ feature.description | md_inline | safe }}
+		</li>
+		{%- endfor %}
+	</ul>
+	{%- endif %}
+
+	{% if download -%}
+	<h2>Customize your download</h2>
+	<p>Select your compression level, as well as the languages and plugins you need.</p>
+	{%- endif %}
+</header>
+
+<aside id="toc">
+	<h2>On this page</h2>
+	{{ content | toc | safe }}
+</aside>
+
+<main>
+
+{{ content | safe }}
+
+</main>

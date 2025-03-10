@@ -1,0 +1,10 @@
+<ul id="languages-list">
+	{% for id, language in allLanguages -%}
+	<li data-id="{{ id }}">
+		{{ language.title }}&nbsp;— 
+		{%- for alias in language.alias -%}
+			<code>{{ alias }}</code>{{ ", " if not loop.last }}
+		{%- endfor %}
+	</li>
+	{% endfor %}
+</ul>
