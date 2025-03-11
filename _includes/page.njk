@@ -33,9 +33,9 @@ layout: "plain.njk"
 	</ul>
 	{%- endif %}
 
-	{% if download -%}
-	<h2>Customize your download</h2>
-	<p>Select your compression level, as well as the languages and plugins you need.</p>
+	{% if title -%}
+	<h2>{{ title }}</h2>
+	<p>{{ tagline }}</p>
 	{%- endif %}
 </header>
 

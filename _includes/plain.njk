@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+	data-page="{{ page.url }}"
+	data-inputpath="{{ page.inputPath | replace('./', '') }}">
 <head>
 
 <title>
@@ -11,14 +13,18 @@
 <link rel="stylesheet" href="assets/style.css" />
 <link rel="stylesheet" href="https://dev.prismjs.com/themes/prism.css" />
 
+{{ includes | safe }}
+
 <script>var _gaq = [["_setAccount", "UA-33746269-1"], ["_trackPageview"]];</script>
 <script src="https://www.google-analytics.com/ga.js" async></script>
+{% if home %}
 <script>
 	// Just a lil’ script to show off that inline JS gets highlighted
 	console.log("foo");
 </script>
+{% endif -%}
 </head>
-<body>
+<body class="{{ body_classes }}">
 
 {{ content | safe }}
 
@@ -37,8 +43,9 @@
 </footer>
 
 <script src="https://dev.prismjs.com/prism.js"></script>
-<script src="https://plugins.prismjs.com/keep-markup/prism-keep-markup.js"></script>
 <script src="assets/theme-switcher.js" type="module"></script>
+
+{{ scripts | safe }}
 
 </body>
 </html>
