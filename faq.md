@@ -8,7 +8,7 @@
 		<script>
 			Prism.plugins.autoloader.languages_path = 'https://dev.prismjs.com/components/';
 		</script>
-		<script src="assets/faq.js"></script>
+		<script src="assets/faq.js" type="module"></script>
 	`
 }
 ---

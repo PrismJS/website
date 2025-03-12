@@ -1,3 +1,5 @@
+import { toArray } from "./util.js";
+
 let sections = document.querySelectorAll("section");
 sections.forEach(section => {
 	section.insertAdjacentHTML("beforeend", `<p><a href="#toc">↑ Back to top</a></p>`);
@@ -9,10 +11,6 @@ languageSelect.addEventListener("change", showTokens);
 let tokensOutput = document.querySelector("#print-tokens-output");
 
 function printTokens (grammar) {
-	function toArray (x) {
-		return Array.isArray(x) ? x : x == undefined ? [] : [x];
-	}
-
 	let lines = [];
 	function log (line) {
 		if (!lines.includes(line)) {
