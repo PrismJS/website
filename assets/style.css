@@ -449,12 +449,21 @@ footer {
 		}
 	}
 
-	&:is([data-inputpath="faq.md"] *) {
+	&.static {
 		position: static;
 		max-width: 900px;
 		margin-inline: auto;
 		font-size: 100%;
 		color: black;
+
+		:is([data-inputpath="known-failures.md"] &) > .toc {
+			column-count: 4;
+	
+			li > ul {
+				/* Show top-level headings only */
+				display: none;
+			}
+		}
 	}
 
 	@media (max-width: 1200px) {
