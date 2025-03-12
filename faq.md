@@ -3,6 +3,7 @@
 	title: "FAQ",
 	tagline: "Frequently Asked Questions, with a few Questions I want people to Frequently Ask.",
 	body_classes: "language-none",
+	toc_classes: "static",
 	scripts: `
 		<script src="https://plugins.prismjs.com/autoloader/prism-autoloader.min.js"></script>
 		<script>
