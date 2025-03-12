@@ -1,9 +1,4 @@
-import { toArray } from "./util.js";
-
-let sections = document.querySelectorAll("section");
-sections.forEach(section => {
-	section.insertAdjacentHTML("beforeend", `<p><a href="#toc">↑ Back to top</a></p>`);
-});
+import { toArray, backToTop } from "./util.js";
 
 let languageSelect = document.querySelector("#language-select");
 languageSelect.addEventListener("change", showTokens);
@@ -93,3 +88,4 @@ function showTokens () {
 }
 
 showTokens();
+backToTop();
