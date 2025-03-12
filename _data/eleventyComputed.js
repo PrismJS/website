@@ -24,4 +24,21 @@ export default {
 
 		return languages;
 	},
+	title (data) {
+		if (data.title) {
+			return data.title;
+		}
+
+		let path = data.page.inputPath;
+		path = path.slice(2);
+
+		let title = path.replace(".md", "");
+		if (title === "README") {
+			return;
+		}
+
+		title = title.replace(/-/g, " ");
+
+		return title[0].toUpperCase() + title.slice(1);
+	},
 };
