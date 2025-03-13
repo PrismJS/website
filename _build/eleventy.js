@@ -51,6 +51,7 @@ export default config => {
 		markdownTemplateEngine: "njk",
 		templateFormats: ["md", "njk"],
 		dir: {
+			layouts: "_layouts",
 			output: ".",
 		},
 	};
