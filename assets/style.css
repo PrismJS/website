@@ -590,3 +590,13 @@ ul.plugin-list {
 		padding-left: 40px;
 	}
 }
+
+[data-inputpath="known-failures.md"] {
+	h2 {
+		font-size: 1.2em;
+
+		&[id] > a::before {
+			content: "";
+		}
+	}
+}
