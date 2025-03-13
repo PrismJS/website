@@ -627,3 +627,9 @@ ul.plugin-list {
 		}
 	}
 }
+
+[data-inputpath="test-suite.md"] {
+	h3 > a {
+		text-decoration: none;
+	}
+}
