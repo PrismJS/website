@@ -7,6 +7,7 @@ import * as filters from "./filters.js";
 export default config => {
 	let data = {
 		layout: "page.njk",
+		theme_switcher: true,
 		permalink: `{{ "index" if page.filePathStem == "/README" else page.filePathStem }}.html`,
 	};
 

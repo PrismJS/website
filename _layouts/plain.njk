@@ -43,7 +43,9 @@
 </footer>
 
 <script src="https://dev.prismjs.com/prism.js"></script>
+{% if theme_switcher -%}
 <script src="assets/theme-switcher.js" type="module"></script>
+{% endif -%}
 
 {{ scripts | safe }}
 
