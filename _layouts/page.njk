@@ -22,17 +22,10 @@ layout: "plain.njk"
 		<label for="theme-{{ id }}">{{ theme.title or theme}}</label>
 		{%- endfor %}
 	</div>
-	{%- endif -%}
+	{%- endif %}
 
 	{% if home -%}
-	<ul id="features">
-		{%- for feature in features %}
-		<li>
-			<strong>{{ feature.title }}</strong>
-			{{ feature.description | md_inline | safe }}
-		</li>
-		{%- endfor %}
-	</ul>
+	{% include "features.njk" %}
 	{%- endif -%}
 
 	{% if title -%}
