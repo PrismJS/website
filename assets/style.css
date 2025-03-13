@@ -78,6 +78,10 @@ h3 {
 h2,
 h3 {
 	font-weight: normal;
+
+	> a {
+		text-decoration: none;
+	}
 }
 
 dt {
@@ -628,8 +632,25 @@ ul.plugin-list {
 	}
 }
 
-[data-inputpath="test-suite.md"] {
-	h3 > a {
-		text-decoration: none;
+[data-inputpath="extending.md"] {
+	ol.indent {
+		margin: 1em 0;
+		padding-left: 2em;
+	}
+
+	table.stylish {
+		border-collapse: collapse;
+
+		&, tr, td, th {
+			border: 1px solid #CCC;
+		}
+
+		td, th {
+			padding: .5em .75em;
+		}
+	
+		th, td:first-child {
+			background-color: #F8F8F8;
+		}
 	}
 }
