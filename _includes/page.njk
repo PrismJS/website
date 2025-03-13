@@ -46,6 +46,10 @@ layout: "plain.njk"
 
 <main>
 
+{% if back_to_top %}
+{{ content | back_to_top | safe }}
+{% else %}
 {{ content | safe }}
+{% endif %}
 
 </main>
