@@ -600,3 +600,30 @@ ul.plugin-list {
 		}
 	}
 }
+
+[data-inputpath="tokens.md"] {
+	table.styled {
+		border: 1px solid #ccc;
+		border-spacing: 0;
+
+		tr:not(:first-child) > * {
+			border-top: 1px solid #ccc;
+		}
+
+		tr > *:not(:first-child) {
+			border-left: 1px solid #ccc;
+		}
+
+		tr:nth-child(2n + 1) {
+			background-color: #F8F8F8;
+		}
+
+		tr > * {
+			padding: .5em .75em;
+		}
+
+		tr > th {
+			text-align: left;
+		}
+	}
+}
