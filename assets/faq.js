@@ -1,4 +1,4 @@
-import { toArray, backToTop } from "./util.js";
+import { toArray } from "./util.js";
 
 let languageSelect = document.querySelector("#language-select");
 languageSelect.addEventListener("change", showTokens);
@@ -88,4 +88,3 @@ function showTokens () {
 }
 
 showTokens();
-backToTop();

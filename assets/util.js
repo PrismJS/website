@@ -19,14 +19,3 @@ export function toArray (value) {
 
 	return [value];
 }
-
-/**
- * Add a back to top link to the end of each element matching the given selector.
- * @param {string} selector - The selector to match elements.
- */
-export function backToTop (selector = "section") {
-	let elements = document.querySelectorAll(selector);
-	elements.forEach(element => {
-		element.insertAdjacentHTML("beforeend", `<p><a href="#toc">↑ Back to top</a></p>`);
-	});
-}
