@@ -14,12 +14,12 @@ export default {
 		delete languages.meta;
 
 		for (let id in languages) {
+			let ret = [id];
 			let alias = languages[id].alias;
-			if (typeof alias === "string") {
-				languages[id].alias = [alias];
+			if (alias) {
+				ret = ret.concat(Array.isArray(alias) ? alias : [alias]);
 			}
-
-			(languages[id].alias ??= []).unshift(id);
+			languages[id].alias = ret;
 		}
 
 		return languages;
