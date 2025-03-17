@@ -2,7 +2,7 @@
  * Manage examples
  */
 
-import { toArray } from "./util.js";
+import { toArray, getFileContents } from "./util.js";
 
 let components = await (await fetch("https://dev.prismjs.com/components.json")).json();
 let languages = components.languages;
@@ -30,14 +30,6 @@ async function fileExists (filepath) {
 		}
 	}
 	return false;
-}
-
-async function getFileContents (filepath) {
-	let response = await fetch(filepath);
-	if (!response.ok) {
-		throw new Error(`HTTP error! status: ${response.status}`);
-	}
-	return response.text();
 }
 
 function buildContentsHeader (id) {

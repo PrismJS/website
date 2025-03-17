@@ -19,3 +19,16 @@ export function toArray (value) {
 
 	return [value];
 }
+
+/**
+ * Get the contents of a file.
+ * @param {string} filepath - The path to the file.
+ * @returns {Promise<string>} The contents of the file.
+ */
+export async function getFileContents (filepath) {
+	let response = await fetch(filepath);
+	if (!response.ok) {
+		throw new Error(`HTTP error! status: ${response.status}`);
+	}
+	return response.text();
+}
