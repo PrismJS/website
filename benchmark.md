@@ -1,7 +1,7 @@
 ---
 tagline: Prism has a benchmark suite which can be run and extended similar to the test suite.
 body_classes: language-javascript
-scripts: <script src="https://dev.prismjs.com/components/prism-bash.js"></script>
+resources: https://dev.prismjs.com/components/prism-bash.js
 ---
 
 <section>

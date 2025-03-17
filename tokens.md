@@ -1,19 +1,15 @@
----js
-{
-	title: "Prism tokens",
-	tagline: "Prism identifies tokens in your code, which are in turn styled by CSS to produce the syntax highlighting. This page provides an overview of the standard tokens and corresponding examples.",
-	body_classes: "language-none",
-	includes: `
-		<link rel="stylesheet" href="https://plugins.prismjs.com/line-highlight/prism-line-highlight.css" />
-		<link rel="stylesheet" href="https://plugins.prismjs.com/toolbar/prism-toolbar.css" />
-	`,
-	scripts: `
-		<script src="https://plugins.prismjs.com/autoloader/prism-autoloader.js" data-autoloader-path="https://dev.prismjs.com/components/"></script>
-		<script src="https://plugins.prismjs.com/line-highlight/prism-line-highlight.js"></script>
-		<script src="https://plugins.prismjs.com/toolbar/prism-toolbar.js"></script>
-		<script src="https://plugins.prismjs.com/show-language/prism-show-language.js"></script>
-	`
-}
+---
+title: Prism tokens
+tagline: Prism identifies tokens in your code, which are in turn styled by CSS to produce the syntax highlighting. This page provides an overview of the standard tokens and corresponding examples.
+body_classes: language-none
+resources: [
+	"https://plugins.prismjs.com/line-highlight/prism-line-highlight.css",
+	"https://plugins.prismjs.com/toolbar/prism-toolbar.css",
+	'https://plugins.prismjs.com/autoloader/prism-autoloader.js { data-autoloader-path="https://dev.prismjs.com/components/" }',
+	"https://plugins.prismjs.com/line-highlight/prism-line-highlight.js",
+	"https://plugins.prismjs.com/toolbar/prism-toolbar.js",
+	"https://plugins.prismjs.com/show-language/prism-show-language.js"
+]
 ---
 
 <section>

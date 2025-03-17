@@ -1,11 +1,9 @@
----js
-{
-	tagline: "The examples in this page serve a dual purpose: They act as unit tests, making it easy to spot bugs, and at the same time demonstrate what Prism can do, on simple and on edge cases.",
-	scripts: `
-		<script src="https://plugins.prismjs.com/autoloader/prism-autoloader.js" data-autoloader-path="https://dev.prismjs.com/components/"></script>
-		<script src="assets/examples.js" type="module"></script>
-	`
-}
+---
+tagline: "The examples in this page serve a dual purpose: They act as unit tests, making it easy to spot bugs, and at the same time demonstrate what Prism can do, on simple and on edge cases."
+resources: [
+	'https://plugins.prismjs.com/autoloader/prism-autoloader.js { data-autoloader-path="https://dev.prismjs.com/components/" }',
+	'assets/examples.js { type="module" }'
+]
 ---
 
 <section class="language-markup">

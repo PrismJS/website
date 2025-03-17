@@ -1,13 +1,11 @@
----js
-{
-	title: "Customize your download",
-	tagline: "Select your compression level, as well as the languages and plugins you need.",
-	scripts: `
-		<script src="https://dev.prismjs.com/dependencies.js"></script>
-		<script src="assets/vendor/FileSaver.min.js"></script>
-		<script src="assets/download.js" type="module"></script>
-	`
-}
+---
+title: Customize your download
+tagline: Select your compression level, as well as the languages and plugins you need.
+resources: [
+	"https://dev.prismjs.com/dependencies.js",
+	"assets/vendor/FileSaver.min.js",
+	'assets/download.js { type="module" }'
+]
 ---
 
 {%- macro list(category, components) %}

@@ -1,3 +1,6 @@
+{%- from "include-resources.njk" import include -%}
+{%- set resources = resources | parse_resources -%}
+
 <!DOCTYPE html>
 <html lang="en"
 	data-page="{{ page.url }}"
@@ -13,7 +16,7 @@
 <link rel="stylesheet" href="assets/style.css" />
 <link rel="stylesheet" href="https://dev.prismjs.com/themes/prism.css" />
 
-{{ includes | safe }}
+{{- include(resources, "stylesheet") -}}
 
 <script>var _gaq = [["_setAccount", "UA-33746269-1"], ["_trackPageview"]];</script>
 <script src="https://www.google-analytics.com/ga.js" async></script>
@@ -47,7 +50,9 @@
 <script src="assets/theme-switcher.js" type="module"></script>
 {% endif -%}
 
-{{ scripts | safe }}
+{{- include(resources, "script") -}}
+
+{{- include(resources, "raw") -}}
 
 </body>
 </html>
