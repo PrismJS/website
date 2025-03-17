@@ -449,7 +449,7 @@ footer {
 		}
 	}
 
-	&.static {
+	&:has(+ main .back-to-top) {
 		position: static;
 		max-width: 900px;
 		margin-inline: auto;
@@ -467,7 +467,9 @@ footer {
 	}
 
 	@media (max-width: 1200px) {
-		display: none;
+		&:not(:has(+ main .back-to-top)) {
+			display: none;
+		}
 	}
 }
 

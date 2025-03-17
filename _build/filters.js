@@ -13,7 +13,7 @@ export function relative (page) {
 
 export function back_to_top (content) {
 	// Add “↑ Back to top” at the end of each `<section>`
-	return content.replace(/<\/section>/g, `<p><a href="#toc">↑ Back to top</a></p></section>`);
+	return content.replace(/<\/section>/g, `<p><a href="#toc" class="back-to-top">↑ Back to top</a></p></section>`);
 }
 
 export function pretty_size (size) {

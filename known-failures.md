@@ -2,7 +2,6 @@
 tagline: A list of rare edge cases where Prism highlights code incorrectly.
 back_to_top: true
 body_classes: language-none
-toc_classes: static
 resources: https://plugins.prismjs.com/autoloader/prism-autoloader.js { data-autoloader-path="https://dev.prismjs.com/components/" }
 ---
 
