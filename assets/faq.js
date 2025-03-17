@@ -1,3 +1,7 @@
+/**
+ * Show tokens for a language on the FAQ page
+ */
+
 import { toArray } from "./util.js";
 
 let languageSelect = document.querySelector("#language-select");
