@@ -79,19 +79,17 @@ If you’re still not sold, you can [view more examples](examples.html) or [try 
 
 You will need to include the `prism.css` and `prism.js` files you [downloaded](download.html) in your page. Example:
 
-```html
-<!DOCTYPE html>
-<html>
-<head>
+<pre><code>&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
 	...
-	<link href="themes/prism.css" rel="stylesheet" />
-</head>
-<body>
+	<mark>&lt;link href="themes/prism.css" rel="stylesheet" /></mark>
+&lt;/head>
+&lt;body>
 	...
-	<script src="prism.js"></script>
-</body>
-</html>
-```
+	<mark>&lt;script src="prism.js">&lt;/script></mark>
+&lt;/body>
+&lt;/html></code></pre>
 
 Prism does its best to encourage good authoring practices. Therefore, it only works with `<code>` elements, since marking up code without a `<code>` element is semantically invalid. [According to the HTML5 spec](https://www.w3.org/TR/html52/textlevel-semantics.html#the-code-element), the recommended way to define a code language is a `language-xxxx` class, which is what Prism uses. Alternatively, Prism also supports a shorter version: `lang-xxxx`.
 
@@ -143,20 +141,18 @@ In combination with CDNs, we recommend using the [Autoloader plugin](https://plu
 
 The setup of the Autoloader, will look like the following. You can also add your own themes of course.
 
-```html
-<!DOCTYPE html>
-<html>
-<head>
+<pre><code>&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
 	...
-	<link href="https://{{cdn}}/prismjs@v1.x/themes/prism.css" rel="stylesheet" />
-</head>
-<body>
+	<mark>&lt;link href="https://{{cdn}}/prismjs@v1.x/themes/prism.css" rel="stylesheet" /></mark>
+&lt;/head>
+&lt;body>
 	...
-	<script src="https://{{cdn}}/prismjs@v1.x/components/prism-core.min.js"></script>
-	<script src="https://{{cdn}}/prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>
-</body>
-</html>
-```
+	<mark>&lt;script src="https://{{cdn}}/prismjs@v1.x/components/prism-core.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://{{cdn}}/prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"&gt;&lt;/script&gt;</mark>
+&lt;/body>
+&lt;/html></code></pre>
 
 Please note that links in the above code sample serve as placeholders. You have to replace them with valid links to the CDN of your choice.
 
