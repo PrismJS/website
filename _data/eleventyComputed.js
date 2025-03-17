@@ -41,4 +41,11 @@ export default {
 
 		return title[0].toUpperCase() + title.slice(1);
 	},
+	files_sizes (data) {
+		let ret = {};
+		for (let file of data.tree) {
+			ret[file.path] = file.size;
+		}
+		return ret;
+	},
 };

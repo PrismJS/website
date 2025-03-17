@@ -778,3 +778,128 @@ ul.plugin-list {
 		}
 	}
 }
+
+[data-inputpath^="download"] {
+	form label {
+		display: block;
+		padding: .2em;
+		padding-left: 1.9em;
+		page-break-inside: avoid;
+		break-inside: avoid;
+
+		.name {
+			margin-right: .3em;
+		}
+		
+		a.owner {
+			margin-left: 0;
+			hyphens: none;
+		}
+		
+		input {
+			margin-right: .7em;
+			margin-left: -1.7em;
+		}
+	}
+
+
+	form > p:first-of-type > label {
+		font-size: 150%;
+
+		input {
+			vertical-align: .3em;
+		}
+	}
+
+
+	.filesize:empty {
+		display: none;
+	}
+
+	#components {
+		overflow: hidden;
+	}
+
+	section.options {
+		width: 33.3%;
+		width: calc(100% / 3);
+		float: left;
+
+		label[data-id^="check-all-"] {
+			border-bottom: 1px solid #aaa;
+			padding-bottom: 1em;
+			margin-bottom: 1em;
+		}
+	}
+
+	section.options#category-languages,
+	section.options#category-plugins {
+		width: 100%;
+		float: none;
+		column-count: 3;
+		padding-top: 2em;
+		overflow: visible;
+
+		label {
+			break-inside: avoid;
+		}
+
+		> h1 {
+			margin-top: 0;
+			column-span: all;
+		}
+		
+		label[data-id="javascript"] {
+			border-bottom: 1px solid #aaa;
+			padding-bottom: 1em;
+			margin-bottom: 1em;
+		}
+	}
+
+
+	section.options#category-themes {
+		width: 66.6%;
+		width: calc(100% * 2/3);
+		column-count: 2;
+		overflow: visible;
+		float: none;
+
+		> h1 {
+			column-span: all;
+		}
+	}
+
+
+	section.download {
+		width: 50%;
+		float: left;
+	}
+
+	#download {
+		overflow: hidden;
+		padding: .3em;
+		.error {
+			color: #B61500;
+			display: none;
+		}
+		pre {
+			height: 20em;
+		}
+		.download-button {
+			cursor: pointer;
+			width: 100%;
+		}
+
+	}
+
+	#download-js .download-button {
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+
+	#download-css .download-button {
+		background-color: #dc9e23;
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+}
