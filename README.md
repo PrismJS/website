@@ -73,7 +73,7 @@ If you’re still not sold, you can [view more examples](examples.html) or [try 
 
 </section>
 
-<section>
+<section class="language-markup">
 
 # Basic usage
 
@@ -121,7 +121,7 @@ If you want to opt-out of highlighting but still use plugins like [Show Invisibl
 
 ### Manual highlighting
 
-If you want to prevent any elements from being automatically highlighted and instead use the [API](extending.html#api-documentation), you can set [`Prism.manual`](docs/Prism.html#.manual) to `true` before the `DOMContentLoaded` event is fired. By setting the `data-manual` attribute on the `<script>` element containing Prism core, this will be done automatically. Example:
+If you want to prevent any elements from being automatically highlighted and instead use the [API](extending.html#api-documentation), you can set [`Prism.manual`{ .language-javascript }](docs/Prism.html#.manual) to `true`{ .language-javascript } before the `DOMContentLoaded` event is fired. By setting the `data-manual` attribute on the `<script>` element containing Prism core, this will be done automatically. Example:
 
 ```html
 <script src="prism.js" data-manual></script>
@@ -194,7 +194,7 @@ const code = `var data = 1;`;
 const html = Prism.highlight(code, Prism.languages.javascript, 'javascript');
 ```
 
-Requiring `prismjs` will load the default languages: `markup`, `css`, `clike` and `javascript`. You can load more languages with the `loadLanguages()` utility, which will automatically handle any required dependencies.
+Requiring `prismjs` will load the default languages: `markup`, `css`, `clike` and `javascript`. You can load more languages with the `loadLanguages()`{ .language-javascript } utility, which will automatically handle any required dependencies.
 
 Example:
 
@@ -210,9 +210,9 @@ const code = `= ['hi', 'there', 'reader!'].join " "`;
 const html = Prism.highlight(code, Prism.languages.haml, 'haml');
 ```
 
-**Note**: Do _not_ use `loadLanguages()` with Webpack or another bundler, as this will cause Webpack to include all languages and plugins. Use the babel plugin described above.
+**Note**: Do _not_ use `loadLanguages()`{ .language-javascript } with Webpack or another bundler, as this will cause Webpack to include all languages and plugins. Use the babel plugin described above.
 
-**Note**: `loadLanguages()` will ignore unknown languages and log warning messages to the console. You can prevent the warnings by setting `loadLanguages.silent = true`.
+**Note**: `loadLanguages()`{ .language-javascript } will ignore unknown languages and log warning messages to the console. You can prevent the warnings by setting `loadLanguages.silent = true`{ .language-javascript }.
 
 </section>
 
