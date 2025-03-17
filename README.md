@@ -121,7 +121,7 @@ If you want to opt-out of highlighting but still use plugins like [Show Invisibl
 
 ### Manual highlighting
 
-If you want to prevent any elements from being automatically highlighted and instead use the [API](extending.html#api), you can set [`Prism.manual`](docs/Prism.html#.manual) to `true` before the `DOMContentLoaded` event is fired. By setting the `data-manual` attribute on the `<script>` element containing Prism core, this will be done automatically. Example:
+If you want to prevent any elements from being automatically highlighted and instead use the [API](extending.html#api-documentation), you can set [`Prism.manual`](docs/Prism.html#.manual) to `true` before the `DOMContentLoaded` event is fired. By setting the `data-manual` attribute on the `<script>` element containing Prism core, this will be done automatically. Example:
 
 ```html
 <script src="prism.js" data-manual></script>

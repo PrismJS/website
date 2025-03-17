@@ -490,7 +490,7 @@ As an example, we will create the language definition of the fictional _Foo's Bi
       
       `npm run test:languages -- --language=foo-bar --accept`{ .language-bash }
       
-      This command will take the token stream your language definition currently produces and inserted into the test file. The empty space between the two lines separating the code and the description of test case will be replaced with a [simplified version of the token stream](test-suite.html#writing-tests-explaining-the-simplified-token-stream).
+      This command will take the token stream your language definition currently produces and inserted into the test file. The empty space between the two lines separating the code and the description of test case will be replaced with a [simplified version of the token stream](test-suite.html#explaining-the-simplified-token-stream).
       
    4. **Carefully check** that the inserted token stream JSON is what you expect.
       

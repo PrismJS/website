@@ -17,7 +17,7 @@
 
 <section>
 
-# This page doesn’t work in Opera!
+# This page doesn’t work in Opera! { #this-page-doesnt-work-in-opera }
 
 **Prism works fine in Opera.** However, this page might sometimes appear to not be working in Opera, due to the theme switcher triggering an Opera bug. This will be fixed soon.
 </section>
@@ -37,7 +37,7 @@ For this reason, most syntax highlighters on the web and on desktop, are powered
 
 <section>
 
-# Why is asynchronous highlighting disabled by default?
+# Why is asynchronous highlighting disabled by default? { #why-is-asynchronous-highlighting-disabled-by-default }
 
 Web Workers are good for preventing syntax highlighting of really large code blocks from blocking the main UI thread. In most cases, you will want to highlight reasonably sized chunks of code, and this will not be needed. Furthermore, using Web Workers is actually **slower** than synchronously highlighting, due to the overhead of creating and terminating the Worker. It just appears faster in these cases because it doesn’t block the main thread. In addition, since Web Workers operate on files instead of objects, plugins that hook on core parts of Prism (e.g. modify language definitions) will not work unless included in the same file (using the builder in the [Download](download.html) page will protect you from this pitfall). Lastly, Web Workers cannot interact with the DOM and most other APIs (e.g. the console), so they are notoriously hard to debug.
 </section>
@@ -51,7 +51,7 @@ Because it would complicate the code a lot, although it’s not a crucial featur
 
 <section>
 
-# If pre-existing HTML is stripped off, how can I highlight certain parts of the code?
+# If pre-existing HTML is stripped off, how can I highlight certain parts of the code? { #if-pre-existing-html-is-stripped-off-how-can-i-highlight }
 
 There is a number of ways around it. You can always break the block of code into multiple parts, and wrap the HTML around it (or just use a `.highlight` class). You can see an example of this in action at the “[Basic usage](index.html#basic-usage)” section of the homepage.
 
@@ -60,7 +60,7 @@ Another way around the limitation is to use the [Line Highlight plugin](https://
 
 <section>
 
-# How do I know which tokens I can style for every language?
+# How do I know which tokens I can style for every language? { #how-do-i-know-which-tokens-i-can-style-for }
 
 Every token that is highlighted gets at least two classes: `token` and a class with the token type (e.g. `comment`) plus any number of aliases. Aliases can be seen as additional token types and are used to give specialized tokens a more common class for easier styling. You can find the different types of tokens either by looking at the keys of the object defining the language or by using the below interface.
 
