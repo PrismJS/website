@@ -276,15 +276,15 @@ Several tutorials have been written by members of the community to help you inte
 - [How To Re-Run Prism.js On AJAX Content](https://schier.co/blog/2013/01/07/how-to-re-run-prismjs-on-ajax-content.html)
 - [Highlight your code syntax with Prism.js](https://www.semisedlak.com/highlight-your-code-syntax-with-prismjs)
 - [A code snippet content element powered by Prism.js for TYPO3 CMS](https://usetypo3.com/fs-code-snippet.html)
-- [Code syntax highlighting with Angular and Prism.js](https://auralinna.blog/post/2017/code-syntax-highlighting-with-angular-and-prismjs)
+<!-- - [Code syntax highlighting with Angular and Prism.js](https://auralinna.blog/post/2017/code-syntax-highlighting-with-angular-and-prismjs) -->
 - [Code syntax highlighting in Gutenberg, WordPress block editor](https://mkaz.blog/wordpress/code-syntax-highlighting-in-gutenberg/)
 - [Code Highlighting with Prism.js in Drupal](https://karlkaufmann.com/writing/technotes/code-highlighting-prism-drupal)
 - [Code highlighting in React using Prism.js](https://betterstack.dev/blog/code-highlighting-in-react-using-prismjs/)
-- [Using Prism.js in React Native](https://www.akashmittal.com/react-native-prismjs-using-webview/)
+<!-- - [Using Prism.js in React Native](https://www.akashmittal.com/react-native-prismjs-using-webview/) -->
 - [PrismJS Tutorial | Implement Prism in HTML and React](https://itsmycode.com/prismjs-tutorial/)
 - Code syntax highlighting in Pug with [:highlight](https://webdiscus.github.io/pug-loader/pug-filters/highlight.html) and [:markdown](https://webdiscus.github.io/pug-loader/pug-filters/markdown.html) filters using [pug-loader](https://github.com/webdiscus/pug-loader) and Prism.js
 
-Please note that the tutorials listed here are not verified to contain correct information. Read at your risk and always check the official documentation here if something doesn’t work 🙂
+Please note that the tutorials listed here are not verified to contain correct information. Read at your risk and always check the official documentation here if something doesn’t work. 🙂
 
 Have you written a tutorial about Prism that’s not already included here? Send a pull request!
 
