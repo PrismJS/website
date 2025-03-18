@@ -19,9 +19,7 @@ export default config => {
 		config.addFilter(f, filters[f]);
 	}
 
-	let mdLib;
 	config.amendLibrary("md", md => {
-		mdLib = md;
 		md.options.typographer = true;
 		md.options.linkify = true;
 		md.use(markdownItAnchor, {
@@ -37,10 +35,6 @@ export default config => {
 			let content = md.utils.escapeHtml(token.content).trim();
 			return `<pre ${slf.renderAttrs(token)}><code ${lang}>${content}</code></pre>`;
 		};
-	});
-
-	config.addFilter("md_inline", content => {
-		return mdLib.renderInline(content);
 	});
 
 	config.addPlugin(pluginTOC, {
