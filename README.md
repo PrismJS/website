@@ -296,8 +296,8 @@ Have you written a tutorial about Prism that’s not already included here? Send
 
 - Special thanks to [Michael Schmidt](https://github.com/RunDevelopment), [James DiGioia](https://github.com/mAAdhaTTah), [Golmote](https://github.com/Golmote) and [Jannik Zschiesche](https://github.com/apfelbox) for their contributions and for being **amazing maintainers**. Prism would not have been able to keep up without their help.
 - To [Roman Komarov](https://twitter.com/kizmarh) for his contributions, feedback and testing.
-- To [Zachary Forrest](https://twitter.com/zdfs) for [coming up with the name “Prism”](https://twitter.com/zdfs/statuses/217834980871639041)
-- To [stellarr](https://stellarr.deviantart.com/) for the [spectrum background](https://stellarr.deviantart.com/art/Spectra-Wallpaper-Pack-97785901) used on this page
-- To [Jason Hobbs](https://twitter.com/thecodezombie) for [encouraging me](https://twitter.com/thecodezombie/status/217663703825399809) to release this script as standalone`
+- To [Zachary Forrest](https://twitter.com/zdfs) for [coming up with the name “Prism”](https://twitter.com/zdfs/statuses/217834980871639041).
+- To [stellarr](https://stellarr.deviantart.com/) for the [spectrum background](https://stellarr.deviantart.com/art/Spectra-Wallpaper-Pack-97785901) used on this page.
+- To [Jason Hobbs](https://twitter.com/thecodezombie) for [encouraging me](https://twitter.com/thecodezombie/status/217663703825399809) to release this script as standalone.
 
 </section>
