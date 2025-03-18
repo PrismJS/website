@@ -109,7 +109,7 @@ Inline code snippets are done like this:
 
 **Note**: You have to escape all `<` and `&` characters inside `<code>` elements (code blocks and inline snippets) with `&lt;` and `&amp;` respectively, or else the browser might interpret them as an HTML tag or [entity](https://developer.mozilla.org/en-US/docs/Glossary/Entity). If you have large portions of HTML code, you can use the [Unescaped Markup plugin](https://plugins.prismjs.com/unescaped-markup/) to work around this.
 
-### Language inheritance
+## Language inheritance
 
 To make things easier however, Prism assumes that the language class is inherited. Therefore, if multiple `<code>` elements have the same language, you can add the `language-xxxx` class on one of their common ancestors. This way, you can also define a document-wide default language, by adding a `language-xxxx` class on the `<body>` or `<html>` element.
 
@@ -117,7 +117,7 @@ If you want to opt-out of highlighting a `<code>` element that inherits its lang
 
 If you want to opt-out of highlighting but still use plugins like [Show Invisibles](https://plugins.prismjs.com/show-invisibles/), add use `language-plain` class instead.
 
-### Manual highlighting
+## Manual highlighting
 
 If you want to prevent any elements from being automatically highlighted and instead use the [API](extending.html#api-documentation), you can set [`Prism.manual`{ .language-javascript }](docs/Prism.html#.manual) to `true`{ .language-javascript } before the `DOMContentLoaded` event is fired. By setting the `data-manual` attribute on the `<script>` element containing Prism core, this will be done automatically. Example:
 
