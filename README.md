@@ -47,7 +47,7 @@ If you’re still not sold, you can [view more examples](examples.html) or [try 
 
 - **Only 2KB** minified & gzipped (core). Each language definition adds roughly 300-500 bytes.
 - Encourages good author practices. Other highlighters encourage or even force you to use elements that are semantically wrong, like `<pre>` (on its own) or `<script>`. Prism forces you to use the correct element for marking up code: `<code>`. On its own for inline code, or inside a `<pre>` for blocks of code. In addition, the language is defined through the way recommended in the HTML5 draft: through a `language-xxxx` class.
-- The `language-xxxx` class is inherited. This means that if multiple code snippets have the same language, you can just define it once,in one of their common ancestors.
+- The `language-xxxx` class is inherited. This means that if multiple code snippets have the same language, you can just define it once, in one of their common ancestors.
 - Supports **parallelism with Web Workers**, if available. Disabled by default ([why?](faq.html#why-is-asynchronous-highlighting-disabled-by-default)).
 - Very easy to extend without modifying the code, due to Prism’s [plugin architecture](#plugins). Multiple hooks are scattered throughout the source.
 - Very easy to [define new languages](extending.html#language-definitions). The only thing you need is a good understanding of regular expressions.
