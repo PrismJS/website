@@ -8,7 +8,8 @@
 <head>
 
 <title>
-	{{ title }}{{ " ▲" if title }} Prism
+	{%- set title = title or subdomain | capitalize %}
+	{{ title }}{{ " ▲" if title }} Prism {{ subdomain if subdomain | capitalize != title }}
 </title>
 <meta name="viewport" content="width=device-width" />
 <meta charset="utf-8" />

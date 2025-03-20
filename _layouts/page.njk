@@ -4,7 +4,7 @@ layout: "plain.njk"
 
 <header>
 	<div class="intro">
-		<h1><a href="index.html"><img src="assets/logo.svg" alt="Prism" /></a></h1>
+		<h1><a href="/"><img src="{{ base_url }}/assets/logo.svg" alt="Prism" /> {{ subdomain }}</a></h1>
 
 		<a href="download.html" class="download-button">Download</a>
 
@@ -30,7 +30,7 @@ layout: "plain.njk"
 
 	{% if title -%}
 	<h2>{{ title }}</h2>
-	<p>{{ tagline }}</p>
+	<p>{{ tagline or description }}</p>
 	{%- endif %}
 </header>
 
