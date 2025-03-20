@@ -1,52 +1,110 @@
----
-layout: "plain.njk"
----
+{%- from "include-resources.njk" import include -%}
+{%- set resources = resources | parse_resources -%}
 
-<header>
-	<div class="intro">
-		<h1><a href="/"><img src="{{ base_url }}/assets/logo.svg" alt="Prism" /> {{ subdomain }}</a></h1>
+<!DOCTYPE html>
+<html lang="en"
+	data-page="{{ page.url }}"
+	data-inputpath="{{ page.inputPath | replace('./', '') }}">
+<head>
+	<title>
+		{%- set title = title or subdomain | capitalize %}
+		{{ title }}{{ " ▲" if title }} Prism {{ subdomain if subdomain | capitalize != title }}
+	</title>
+	<meta name="viewport" content="width=device-width" />
+	<meta charset="utf-8" />
+	<link rel="icon" href="assets/logo.svg" />
+	<link rel="stylesheet" href="assets/style.css" />
+	<link rel="stylesheet" href="https://dev.prismjs.com/themes/prism.css" />
 
-		<a href="download.html" class="download-button">Download</a>
+	{{- include(resources, "stylesheet") -}}
 
-		<p>
-			Prism is a lightweight, extensible syntax highlighter, built with modern web standards in mind.
-			It’s used in millions of websites, including some of those you visit daily.
+	<script>var _gaq = [["_setAccount", "UA-33746269-1"], ["_trackPageview"]];</script>
+	<script src="https://www.google-analytics.com/ga.js" async></script>
+
+	{%- if home %}
+	<script>
+		// Just a lil’ script to show off that inline JS gets highlighted
+		console.log("foo");
+	</script>
+	{% endif -%}
+</head>
+
+<body class="{{ body_classes }}">
+	<header>
+		<div class="intro">
+			<h1><a href="/"><img src="{{ base_url }}/assets/logo.svg" alt="Prism" /> {{ subdomain }}</a></h1>
+
+			<a href="download.html" class="download-button">Download</a>
+
+			<p>
+				Prism is a lightweight, extensible syntax highlighter, built with modern web standards in mind.
+				It’s used in millions of websites, including some of those you visit daily.
+			</p>
+		</div>
+
+		{% if theme_switcher -%}
+		<div id="theme">
+			<p>Theme:</p>
+			{%- for id, theme in allThemes %}
+			<input type="radio" name="theme" id="theme-{{ id }}" value="{{ id }}" />
+			<label for="theme-{{ id }}">{{ theme.title or theme}}</label>
+			{%- endfor %}
+		</div>
+		{%- endif %}
+
+		{% block features -%}{%- endblock -%}
+
+		{% if title -%}
+		<h2>{{ title }}</h2>
+		<p>{{ tagline or description }}</p>
+		{%- endif %}
+	</header>
+
+	{% if toc and content | toc -%}
+	<aside id="toc">
+		<h2>On this page</h2>
+		{{ content | toc | safe }}
+	</aside>
+	{%- endif %}
+
+	<main>
+		{% if back_to_top -%}
+		{{ content | back_to_top | safe }}
+		{%- else -%}
+		{{ content | safe }}
+		{%- endif %}
+	</main>
+
+	<footer>
+		<img id="logo" src="https://lea.verou.me/logo.svg" />
+		<p>Handcrafted with &hearts;, by
+			<a href="https://lea.verou.me" target="_blank">Lea Verou</a>,
+			<a href="https://github.com/Golmote" target="_blank">Golmote</a>,
+			<a href="https://github.com/mAAdhaTTah" target="_blank">James DiGioia</a>,
+			<a href="https://github.com/RunDevelopment" target="_blank">Michael Schmidt</a>
+			&amp; <a href="https://github.com/PrismJS/prism/graphs/contributors" target="_blank">all these awesome people</a>
 		</p>
-	</div>
+		<nav>
+			<ul>
+				<li><a href="{{ base_url }}/">Home</a></li>
+				<li><a href="{{ base_url }}/download.html">Download</a></li>
+				<li><a href="{{ base_url }}/faq.html">FAQ</a></li>
+				<li><a href="{{ base_url }}/test.html">Test drive</a></li>
+				<li><a href="{{ base_url }}/extending.html">API docs</a></li>
+				<li><a href="https://github.com/PrismJS/prism/">Fork Prism on GitHub</a></li>
+				<li><a href="https://x.com/prismjs">Follow Prism on X</a></li>
+			</ul>
+		</nav>
+	</footer>
 
+	<script src="https://dev.prismjs.com/prism.js"></script>
 	{% if theme_switcher -%}
-	<div id="theme">
-		<p>Theme:</p>
-		{%- for id, theme in allThemes %}
-		<input type="radio" name="theme" id="theme-{{ id }}" value="{{ id }}" />
-		<label for="theme-{{ id }}">{{ theme.title or theme}}</label>
-		{%- endfor %}
-	</div>
-	{%- endif %}
+	<script src="assets/theme-switcher.js" type="module"></script>
+	{% endif -%}
 
-	{% if home -%}
-	{% include "features.njk" %}
-	{%- endif -%}
+	{{- include(resources, "script") -}}
 
-	{% if title -%}
-	<h2>{{ title }}</h2>
-	<p>{{ tagline or description }}</p>
-	{%- endif %}
-</header>
+	{{- include(resources, "raw") -}}
 
-{% if toc and content | toc -%}
-<aside id="toc">
-	<h2>On this page</h2>
-	{{ content | toc | safe }}
-</aside>
-{%- endif %}
-
-<main>
-
-{% if back_to_top -%}
-{{ content | back_to_top | safe }}
-{%- else -%}
-{{ content | safe }}
-{%- endif %}
-
-</main>
+</body>
+</html>
