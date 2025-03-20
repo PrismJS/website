@@ -1,16 +1,18 @@
+import components from "prismjs/components.json" with { type: "json" };
+
 export default {
 	allPlugins (data) {
-		let plugins = { ...data.components.plugins };
+		let plugins = { ...components.plugins };
 		delete plugins.meta;
 		return plugins;
 	},
 	allThemes (data) {
-		let themes = { ...data.components.themes };
+		let themes = { ...components.themes };
 		delete themes.meta;
 		return themes;
 	},
 	allLanguages (data) {
-		let languages = { ...data.components.languages };
+		let languages = { ...components.languages };
 		delete languages.meta;
 
 		for (let id in languages) {
