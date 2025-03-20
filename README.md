@@ -115,7 +115,7 @@ To make things easier however, Prism assumes that the language class is inherite
 
 If you want to opt-out of highlighting a `<code>` element that inherits its language, you can add the `language-none` class to it. The `none` language can also be inherited to disable highlighting for the element with the class and all of its descendants.
 
-If you want to opt-out of highlighting but still use plugins like [Show Invisibles](https://plugins.prismjs.com/show-invisibles/), add use `language-plain` class instead.
+If you want to opt-out of highlighting but still use plugins like [Show Invisibles](https://plugins.prismjs.com/show-invisibles/), use `language-plain` class instead.
 
 ## Manual highlighting
 
