@@ -34,19 +34,19 @@ layout: "plain.njk"
 	{%- endif %}
 </header>
 
-{%- if content | toc %}
+{% if toc and content | toc -%}
 <aside id="toc">
 	<h2>On this page</h2>
 	{{ content | toc | safe }}
 </aside>
-{% endif %}
+{%- endif %}
 
 <main>
 
-{% if back_to_top %}
+{% if back_to_top -%}
 {{ content | back_to_top | safe }}
 {%- else -%}
 {{ content | safe }}
-{% endif %}
+{%- endif %}
 
 </main>
