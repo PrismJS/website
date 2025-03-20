@@ -216,10 +216,10 @@ const html = Prism.highlight(code, Prism.languages.haml, 'haml');
 
 # Supported languages
 
-This is the list of all {{ allLanguages | length }} languages currently supported by Prism, with their corresponding alias, to use in place of `xxxx` in the `language-xxxx` (or `lang-xxxx`) class:
+This is the list of all {{ languages | length }} languages currently supported by Prism, with their corresponding alias, to use in place of `xxxx` in the `language-xxxx` (or `lang-xxxx`) class:
 
 <ul id="languages-list">
-	{% for id, language in allLanguages -%}
+	{% for id, language in languages -%}
 	<li data-id="{{ id }}">
 		{{ language.title }}&nbsp;— 
 		{%- for alias in language.alias -%}
@@ -240,7 +240,7 @@ Couldn’t find the language you were looking for? [Request it](https://github.c
 Plugins are additional scripts (and CSS code) that extend Prism’s functionality. Many of the following plugins are official, but are released as plugins to keep the Prism Core small for those who don’t need the extra functionality.
 
 <ul class="plugin-list">
-	{% for id, plugin in allPlugins -%}
+	{% for id, plugin in plugins -%}
 	<li>
 		<a href="https://plugins.prismjs.com/{{ id }}">{{ plugin.title }}</a>
 		<div>{{ plugin.description | safe }}</div>

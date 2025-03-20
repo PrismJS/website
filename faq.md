@@ -60,7 +60,7 @@ Every token that is highlighted gets at least two classes: `token` and a class w
 
 Language:
 <select id="language-select">
-{% for id, language in allLanguages -%}
+{% for id, language in languages -%}
 	<option value="{{ id }}" {{ "selected" if loop.first }}>{{ language.title }}</option>
 {% endfor %}
 </select>

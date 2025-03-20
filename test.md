@@ -28,7 +28,7 @@ resources: [
 		</div>
 		<p id="language">
 			<strong>Language:</strong>
-			{% for id, language in allLanguages -%}
+			{% for id, language in languages -%}
 			<label data-id="{{ id }}">
 				<input type="radio" name="language" value="{{ id }}" /> {{ language.title }}
 			</label>

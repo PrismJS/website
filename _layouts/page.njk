@@ -45,7 +45,7 @@
 		{% if theme_switcher -%}
 		<div id="theme">
 			<p>Theme:</p>
-			{%- for id, theme in allThemes %}
+			{%- for id, theme in themes %}
 			<input type="radio" name="theme" id="theme-{{ id }}" value="{{ id }}" />
 			<label for="theme-{{ id }}">{{ theme.title or theme}}</label>
 			{%- endfor %}

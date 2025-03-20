@@ -64,7 +64,7 @@ Should not be highlighted.
 # Per language examples
 
 <div id="languages">
-	{% for id, language in allLanguages -%}
+	{% for id, language in languages -%}
 	<label data-id="{{ id }}">
 		<input type="checkbox" name="language" value="{{ id }}" {{ "checked" if language.option == "default" }} /> {{ language.title }}
 	</label>
@@ -73,7 +73,7 @@ Should not be highlighted.
 </section>
 
 <section id="examples">
-{% for id, language in allLanguages -%}
+{% for id, language in languages -%}
 	<section id="language-{{ id }}" class="language-{{ id }}"></section>
 {% endfor %}
 </section>

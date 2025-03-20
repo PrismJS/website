@@ -4,8 +4,11 @@ import markdownItDeflist from "markdown-it-deflist";
 import pluginTOC from "eleventy-plugin-toc";
 import * as filters from "./filters.js";
 
+import components from "prismjs/components.json" with { type: "json" };
+
 export default config => {
 	let data = {
+		components,
 		layout: "page.njk",
 		theme_switcher: true,
 		toc: true,
