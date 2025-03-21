@@ -12,8 +12,8 @@
 	</title>
 	<meta name="viewport" content="width=device-width" />
 	<meta charset="utf-8" />
-	<link rel="icon" href="assets/logo.svg" />
-	<link rel="stylesheet" href="assets/style.css" />
+	<link rel="icon" href="{{ base_url }}/assets/logo.svg" />
+	<link rel="stylesheet" href="{{ base_url }}/assets/style.css" />
 	<link rel="stylesheet" href="https://dev.prismjs.com/themes/prism.css" />
 
 	{{- include(resources, "stylesheet") -}}
@@ -99,7 +99,7 @@
 
 	<script src="https://dev.prismjs.com/prism.js"></script>
 	{% if theme_switcher -%}
-	<script src="assets/theme-switcher.js" type="module"></script>
+	<script src="{{ base_url }}/assets/theme-switcher.js" type="module"></script>
 	{% endif -%}
 
 	{{- include(resources, "script") -}}
