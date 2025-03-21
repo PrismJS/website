@@ -7,8 +7,8 @@
 	data-inputpath="{{ page.inputPath | replace('./', '') }}">
 <head>
 	<title>
-		{%- set title = title or subdomain | capitalize %}
-		{{ title }}{{ " ▲" if title }} Prism {{ subdomain if subdomain | capitalize != title }}
+		{%- set main_title = title or subdomain | capitalize %}
+		{{ main_title }}{{ " ▲" if main_title }} Prism {{ subdomain if subdomain | capitalize != main_title }}
 	</title>
 	<meta name="viewport" content="width=device-width" />
 	<meta charset="utf-8" />
