@@ -6,6 +6,9 @@
 	data-page="{{ page.url }}"
 	data-inputpath="{{ page.inputPath | replace('./', '') }}">
 <head>
+	{% if base %}
+	<base href="{{ base }}" />
+	{% endif -%}
 	<title>
 		{%- set main_title = title or subdomain | capitalize %}
 		{{ main_title }}{{ " ▲" if main_title }} Prism {{ subdomain if subdomain | capitalize != main_title }}
