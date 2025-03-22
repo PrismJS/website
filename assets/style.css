@@ -594,7 +594,7 @@ ul.plugin-list {
 }
 
 [data-inputpath="known-failures.md"] {
-	h2 {
+	main h2 {
 		font-size: 1.2em;
 
 		&[id] > a::before {
