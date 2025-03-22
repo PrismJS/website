@@ -25,20 +25,19 @@ export function parse_resources (resources = []) {
 
 	resources = Array.isArray(resources) ? resources : [resources];
 	for (let resource of resources) {
+		resource = resource.trim();
 		let url = resource;
 
 		// Attributes are defined as in markdown-it-attrs but we don't parse them and use them as-is.
 		// For example: `{ data-autoloader-path="https://dev.prismjs.com/components/" }`
-		let attributes = resource.match(/\{.*\}/)?.[0];
+		let attributes = resource.match(/\{.*\}$/)?.[0];
 		if (!attributes) {
 			attributes = "";
 		}
 		else {
-			url = url.replace(attributes, "");
-			attributes = attributes.trim().slice(1, -1).trim(); // remove the curly braces
+			url = url.replace(attributes, "").trim();
+			attributes = attributes.slice(1, -1).trim(); // remove the curly braces
 		}
-
-		url = url.trim();
 
 		let extension = url.match(/\.([^.]+)$/)?.[1];
 		if (extension === "js" || extension === "mjs") {
