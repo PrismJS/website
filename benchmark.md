@@ -1,7 +1,6 @@
 ---
 tagline: Prism has a benchmark suite which can be run and extended similar to the test suite.
 body_classes: language-javascript
-resources: https://dev.prismjs.com/components/prism-bash.js
 ---
 
 <section>
@@ -12,7 +11,7 @@ resources: https://dev.prismjs.com/components/prism-bash.js
 npm run benchmark
 ```
 
-By default, the benchmark will be run for the current local version of your repository (the one which is currently checkout) and the [PrismJS master branch](https://github.com/PrismJS/prism/tree/master).
+By default, the benchmark will be run for the current local version of your repository (the one which is currently checkout) and the [PrismJS master branch](https://github.com/PrismJS/prism/tree/master). <!-- TODO: Update to [PrismJS main branch](https://github.com/PrismJS/prism/tree/main when v2 is out -->
 
 All `options` in `benchmark/config.json` can be changed by either directly editing the file or by passing arguments to the run command. I.e. you can overwrite the default `maxTime` value with 10s by running the following command:
 

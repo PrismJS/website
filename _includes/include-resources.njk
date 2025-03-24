@@ -1,7 +1,0 @@
-{%- macro include(resources, type="script") %}
-{%- for resource in resources %}
-	{%- if resource.type == type %}
-		{{ resource.html | safe -}}
-	{% endif %}
-{%- endfor %}
-{% endmacro -%}

@@ -20,38 +20,37 @@ export function pretty_size (size) {
 	return Math.round(100 * size / 1024) / 100 + "KB";
 }
 
-export function parse_resources (resources = []) {
-	let ret = [];
+export function parse_resources (resources = { head: [], body: [] }) {
+	let ret = { body: [], head: [] };
 
-	resources = Array.isArray(resources) ? resources : [resources];
-	for (let resource of resources) {
-		resource = resource.trim();
-		let url = resource;
+	for (let to in resources) {
+		let array = Array.isArray(resources[to]) ? resources[to] : [resources[to]];
+		for (let resource of array) {
+			resource = resource.trim();
+			let url = resource;
 
-		// Attributes are defined as in markdown-it-attrs but we don't parse them and use them as-is.
-		// For example: `{ data-autoloader-path="https://dev.prismjs.com/components/" }`
-		let attributes = resource.match(/\{.*\}$/)?.[0];
-		if (!attributes) {
-			attributes = "";
-		}
-		else {
-			url = url.replace(attributes, "").trim();
-			attributes = attributes.slice(1, -1).trim(); // remove the curly braces
-		}
+			// Attributes are defined as in markdown-it-attrs but we don't parse them and use them as-is.
+			// For example: `{ data-autoloader-path="https://dev.prismjs.com/components/" }`
+			let attributes = resource.match(/\{.*\}$/)?.[0];
+			if (!attributes) {
+				attributes = "";
+			}
+			else {
+				url = url.replace(attributes, "").trim();
+				attributes = attributes.slice(1, -1).trim(); // remove the curly braces
+			}
 
-		let extension = url.match(/\.([^.]+)$/)?.[1];
-		if (extension === "js" || extension === "mjs") {
-			ret.push({ type: "script", html: `<script src="${url}" ${attributes}></script>` });
-		}
-		else if (extension === "css") {
-			ret.push({
-				type: "stylesheet",
-				html: `<link rel="stylesheet" href="${url}" ${attributes} />`,
-			});
-		}
-		else {
-			// Raw HTML
-			ret.push({ type: "raw", html: url });
+			let extension = url.match(/\.([^.]+)$/)?.[1];
+			if (extension === "js" || extension === "mjs") {
+				ret[to].push(`<script src="${url}" ${attributes}></script>`);
+			}
+			else if (extension === "css") {
+				ret[to].push(`<link rel="stylesheet" href="${url}" ${attributes} />`);
+			}
+			else {
+				// Raw HTML
+				ret[to].push(url);
+			}
 		}
 	}
 

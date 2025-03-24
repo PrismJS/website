@@ -3,10 +3,8 @@ title: FAQ
 tagline: Frequently Asked Questions, with a few Questions I want people to Frequently Ask.
 back_to_top: true
 body_classes: language-none
-resources: [
-	'https://plugins.prismjs.com/autoloader/prism-autoloader.min.js { data-autoloader-path="https://dev.prismjs.com/components/" }',
-	'assets/faq.js { type="module" }'
-]
+resources:
+  body: assets/faq.js { type="module" }
 ---
 
 <section>

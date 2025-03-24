@@ -1,4 +1,3 @@
-{%- from "include-resources.njk" import include -%}
 {%- set resources = resources | parse_resources -%}
 
 <!DOCTYPE html>
@@ -18,18 +17,14 @@
 	<link rel="icon" href="{{ base_url }}/assets/logo.svg" />
 	<link rel="stylesheet" href="{{ base_url }}/assets/style.css" />
 	<link rel="stylesheet" href="https://dev.prismjs.com/themes/prism.css" />
-
-	{{- include(resources, "stylesheet") -}}
-
 	<script>var _gaq = [["_setAccount", "UA-33746269-1"], ["_trackPageview"]];</script>
 	<script src="https://www.google-analytics.com/ga.js" async></script>
 
-	{%- if home %}
-	<script>
-		// Just a lil’ script to show off that inline JS gets highlighted
-		console.log("foo");
-	</script>
-	{% endif -%}
+	{%- block head_extra -%}
+	{%- for resource in resources.head %}
+	{{ resource | safe -}}
+	{%- endfor %}
+	{%- endblock %}
 </head>
 
 <body class="{{ body_classes }}">
@@ -55,7 +50,7 @@
 		</div>
 		{%- endif %}
 
-		{% block features -%}{%- endblock -%}
+		{% block header_extra -%}{%- endblock -%}
 
 		{% if title -%}
 		<h2>{{ title }}</h2>
@@ -101,13 +96,15 @@
 	</footer>
 
 	<script src="https://dev.prismjs.com/prism.js"></script>
+	<script src="https://plugins.prismjs.com/autoloader/prism-autoloader.js" data-autoloader-path="https://dev.prismjs.com/components/"></script>
 	{% if theme_switcher -%}
 	<script src="{{ base_url }}/assets/theme-switcher.js" type="module"></script>
-	{% endif -%}
+	{%- endif %}
 
-	{{- include(resources, "script") -}}
-
-	{{- include(resources, "raw") -}}
-
+	{%- block body_extra -%}
+	{%- for resource in resources.body %}
+	{{ resource | safe -}}
+	{%- endfor %}
+	{%- endblock %}
 </body>
 </html>

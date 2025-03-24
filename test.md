@@ -1,11 +1,10 @@
 ---
 title: Test drive
 tagline: Take Prism for a spin!
-resources: [
-	"assets/test-drive.js",
-	'https://plugins.prismjs.com/autoloader/prism-autoloader.js { data-autoloader-path="https://dev.prismjs.com/components/" }',
-	"<script> Prism.plugins.autoloader.use_minified = false; </script>"
-]
+resources:
+  body:
+    - assets/test-drive.js
+    - <script> Prism.plugins.autoloader.use_minified = false; </script>
 ---
 
 

@@ -1,8 +1,6 @@
 {
-	"home": true,
-	"layout": "home",
-	"resources": [
-		"https://plugins.prismjs.com/keep-markup/prism-keep-markup.js",
-		"https://dev.prismjs.com/components/prism-bash.js"
-	]
+	"layout": "home.njk",
+	"resources": {
+		"body": "https://plugins.prismjs.com/keep-markup/prism-keep-markup.js"
+	}
 }

@@ -1,6 +1,13 @@
 {% extends "./page.njk" %}
 
-{% block features -%}
+{% block head_extra -%}
+<script>
+	// Just a lil’ script to show off that inline JS gets highlighted
+	console.log("foo");
+</script>
+{%- endblock %}
+
+{% block header_extra -%}
 <ul id="features">
 	<li>
 		<strong>Dead simple</strong>
