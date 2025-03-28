@@ -2,6 +2,7 @@
 tagline: A list of rare edge cases where Prism highlights code incorrectly.
 back_to_top: true
 body_classes: language-none
+resources: https://plugins.prismjs.com/autoloader/prism-autoloader.js { data-autoloader-path="https://dev.prismjs.com/components/" }
 ---
 
 There are certain edge cases where Prism will fail. There are always such cases in every regex-based syntax highlighter.  

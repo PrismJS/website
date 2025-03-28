@@ -5,6 +5,7 @@ body_classes: language-javascript
 resources:
   - https://plugins.prismjs.com/line-highlight/prism-line-highlight.css
   - https://plugins.prismjs.com/line-highlight/prism-line-highlight.js
+  - https://plugins.prismjs.com/autoloader/prism-autoloader.js { data-autoloader-path="https://dev.prismjs.com/components/" }
 ---
 
 <section>

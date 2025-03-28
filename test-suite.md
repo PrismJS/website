@@ -2,6 +2,7 @@
 title: Running the test suite
 tagline: Prism has a test suite, that ensures that the correct tokens are matched.
 body_classes: language-javascript
+resources: https://dev.prismjs.com/components/prism-bash.js
 ---
 
 <section>

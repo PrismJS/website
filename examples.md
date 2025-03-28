@@ -1,6 +1,8 @@
 ---
 tagline: "The examples in this page serve a dual purpose: They act as unit tests, making it easy to spot bugs, and at the same time demonstrate what Prism can do, on simple and on edge cases."
-resources: assets/examples.js { type="module" }
+resources:
+  - assets/examples.js { type="module" }
+  - https://plugins.prismjs.com/autoloader/prism-autoloader.js { data-autoloader-path="https://dev.prismjs.com/components/" }
 ---
 
 <section class="language-markup">
