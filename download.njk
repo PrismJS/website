@@ -1,0 +1,89 @@
+---
+title: Customize your download
+tagline: Select your compression level, as well as the languages and plugins you need.
+resources:
+  - https://dev.prismjs.com/dependencies.js
+  - assets/vendor/FileSaver.min.js
+  - assets/download.js { type="module" }
+---
+
+{%- macro list(category, components) %}
+{%- set meta = components.meta -%}
+
+<section class="options" id="category-{{ category }}">
+	<h1>{{ category | capitalize }}</h1>
+	{%- if meta.addCheckAll %}
+		<label data-id="check-all-{{ category }}">
+			<input type="checkbox" name="check-all-{{ category }}" />
+			Select/unselect all
+		</label>
+	{%- endif %}
+	{% for id, component in components -%}
+		{% if id != "meta" %}
+			{%- set name = component.title or id | replace("prism-", "") | capitalize -%}
+			{%- if component.aliasTitles -%}
+				{% for id, title in component.aliasTitles %}
+					{%- set name = name + " + " + title -%}
+				{%- endfor %}
+			{%- endif %}
+			{%- set files_path = meta.path | replace("{id}", id) | replace(".css", "") | replace(".js", "") -%}
+			{%- set option = component.option or meta.option -%}
+
+			<label data-id="{{ id }}">
+				<input type="{{ "radio" if meta.exclusive else "checkbox" }}" name="download-{{ category }}" value="{{ id }}" {{ "checked" if option == "mandatory" }} {{ "disabled" if option == "mandatory" }} />
+
+				{%- if meta.link -%}
+					{%- set link = meta.link | replace("{id}", id) | replace("plugins/", "") -%}
+					{%- set base = "https://plugins.prismjs.com/" if category == "plugins" else "https://prismjs.com/" -%}
+					{%- set url = base + link -%}
+
+					<a href="{{ url }}" class="name">{{ name }}</a>
+				{%- else -%}
+					<span class="name">{{ name }}</span>
+				{%- endif -%}
+
+				{%- if component.owner %}
+					<a href="https://github.com/{{ component.owner }}" class="owner" target="_blank">{{ component.owner }}</a>
+				{% endif %}
+
+				{%- set js_file_path = files_path + ".min.js" -%}
+				{%- set css_file_path = files_path + ".min.css" -%}
+				{%- set js_size = files_sizes[js_file_path] or 0 -%}
+				{%- set css_size = files_sizes[css_file_path] or 0 -%}
+				{%- set total_size = js_size + css_size -%}
+				<strong class="filesize">{{ total_size | pretty_size }}</strong>
+			</label>
+		{% endif %}
+	{%- endfor %}
+</section>
+{% endmacro -%}
+
+<section>
+	<form>
+		<p>
+			Compression level:
+			<label><input type="radio" name="compression" value="0" /> Development version</label>
+			<label><input type="radio" name="compression" value="1" checked /> Minified version</label>
+		</p>
+		<section id="components">
+			{%- for category, components in components -%}
+				{{ list(category, components) }}
+			{% endfor %}
+		</section>
+		<p>
+			Total filesize: <strong id="filesize"></strong> (<strong id="percent-js"></strong> JavaScript + <strong id="percent-css"></strong> CSS)
+		</p>
+		<p><strong>Note:</strong> The filesizes displayed refer to non-gizipped files and include any CSS code required.</p>
+		<section id="download">
+			<div class="error"></div>
+			<section id="download-js" class="download">
+				<pre><code class="language-javascript"></code></pre>
+				<button type="button" class="download-button">Download JS</button>
+			</section>
+			<section id="download-css" class="download">
+				<pre><code class="language-css"></code></pre>
+				<button type="button" class="download-button">Download CSS</button>
+			</section>
+		</section>
+	</form>
+</section>

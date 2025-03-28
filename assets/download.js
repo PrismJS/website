@@ -2,628 +2,473 @@
  * Manage downloads
  */
 
-(function () {
+import { getFileContents, toArray } from "./util.js";
 
-	var cache = {};
-	var form = $('form');
-	var minified = true;
+let components = await (await fetch("https://dev.prismjs.com/components.json")).json();
 
-	var dependencies = {};
+let treeURL = "https://api.github.com/repos/PrismJS/prism/git/trees/master?recursive=1";
+let tree = (await (await fetch(treeURL)).json()).tree;
 
-	var treeURL = 'https://api.github.com/repos/PrismJS/prism/git/trees/master?recursive=1';
-	var treePromise = new Promise(function (resolve) {
-		$u.xhr({
-			url: treeURL,
-			callback: function (xhr) {
-				if (xhr.status < 400) {
-					resolve(JSON.parse(xhr.responseText).tree);
+let cache = {};
+let form = document.querySelector("form");
+let minified = true;
+
+let dependencies = {};
+let timerId = 0;
+let storedTheme = localStorage.getItem("theme");
+
+let hstr = location.hash.match(/(?:languages|plugins)=[-+\w]+|themes=[-\w]+/g);
+if (hstr) {
+	hstr.forEach(function (str) {
+		let kv = str.split("=", 2);
+		let category = kv[0];
+		let ids = kv[1].split("+");
+		if (category !== "meta" && category !== "core" && components[category]) {
+			for (let id in components[category]) {
+				if (components[category][id].option) {
+					delete components[category][id].option;
 				}
 			}
-		});
-	});
-
-	/**
-	 * Converts the given value into an array.
-	 *
-	 * @param {T | T[] | null | undefined} value
-	 * @returns {T[]}
-	 * @template T
-	 */
-	function toArray(value) {
-		if (Array.isArray(value)) {
-			return value;
-		} else {
-			return value == null ? [] : [value];
-		}
-	}
-
-	var hstr = window.location.hash.match(/(?:languages|plugins)=[-+\w]+|themes=[-\w]+/g);
-	if (hstr) {
-		hstr.forEach(function (str) {
-			var kv = str.split('=', 2);
-			var category = kv[0];
-			var ids = kv[1].split('+');
-			if (category !== 'meta' && category !== 'core' && components[category]) {
-				for (var id in components[category]) {
-					if (components[category][id].option) {
-						delete components[category][id].option;
-					}
+			if (category === "themes" && ids.length) {
+				let themeInput = document.querySelector(`#theme input[value="${ ids[0] }"]`);
+				if (themeInput) {
+					themeInput.checked = true;
+					themeInput.dispatchEvent(new Event("change"));
 				}
-				if (category === 'themes' && ids.length) {
-					var themeInput = $('#theme input[value="' + ids[0] + '"]');
-					if (themeInput) {
-						themeInput.checked = true;
-					}
-					// eslint-disable-next-line no-undef
-					setTheme(ids[0]);
-				}
-				var makeDefault = function (id) {
-					if (id !== 'meta') {
-						if (components[category][id]) {
-							if (components[category][id].option !== 'default') {
-								if (typeof components[category][id] === 'string') {
-									components[category][id] = { title: components[category][id] };
-								}
-								components[category][id].option = 'default';
-							}
-
-							toArray(components[category][id].require).forEach(makeDefault);
+			}
+			let makeDefault = id => {
+				if (id !== "meta") {
+					if (components[category][id]) {
+						if (components[category][id].option !== "default") {
+							components[category][id].option = "default";
 						}
-					}
-				};
-				ids.forEach(makeDefault);
-			}
-		});
-	}
 
-	// Stay compatible with old querystring feature
-	var qstr = window.location.search.match(/(?:languages|plugins)=[-+\w]+|themes=[-\w]+/g);
-	if (qstr && !hstr) {
-		window.location.hash = window.location.search.replace(/^\?/, '');
-		window.location.search = '';
-	}
-
-	var storedTheme = localStorage.getItem('theme');
-
-	for (var category in components) {
-		var all = components[category];
-
-		all.meta.section = $u.element.create('section', {
-			className: 'options',
-			id: 'category-' + category,
-			contents: {
-				tag: 'h1',
-				contents: category.charAt(0).toUpperCase() + category.slice(1)
-			},
-			inside: '#components'
-		});
-
-		if (all.meta.addCheckAll) {
-			$u.element.create('label', {
-				attributes: {
-					'data-id': 'check-all-' + category
-				},
-				contents: [
-					{
-						tag: 'input',
-						properties: {
-							type: 'checkbox',
-							name: 'check-all-' + category,
-							value: '',
-							checked: false,
-							onclick: (function (category, all) {
-								return function () {
-									var checkAll = this;
-									$$('input[name="download-' + category + '"]').forEach(function (input) {
-										all[input.value].enabled = input.checked = checkAll.checked;
-									});
-
-									update(category);
-								};
-							}(category, all))
-						}
-					},
-					'Select/unselect all'
-				],
-				inside: all.meta.section
-			});
-		}
-
-		for (var id in all) {
-			if (id === 'meta') {
-				continue;
-			}
-
-			var checked = false; var disabled = false;
-			var option = all[id].option || all.meta.option;
-
-			switch (option) {
-				case 'mandatory': disabled = true; // fallthrough
-				case 'default': checked = true;
-			}
-			if (category === 'themes' && storedTheme) {
-				checked = id === storedTheme;
-			}
-
-			var filepath = all.meta.path.replace(/\{id\}/g, id);
-
-			var info = all[id] = {
-				title: all[id].title || all[id],
-				aliasTitles: all[id].aliasTitles,
-				noCSS: all[id].noCSS || all.meta.noCSS,
-				noJS: all[id].noJS || all.meta.noJS,
-				enabled: checked,
-				require: toArray(all[id].require),
-				after: toArray(all[id].after),
-				modify: toArray(all[id].modify),
-				owner: all[id].owner,
-				files: {
-					minified: {
-						paths: [],
-						size: 0
-					},
-					dev: {
-						paths: [],
-						size: 0
+						toArray(components[category][id].require).forEach(makeDefault);
 					}
 				}
 			};
-
-			info.require.forEach(function (v) {
-				dependencies[v] = (dependencies[v] || []).concat(id);
-			});
-
-			if (!all[id].noJS && !/\.css$/.test(filepath)) {
-				info.files.minified.paths.push(filepath.replace(/(\.js)?$/, '.min.js'));
-				info.files.dev.paths.push(filepath.replace(/(\.js)?$/, '.js'));
-			}
-
-
-			if ((!all[id].noCSS && !/\.js$/.test(filepath)) || /\.css$/.test(filepath)) {
-				var cssFile = filepath.replace(/(\.css)?$/, '.css');
-				var minCSSFile = cssFile.replace(/(?:\.css)$/, '.min.css');
-
-				info.files.minified.paths.push(minCSSFile);
-				info.files.dev.paths.push(cssFile);
-			}
-
-			function getLanguageTitle(lang) {
-				if (!lang.aliasTitles) {
-					return lang.title;
-				}
-
-				var titles = [lang.title];
-				for (var alias in lang.aliasTitles) {
-					if (lang.aliasTitles.hasOwnProperty(alias)) {
-						titles.push(lang.aliasTitles[alias]);
-					}
-				}
-				return titles.join(' + ');
-			}
-
-			var label = $u.element.create('label', {
-				attributes: {
-					'data-id': id
-				},
-				contents: [
-					{
-						tag: 'input',
-						properties: {
-							type: all.meta.exclusive ? 'radio' : 'checkbox',
-							name: 'download-' + category,
-							value: id,
-							checked: checked,
-							disabled: disabled,
-							onclick: (function (id, category, all) {
-								return function () {
-									$$('input[name="' + this.name + '"]').forEach(function (input) {
-										all[input.value].enabled = input.checked;
-									});
-
-									if (all[id].require && this.checked) {
-										all[id].require.forEach(function (v) {
-											var input = $('label[data-id="' + v + '"] > input');
-											input.checked = true;
-
-											input.onclick();
-										});
-									}
-
-									if (dependencies[id] && !this.checked) { // It’s required by others
-										dependencies[id].forEach(function (dependent) {
-											var input = $('label[data-id="' + dependent + '"] > input');
-											input.checked = false;
-
-											input.onclick();
-										});
-									}
-
-									update(category, id);
-								};
-							}(id, category, all))
-						}
-					},
-					all.meta.link ? {
-						tag: 'a',
-						properties: {
-							href: all.meta.link.replace(/\{id\}/g, id),
-							className: 'name'
-						},
-						contents: info.title
-					} : {
-						tag: 'span',
-						properties: {
-							className: 'name'
-						},
-						contents: getLanguageTitle(info)
-					},
-					' ',
-					all[id].owner ? {
-						tag: 'a',
-						properties: {
-							href: 'https://github.com/' + all[id].owner,
-							className: 'owner',
-							target: '_blank'
-						},
-						contents: all[id].owner
-					} : ' ',
-					{
-						tag: 'strong',
-						className: 'filesize'
-					}
-				],
-				inside: all.meta.section
-			});
-
-			// Add click events on main theme selector too.
-			(function (label) {
-				if (category === 'themes') {
-					var themeInput = $('#theme input[value="' + id + '"]');
-					var input = $('input', label);
-					if (themeInput) {
-						var themeInputOnclick = themeInput.onclick;
-						themeInput.onclick = function () {
-							input.checked = true;
-							input.onclick();
-							themeInputOnclick && themeInputOnclick.call(themeInput);
-						};
-					}
-				}
-			}(label));
+			ids.forEach(makeDefault);
 		}
-	}
+	});
+}
 
-	form.elements.compression[0].onclick =
-		form.elements.compression[1].onclick = function () {
-			minified = !!+this.value;
+// Stay compatible with old querystring feature
+let qstr = location.search.match(/(?:languages|plugins)=[-+\w]+|themes=[-\w]+/g);
+if (qstr && !hstr) {
+	location.hash = location.search.replace(/^\?/, "");
+	location.search = "";
+}
 
-			getFilesSizes();
+for (let category in components) {
+	let all = components[category];
+
+	all.meta.section = form.querySelector(`#category-${category}`);
+	all.meta.section.querySelector(`[name="check-all-${category}"]`)?.addEventListener("change", ({ target }) => {
+		all.meta.section.querySelectorAll(`input[name="download-${category}"]`).forEach(input => {
+			all[input.value].enabled = input.checked = target.checked;
+		});
+
+		update(category);
+	});
+
+	for (let id in all) {
+		if (id === "meta") {
+			continue;
+		}
+
+		let input = all.meta.section.querySelector(`label[data-id="${id}"] > input`);
+
+		let checked = false;
+		let disabled = false;
+		let option = all[id].option || all.meta.option;
+
+		switch (option) {
+			case "mandatory": disabled = true; // fallthrough
+			case "default": checked = true;
+		}
+
+		if (category === "themes" && storedTheme) {
+			checked = id === storedTheme;
+		}
+
+		input.checked = checked;
+		input.disabled = disabled;
+
+		let filepath = all.meta.path.replace(/\{id\}/g, id);
+
+		let info = all[id] = {
+			noCSS: all[id].noCSS || all.meta.noCSS,
+			noJS: all[id].noJS || all.meta.noJS,
+			enabled: checked,
+			require: toArray(all[id].require),
+			after: toArray(all[id].after),
+			modify: toArray(all[id].modify),
+			files: {
+				minified: {
+					paths: [],
+					size: 0
+				},
+				dev: {
+					paths: [],
+					size: 0
+				}
+			}
 		};
 
-	function getFileSize(filepath) {
-		return treePromise.then(function (tree) {
-			for (var i = 0, l = tree.length; i < l; i++) {
-				if (tree[i].path === filepath) {
-					return tree[i].size;
-				}
-			}
+		info.require.forEach(v => {
+			dependencies[v] = (dependencies[v] || []).concat(id);
 		});
-	}
 
-	function getFilesSizes() {
-		for (var category in components) {
-			var all = components[category];
+		if (!all[id].noJS && !/\.css$/.test(filepath)) {
+			info.files.minified.paths.push(filepath.replace(/(\.js)?$/, ".min.js"));
+			info.files.dev.paths.push(filepath.replace(/(\.js)?$/, ".js"));
+		}
 
-			for (var id in all) {
-				if (id === 'meta') {
-					continue;
+
+		if ((!all[id].noCSS && !/\.js$/.test(filepath)) || /\.css$/.test(filepath)) {
+			let cssFile = filepath.replace(/(\.css)?$/, ".css");
+			let minCSSFile = cssFile.replace(/(?:\.css)$/, ".min.css");
+
+			info.files.minified.paths.push(minCSSFile);
+			info.files.dev.paths.push(cssFile);
+		}
+
+		input.addEventListener("change", ({ target }) => {
+			form.querySelectorAll(`input[name="${target.name}"]`).forEach(input => {
+				all[input.value].enabled = input.checked;
+			});
+
+			if (all[id].require && target.checked) {
+				all[id].require.forEach(v => {
+					let input = form.querySelector(`label[data-id="${v}"] > input`);
+					input.checked = true;
+					input.dispatchEvent(new Event("change"));
+				});
+			}
+
+			if (dependencies[id] && !target.checked) { // It’s required by others
+				dependencies[id].forEach(dependent => {
+					let input = form.querySelector(`label[data-id="${dependent}"] > input`);
+					input.checked = false;
+					input.dispatchEvent(new Event("change"));
+				});
+			}
+
+			update(category, id);
+		});
+
+		// Handle change events on main theme selector too.
+		if (category === "themes") {
+			let themeInput = document.querySelector(`#theme input[value="${id}"]`);
+			themeInput?.addEventListener("change", () => {
+				if (!input.checked) {
+					input.checked = true;
+					input.dispatchEvent(new Event("change"));
 				}
+			});
+		}
+	}
+}
 
-				var distro = all[id].files[minified ? 'minified' : 'dev'];
-				var files = distro.paths;
+form.elements.compression[0].onclick =
+	form.elements.compression[1].onclick = function () {
+		minified = !!+this.value;
 
-				files.forEach(function (filepath) {
-					var file = cache[filepath] = cache[filepath] || {};
+		getFilesSizes();
+	};
 
-					if (!file.size) {
+getFilesSizes();
 
-						(function (category, id) {
-							getFileSize(filepath).then(function (size) {
-								if (size) {
-									file.size = size;
-									distro.size += file.size;
+function getFileSize(filepath) {
+	for (let i = 0, l = tree.length; i < l; i++) {
+		if (tree[i].path === filepath) {
+			return tree[i].size;
+		}
+	}
+}
 
-									update(category, id);
-								}
-							});
-						}(category, id));
-					} else {
+function getFilesSizes() {
+	for (let category in components) {
+		let all = components[category];
+
+		for (let id in all) {
+			if (id === "meta") {
+				continue;
+			}
+
+			let distro = all[id].files[minified ? "minified" : "dev"];
+			let files = distro.paths;
+
+			files.forEach(filepath => {
+				let file = cache[filepath] = cache[filepath] || {};
+
+				if (!file.size) {
+					let size = getFileSize(filepath);
+					if (size) {
+						file.size = size;
+						distro.size += file.size;
+
 						update(category, id);
 					}
-				});
-			}
-		}
-	}
-
-	getFilesSizes();
-
-	function getFileContents(filepath) {
-		return new Promise(function (resolve, reject) {
-			$u.xhr({
-				url: filepath,
-				callback: function (xhr) {
-					if (xhr.status < 400 && xhr.responseText) {
-						resolve(xhr.responseText);
-					} else {
-						reject();
-					}
+				}
+				else {
+					update(category, id);
 				}
 			});
-		});
+		}
 	}
+}
 
-	function prettySize(size) {
-		return Math.round(100 * size / 1024) / 100 + 'KB';
-	}
+function prettySize(size) {
+	return Math.round(100 * size / 1024) / 100 + "KB";
+}
 
-	function update(updatedCategory, updatedId) {
-		// Update total size
-		var total = { js: 0, css: 0 }; var updated = { js: 0, css: 0 };
+function update(updatedCategory, updatedId) {
+	// Update total size
+	let total = { js: 0, css: 0 }; let updated = { js: 0, css: 0 };
 
-		for (var category in components) {
-			var all = components[category];
-			var allChecked = true;
+	for (let category in components) {
+		let all = components[category];
+		let allChecked = true;
 
-			for (var id in all) {
-				var info = all[id];
+		for (let id in all) {
+			let info = all[id];
 
-				if (info.enabled || id == updatedId) {
-					var distro = info.files[minified ? 'minified' : 'dev'];
+			if (info.enabled || id === updatedId) {
+				let distro = info.files[minified ? "minified" : "dev"];
 
-					distro.paths.forEach(function (path) {
-						if (cache[path]) {
-							var file = cache[path];
+				distro.paths.forEach(path => {
+					if (cache[path]) {
+						let file = cache[path];
 
-							var type = path.match(/\.(\w+)$/)[1];
-							var size = file.size || 0;
+						let type = path.match(/\.(\w+)$/)[1];
+						let size = file.size || 0;
 
-							if (info.enabled) {
+						if (info.enabled) {
 
-								if (!file.contentsPromise) {
-									file.contentsPromise = getFileContents("https://dev.prismjs.com/" + path);
-								}
-
-								total[type] += size;
+							if (!file.contentsPromise) {
+								file.contentsPromise = getFileContents("https://dev.prismjs.com/" + path);
 							}
 
-							if (id == updatedId) {
-								updated[type] += size;
-							}
+							total[type] += size;
 						}
-					});
-				}
-				if (id !== 'meta' && !info.enabled) {
-					allChecked = false;
-				}
 
-				// Select main theme
-				if (category === 'themes' && id === updatedId && info.enabled) {
-					var themeInput = $('#theme input[value="' + updatedId + '"]');
-					if (themeInput) {
-						themeInput.checked = true;
+						if (id == updatedId) {
+							updated[type] += size;
+						}
 					}
-					// eslint-disable-next-line no-undef
-					setTheme(updatedId);
-				}
+				});
+			}
+			if (id !== "meta" && !info.enabled) {
+				allChecked = false;
 			}
 
-			if (all.meta.addCheckAll) {
-				$('input[name="check-all-' + category + '"]').checked = allChecked;
+			// Select main theme
+			if (category === "themes" && id === updatedId && info.enabled) {
+				let themeInput = document.querySelector(`#theme input[value="${updatedId}"]`);
+				if (themeInput) {
+					themeInput.checked = true;
+					themeInput.dispatchEvent(new Event("change"));
+				}
 			}
 		}
 
-		total.all = total.js + total.css;
-
-		if (updatedId) {
-			updated.all = updated.js + updated.css;
-
-			$u.element.prop($('label[data-id="' + updatedId + '"] .filesize'), {
-				textContent: prettySize(updated.all),
-				title: (updated.js ? Math.round(100 * updated.js / updated.all) + '% JavaScript' : '') +
-					(updated.js && updated.css ? ' + ' : '') +
-					(updated.css ? Math.round(100 * updated.css / updated.all) + '% CSS' : '')
-			});
+		if (all.meta.addCheckAll) {
+			form.querySelector(`input[name="check-all-${category}"]`).checked = allChecked;
 		}
-
-		$('#filesize').textContent = prettySize(total.all);
-
-		$u.element.prop($('#percent-js'), {
-			textContent: Math.round(100 * total.js / total.all) + '%',
-			title: prettySize(total.js)
-		});
-
-		$u.element.prop($('#percent-css'), {
-			textContent: Math.round(100 * total.css / total.all) + '%',
-			title: prettySize(total.css)
-		});
-
-		delayedGenerateCode();
 	}
 
-	var timerId = 0;
-	// "debounce" multiple rapid requests to generate and highlight code
-	function delayedGenerateCode() {
-		if (timerId !== 0) {
-			clearTimeout(timerId);
-		}
-		timerId = setTimeout(generateCode, 500);
+	total.all = total.js + total.css;
+
+	if (updatedId) {
+		updated.all = updated.js + updated.css;
+
+		Object.assign(form.querySelector(`label[data-id="${updatedId}"] .filesize`), {
+			textContent: prettySize(updated.all),
+			title: (updated.js ? Math.round(100 * updated.js / updated.all) + "% JavaScript" : "") +
+				(updated.js && updated.css ? " + " : "") +
+				(updated.css ? Math.round(100 * updated.css / updated.all) + "% CSS" : "")
+		});
 	}
 
-	function generateCode() {
-		/** @type {CodePromiseInfo[]} */
-		var promises = [];
-		var redownload = {};
+	form.querySelector("#filesize").textContent = prettySize(total.all);
 
-		for (var category in components) {
-			for (var id in components[category]) {
-				if (id === 'meta') {
-					continue;
+	Object.assign(form.querySelector("#percent-js"), {
+		textContent: Math.round(100 * total.js / total.all) + "%",
+		title: prettySize(total.js)
+	});
+
+	Object.assign(form.querySelector("#percent-css"), {
+		textContent: Math.round(100 * total.css / total.all) + "%",
+		title: prettySize(total.css)
+	});
+
+	delayedGenerateCode();
+}
+
+// "debounce" multiple rapid requests to generate and highlight code
+function delayedGenerateCode() {
+	if (timerId !== 0) {
+		clearTimeout(timerId);
+	}
+	timerId = setTimeout(generateCode, 500);
+}
+
+async function generateCode() {
+	/** @type {CodePromiseInfo[]} */
+	let promises = [];
+	let redownload = {};
+
+	for (let category in components) {
+		for (let id in components[category]) {
+			if (id === "meta") {
+				continue;
+			}
+
+			let info = components[category][id];
+			if (info.enabled) {
+				if (category !== "core") {
+					redownload[category] = redownload[category] || [];
+					redownload[category].push(id);
 				}
+				info.files[minified ? "minified" : "dev"].paths.forEach(path => {
+					if (cache[path]) {
+						let type = path.match(/\.(\w+)$/)[1];
 
-				var info = components[category][id];
-				if (info.enabled) {
-					if (category !== 'core') {
-						redownload[category] = redownload[category] || [];
-						redownload[category].push(id);
+						promises.push({
+							contentsPromise: cache[path].contentsPromise,
+							id: id,
+							category: category,
+							path: path,
+							type: type
+						});
 					}
-					info.files[minified ? 'minified' : 'dev'].paths.forEach(function (path) {
-						if (cache[path]) {
-							var type = path.match(/\.(\w+)$/)[1];
-
-							promises.push({
-								contentsPromise: cache[path].contentsPromise,
-								id: id,
-								category: category,
-								path: path,
-								type: type
-							});
-						}
-					});
-				}
+				});
 			}
 		}
-
-		// Hide error message if visible
-		var error = $('#download .error');
-		error.style.display = '';
-
-		Promise.all([buildCode(promises), getVersion()]).then(function (arr) {
-			var res = arr[0];
-			var version = arr[1];
-			var code = res.code;
-			var errors = res.errors;
-
-			if (errors.length) {
-				error.style.display = 'block';
-				error.innerHTML = '';
-				$u.element.contents(error, errors);
-			}
-
-			var redownloadUrl = window.location.href.split('#')[0] + '#';
-			for (var category in redownload) {
-				redownloadUrl += category + '=' + redownload[category].join('+') + '&';
-			}
-			redownloadUrl = redownloadUrl.replace(/&$/, '');
-			window.location.replace(redownloadUrl);
-
-			var versionComment = '/* PrismJS ' + version + '\n' + redownloadUrl + ' */';
-
-			for (var type in code) {
-				(function (type) {
-					var text = versionComment + '\n' + code[type];
-					var fileName = 'prism.' + type;
-
-					var codeElement = $('#download-' + type + ' code');
-					var pre = codeElement.parentElement;
-
-					var newCode = document.createElement('CODE');
-					newCode.className = codeElement.className;
-					newCode.textContent = text;
-
-					Prism.highlightElement(newCode, false, function () {
-						pre.replaceChild(newCode, codeElement);
-					});
-
-
-					$('#download-' + type + ' .download-button').onclick = function () {
-						saveAs(new Blob([text], { type: 'application/octet-stream;charset=utf-8' }), fileName);
-					};
-				}(type));
-			}
-		});
 	}
 
-	/**
-	 * Returns a promise of the code of the Prism bundle.
-	 *
-	 * @param {CodePromiseInfo[]} promises
-	 * @returns {Promise<{ code: { js: string, css: string }, errors: HTMLElement[] }>}
-	 *
-	 * @typedef CodePromiseInfo
-	 * @property {Promise} contentsPromise
-	 * @property {string} id
-	 * @property {string} category
-	 * @property {string} path
-	 * @property {string} type
-	 */
-	function buildCode(promises) {
-		// sort the promises
+	// Hide error message if visible
+	let error = form.querySelector("#download .error");
+	error.style.display = "";
 
-		/** @type {CodePromiseInfo[]} */
-		var finalPromises = [];
-		/** @type {Object<string, CodePromiseInfo[]>} */
-		var toSortMap = {};
+	let res = await buildCode(promises);
+	let version = await getVersion();
 
-		promises.forEach(function (p) {
-			if (p.category == 'core' || p.category == 'themes') {
-				finalPromises.push(p);
-			} else {
-				var infos = toSortMap[p.id];
-				if (!infos) {
-					toSortMap[p.id] = infos = [];
-				}
-				infos.push(p);
-			}
+	let code = res.code;
+	let errors = res.errors;
+
+	if (errors.length) {
+		error.style.display = "block";
+		error.innerHTML = "";
+		error.append(...errors);
+	}
+
+	let redownloadUrl = location.href.split("#")[0] + "#";
+	for (let category in redownload) {
+		redownloadUrl += category + "=" + redownload[category].join("+") + "&";
+	}
+	redownloadUrl = redownloadUrl.replace(/&$/, "");
+	location.replace(redownloadUrl);
+
+	let versionComment = "/* PrismJS " + version + "\n" + redownloadUrl + " */";
+
+	for (let type in code) {
+		let text = versionComment + "\n" + code[type];
+		let fileName = "prism." + type;
+
+		let codeElement = form.querySelector(`#download-${type} code`);
+
+		let newCode = Object.assign(document.createElement("code"), {
+			className: codeElement.className,
+			textContent: text
 		});
 
-		// this assumes that the ids in `toSortMap` are complete under transitive requirements
-		getLoader(components, Object.keys(toSortMap)).getIds().forEach(function (id) {
-			if (!toSortMap[id]) {
-				console.error(id + ' not found.');
-			}
-			finalPromises.push.apply(finalPromises, toSortMap[id]);
+		Prism.highlightElement(newCode, false, () => {
+			codeElement.replaceWith(newCode);
 		});
-		promises = finalPromises;
 
-		// build
-		var i = 0;
-		var l = promises.length;
-		var code = { js: '', css: '' };
-		var errors = [];
-
-		var f = function (resolve) {
-			if (i < l) {
-				var p = promises[i];
-				p.contentsPromise.then(function (contents) {
-					code[p.type] += contents + (p.type === 'js' && !/;\s*$/.test(contents) ? ';' : '') + '\n';
-					i++;
-					f(resolve);
-				});
-				p.contentsPromise['catch'](function () {
-					errors.push($u.element.create({
-						tag: 'p',
-						prop: {
-							textContent: 'An error occurred while fetching the file "' + p.path + '".'
-						}
-					}));
-					i++;
-					f(resolve);
-				});
-			} else {
-				resolve({ code: code, errors: errors });
-			}
+		form.querySelector(`#download-${type} .download-button`).onclick = () => {
+			saveAs(new Blob([text], { type: "application/octet-stream;charset=utf-8" }), fileName);
 		};
-
-		return new Promise(f);
 	}
+}
 
-	/**
-	 * @returns {Promise<string>}
-	 */
-	function getVersion() {
-		return getFileContents('https://dev.prismjs.com/package.json').then(function (jsonStr) {
-			return JSON.parse(jsonStr).version;
-		});
-	}
+/**
+ * Returns a promise of the code of the Prism bundle.
+ *
+ * @param {CodePromiseInfo[]} promises
+ * @returns {Promise<{ code: { js: string, css: string }, errors: HTMLElement[] }>}
+ *
+ * @typedef CodePromiseInfo
+ * @property {Promise} contentsPromise
+ * @property {string} id
+ * @property {string} category
+ * @property {string} path
+ * @property {string} type
+ */
+function buildCode(promises) {
+	// sort the promises
 
-}());
+	/** @type {CodePromiseInfo[]} */
+	let finalPromises = [];
+	/** @type {Object<string, CodePromiseInfo[]>} */
+	let toSortMap = {};
+
+	promises.forEach(p => {
+		if (p.category === "core" || p.category === "themes") {
+			finalPromises.push(p);
+		} else {
+			let infos = toSortMap[p.id];
+			if (!infos) {
+				toSortMap[p.id] = infos = [];
+			}
+			infos.push(p);
+		}
+	});
+
+	// this assumes that the ids in `toSortMap` are complete under transitive requirements
+	getLoader(components, Object.keys(toSortMap)).getIds().forEach(id => {
+		if (!toSortMap[id]) {
+			console.error(`${ id } not found.`);
+		}
+		finalPromises.push.apply(finalPromises, toSortMap[id]);
+	});
+	promises = finalPromises;
+
+	// build
+	let i = 0;
+	let l = promises.length;
+	let code = { js: "", css: "" };
+	let errors = [];
+
+	let f = function (resolve) {
+		if (i < l) {
+			let p = promises[i];
+			p.contentsPromise.then(function (contents) {
+				code[p.type] += contents + (p.type === "js" && !/;\s*$/.test(contents) ? ";" : "") + "\n";
+				i++;
+				f(resolve);
+			});
+			p.contentsPromise["catch"](function () {
+				errors.push(Object.assign(document.createElement("p"), {
+					textContent: `An error occurred while fetching the file "${ p.path }".`
+				}));
+				i++;
+				f(resolve);
+			});
+		} else {
+			resolve({ code: code, errors: errors });
+		}
+	};
+
+	return new Promise(f);
+}
+
+/**
+ * @returns {Promise<string>}
+ */
+async function getVersion() {
+	let packageJSON = await getFileContents("https://dev.prismjs.com/package.json");
+	return JSON.parse(packageJSON).version;
+}
