@@ -3,8 +3,7 @@ title: FAQ
 tagline: Frequently Asked Questions, with a few Questions I want people to Frequently Ask.
 back_to_top: true
 body_classes: language-none
-resources:
-  body: assets/faq.js { type="module" }
+resources: assets/faq.js { type="module" }
 ---
 
 <section>

@@ -1,5 +1,3 @@
-{%- set resources = resources | parse_resources -%}
-
 <!DOCTYPE html>
 <html lang="en"
 	data-page="{{ page.url }}"
@@ -20,11 +18,7 @@
 	<script>var _gaq = [["_setAccount", "UA-33746269-1"], ["_trackPageview"]];</script>
 	<script src="https://www.google-analytics.com/ga.js" async></script>
 
-	{%- block head_extra -%}
-	{%- for resource in resources.head %}
-	{{ resource | safe -}}
-	{%- endfor %}
-	{%- endblock %}
+	{% block head_extra -%}{%- endblock -%}
 </head>
 
 <body class="{{ body_classes }}">
@@ -103,10 +97,8 @@
 	<script src="{{ base_url }}/assets/theme-switcher.js" type="module"></script>
 	{%- endif %}
 
-	{%- block body_extra -%}
-	{%- for resource in resources.body %}
+	{%- for resource in resources | parse_resources %}
 	{{ resource | safe -}}
 	{%- endfor %}
-	{%- endblock %}
 </body>
 </html>

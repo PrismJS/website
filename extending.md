@@ -3,8 +3,8 @@ title: Extending Prism
 tagline: Prism is awesome out of the box, but it’s even awesomer when it’s customized to your own needs. This section will help you write new language definitions, plugins and all-around Prism hacking.
 body_classes: language-javascript
 resources:
-  head: https://plugins.prismjs.com/line-highlight/prism-line-highlight.css
-  body: https://plugins.prismjs.com/line-highlight/prism-line-highlight.js
+  - https://plugins.prismjs.com/line-highlight/prism-line-highlight.css
+  - https://plugins.prismjs.com/line-highlight/prism-line-highlight.js
 ---
 
 <section>

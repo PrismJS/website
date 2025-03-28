@@ -1,6 +1,4 @@
 {
 	"layout": "home.njk",
-	"resources": {
-		"body": "https://plugins.prismjs.com/keep-markup/prism-keep-markup.js"
-	}
+	"resources": "https://plugins.prismjs.com/keep-markup/prism-keep-markup.js"
 }
