@@ -10,7 +10,6 @@ export default config => {
 	let data = {
 		components,
 		layout: "page.njk",
-		autoloader: true,
 		theme_switcher: true,
 		toc: true,
 		permalink: `{{ "index" if page.filePathStem == "/README" else page.filePathStem }}.html`,
