@@ -4,9 +4,11 @@
 	"description": "The website of prismjs.com",
 	"type": "module",
 	"scripts": {
+		"dev": "netlify dev -p 8844",
+		"serve": "npx @11ty/eleventy --config=_build/eleventy.js --serve --quiet",
 		"build:html": "npx @11ty/eleventy --config=_build/eleventy.js --quiet",
 		"build": "npm run build:html",
-		"watch:html": "npx @11ty/eleventy --config=_build/eleventy.js --serve --quiet",
+		"watch:html": "npx @11ty/eleventy --config=_build/eleventy.js --watch --quiet --incremental",
 		"watch": "npm run watch:html"
 	},
 	"repository": {
