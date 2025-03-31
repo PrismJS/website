@@ -5,7 +5,7 @@ back_to_top: true
 body_classes: language-none
 resources:
   - assets/faq.js { type="module" }
-  - https://plugins.prismjs.com/autoloader/prism-autoloader.js { data-autoloader-path="https://dev.prismjs.com/components/" }
+  - https://plugins.prismjs.com/autoloader/prism-autoloader.js
 ---
 
 <section>
