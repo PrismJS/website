@@ -4,7 +4,7 @@ import markdownItDeflist from "markdown-it-deflist";
 import pluginTOC from "eleventy-plugin-toc";
 import * as filters from "./filters.js";
 
-import components from "prismjs/components.json" with { type: "json" };
+import components from "prismjs/src/components.json" with { type: "json" };
 
 export default config => {
 	let data = {

@@ -1,0 +1,31 @@
+{
+	"$schema": "https://typedoc.org/schema.json",
+	"out": "./api",
+	"json": "./api/docs.json",
+	"name": "Prism API",
+	"includeVersion": true,
+	"entryPoints": ["node_modules/prismjs/src/**/*.ts"],
+	"exclude": [
+		"node_modules/prismjs/src/plugins/**/*.ts",
+		"node_modules/prismjs/src/languages/**/*.ts",
+		"node_modules/prismjs/src/known-plugins.d.ts"
+	],
+	"externalPattern": ["**/node_modules/**/node_modules/**"],
+	"compilerOptions": {
+		"skipLibCheck": true,
+		"noCheck": true
+	},
+	"markdownItOptions": {
+		"html": true,
+		"linkify": true,
+		"typographer": true
+	},
+	"plugin": ["typedoc-plugin-rename-defaults"],
+	"navigationLinks": {
+		"Home": "https://prismjs.com",
+		"GitHub": "https://github.com/PrismJS/prism"
+	},
+	"favicon": "./assets/logo.svg",
+	"hostedBaseUrl": "https://prismjs.com/api",
+	"readme": "none"
+}
