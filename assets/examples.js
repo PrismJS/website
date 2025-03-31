@@ -8,8 +8,7 @@ let components = await (await fetch("https://dev.prismjs.com/components.json")).
 let languages = components.languages;
 let examples = {};
 
-// TODO: Replace with "https://api.github.com/repos/PrismJS/website/git/trees/main?recursive=1" when the website is launched
-let treeURL = "https://api.github.com/repos/PrismJS/prism/git/trees/master?recursive=1";
+let treeURL = "https://api.github.com/repos/PrismJS/website/git/trees/main?recursive=1";
 let tree = (await (await fetch(treeURL)).json()).tree;
 
 async function fileExists (filepath) {
