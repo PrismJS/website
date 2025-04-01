@@ -8,7 +8,7 @@ resources:
   - https://plugins.prismjs.com/line-highlight/prism-line-highlight.js
   - https://plugins.prismjs.com/toolbar/prism-toolbar.js
   - https://plugins.prismjs.com/show-language/prism-show-language.js
-  - https://plugins.prismjs.com/autoloader/prism-autoloader.js { data-autoloader-path="https://dev.prismjs.com/components/" }
+  - https://plugins.prismjs.com/autoloader/prism-autoloader.js
 ---
 
 <section>
