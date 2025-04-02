@@ -47,8 +47,8 @@
 		{% block header_extra -%}{%- endblock -%}
 
 		{% if title -%}
-		<h2>{{ title }}</h2>
-		<p>{{ (tagline or description) | safe }}</p>
+		<h2>{{ title | md | safe }}</h2>
+		<p>{{ (tagline or description) | md | safe }}</p>
 		{%- endif %}
 	</header>
 
