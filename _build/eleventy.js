@@ -6,6 +6,7 @@ import * as filters from "./filters.js";
 
 import components from "prismjs/src/components.json" with { type: "json" };
 
+/** @param {import("@11ty/eleventy").UserConfig} config */
 export default config => {
 	let data = {
 		components,
@@ -23,7 +24,9 @@ export default config => {
 		config.addFilter(f, filters[f]);
 	}
 
+	let mdLib;
 	config.amendLibrary("md", md => {
+		mdLib = md;
 		md.options.typographer = true;
 		md.options.linkify = true;
 		md.use(markdownItAnchor, {
@@ -39,6 +42,29 @@ export default config => {
 			let content = md.utils.escapeHtml(token.content).trim();
 			return `<pre ${slf.renderAttrs(token)}><code ${lang}>${content}</code></pre>`;
 		};
+	});
+
+	config.addFilter("md", function (content) {
+		if (typeof content !== "string") {
+			return content;
+		}
+
+		let ret = mdLib.renderInline(content);
+		let safeFilter = this.env?.filters?.safe;
+		return safeFilter ? safeFilter(ret) : ret;
+	});
+
+	config.addPairedShortcode("md", content => {
+		if (typeof content !== "string") {
+			if (content instanceof String) {
+				content = content + "";
+			}
+			else {
+				return content;
+			}
+		}
+
+		return mdLib.render(content);
 	});
 
 	config.addPlugin(pluginTOC, {

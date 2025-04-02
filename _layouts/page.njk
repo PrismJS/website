@@ -7,7 +7,7 @@
 	<base href="{{ base }}" />
 	{% endif -%}
 	<title>
-		{%- set main_title = title or subdomain | capitalize %}
+		{%- set main_title = title | md | striptags or subdomain | capitalize %}
 		{{ main_title }}{{ " ▲" if main_title }} Prism {{ subdomain if subdomain | capitalize != main_title }}
 	</title>
 	<meta name="viewport" content="width=device-width" />
@@ -47,8 +47,8 @@
 		{% block header_extra -%}{%- endblock -%}
 
 		{% if title -%}
-		<h2>{{ title }}</h2>
-		<p>{{ (tagline or description) | safe }}</p>
+		<h2>{{ title | md }}</h2>
+		<p>{{ (tagline or description) | md }}</p>
 		{%- endif %}
 	</header>
 
