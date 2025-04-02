@@ -44,12 +44,14 @@ export default config => {
 		};
 	});
 
-	config.addFilter("md", content => {
+	config.addFilter("md", function (content) {
 		if (typeof content !== "string") {
 			return content;
 		}
 
-		return mdLib.renderInline(content);
+		let ret = mdLib.renderInline(content);
+		let safeFilter = this.env?.filters?.safe;
+		return safeFilter ? safeFilter(ret) : ret;
 	});
 
 	config.addPairedShortcode("md", content => {
