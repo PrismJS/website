@@ -1,6 +1,11 @@
 export default {
+	components (data) {
+		let components = { ...data.components };
+		components.plugins = { ...(data.pluginsWithMeta ?? {}) };
+		return components;
+	},
 	plugins (data) {
-		let plugins = { ...data.components.plugins };
+		let plugins = { ...data.pluginsWithMeta };
 		delete plugins.meta;
 		return plugins;
 	},
