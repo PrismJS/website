@@ -33,8 +33,8 @@ resources:
 				<input type="{{ "radio" if meta.exclusive else "checkbox" }}" name="download-{{ category }}" value="{{ id }}" {{ "checked" if option == "mandatory" }} {{ "disabled" if option == "mandatory" }} />
 
 				{%- if meta.link -%}
-					{%- set link = meta.link | replace("{id}", id) | replace("plugins/", "") -%}
-					{%- set base = "https://plugins.prismjs.com/" if category == "plugins" else "https://prismjs.com/" -%}
+					{%- set link = meta.link | replace("{id}", id) -%}
+					{%- set base = meta.domain or "https://prismjs.com/" -%}
 					{%- set url = base + link -%}
 
 					<a href="{{ url }}" class="name">{{ name }}</a>
