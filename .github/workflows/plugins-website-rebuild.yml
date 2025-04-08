@@ -1,0 +1,19 @@
+name: Rebuild Plugins Website
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      # 11ty-related folders
+      - "_build/**"
+      - "_layouts/**"
+      - "_includes/**"
+      - "_data/**"
+
+jobs:
+  trigger-rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Netlify Build Hook
+        run: curl -X POST -d "{}" "${{ secrets.PLUGINS_WEBSITE_BUILD_HOOK_URL }}?trigger_title=The+main+repo+has+been+updated&clear_cache=true"
