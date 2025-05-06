@@ -1,0 +1,10 @@
+# Core
+prism.js        https://v1.dev.prismjs.com/prism.js 301
+components.js   https://v1.dev.prismjs.com/components.js 301
+components.json https://v1.dev.prismjs.com/components.json 301
+dependencies.js https://v1.dev.prismjs.com/dependencies.js 301
+
+# Components: languages, themes, plugins, etc.
+/components/*   https://v1.dev.prismjs.com/components/:splat 301
+/plugins/*      https://v1.dev.prismjs.com/plugins/:splat 301
+/themes/*       https://v1.dev.prismjs.com/themes/:splat 301

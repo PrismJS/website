@@ -1,5 +1,3 @@
-const SOURCE_URL = "https://dev.prismjs.com/";
-
 (function () {
 
 	if (!document.body.addEventListener) {
@@ -148,9 +146,9 @@ var setTheme;
 	}
 
 	setTheme = function (id) {
-		var link = $$(`link[href^="${SOURCE_URL}themes/prism"]`)[0];
+		var link = $$(`link[href^="themes/prism"]`)[0];
 
-		link.href = (SOURCE_URL + themes.meta.path).replace(/\{id\}/g, id);
+		link.href = themes.meta.path.replace(/\{id\}/g, id);
 		localStorage.setItem('theme', id);
 	};
 
@@ -201,7 +199,7 @@ var setTheme;
 					{
 						tag: 'a',
 						prop: {
-							href: 'https://plugins.prismjs.com/' + id
+							href: 'plugins/' + id
 						},
 						contents: plugin.title || plugin
 					},

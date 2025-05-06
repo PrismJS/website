@@ -6,8 +6,8 @@
 <link rel="icon" href="assets/favicon.png" />
 <title>Extending Prism ▲ Prism</title>
 <link rel="stylesheet" href="assets/style.css" />
-<link rel="stylesheet" href="https://dev.prismjs.com/themes/prism.css" />
-<link rel="stylesheet" href="https://plugins.prismjs.com/line-highlight/prism-line-highlight.css" />
+<link rel="stylesheet" href="themes/prism.css" />
+<link rel="stylesheet" href="plugins/line-highlight/prism-line-highlight.css" />
 <style>
 ol.indent {
 	margin: 1em 0;
@@ -31,7 +31,7 @@ ol.indent {
 	<h1>Language definitions</h1>
 
 	<p>Every language is defined as a set of tokens, which are expressed as <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions" target="_blank" rel="noopener noreferrer">regular expressions</a>. For example, this is the language definition for JSON:</p>
-	<pre data-src="https://dev.prismjs.com/components/prism-json.js"></pre>
+	<pre data-src="components/prism-json.js"></pre>
 
 	<p>At its core, a language definition is just a JavaScript object, and a token is just an entry of the language definition. The simplest language definition is an empty object:</p>
 	<pre><code class="language-javascript">Prism.languages['some-language'] = { };</code></pre>
@@ -579,7 +579,7 @@ Brief description.</code></pre>
 
 	<h2 id="resolving-dependencies">Resolving dependencies</h2>
 
-	<p>We consider the dependencies of components an implementation detail, so they may change from release to release. Prism will usually resolve dependencies for you automatically. So you won't have to worry about dependency loading if you <a href="download.html">download</a> a bundle or use the <code>loadLanguages</code> function in NodeJS, the <a href="https://plugins.prismjs.com/autoloader/">AutoLoader</a>, or our Babel plugin.</p>
+	<p>We consider the dependencies of components an implementation detail, so they may change from release to release. Prism will usually resolve dependencies for you automatically. So you won't have to worry about dependency loading if you <a href="download.html">download</a> a bundle or use the <code>loadLanguages</code> function in NodeJS, the <a href="plugins/autoloader/">AutoLoader</a>, or our Babel plugin.</p>
 
 	<p>If you have to resolve dependencies yourself, use the <code>getLoader</code> function exported by <a href="https://github.com/PrismJS/prism/blob/master/dependencies.js"><code>dependencies.js</code></a>. Example:</p>
 
@@ -624,10 +624,10 @@ loader.load(id => {
 <footer data-src="assets/templates/footer.html" data-type="text/html"></footer>
 
 <script src="assets/vendor/utopia.js"></script>
-<script src="https://dev.prismjs.com/prism.js"></script>
-<script src="https://plugins.prismjs.com/autoloader/prism-autoloader.js"></script>
-<script src="https://plugins.prismjs.com/line-highlight/prism-line-highlight.js"></script>
-<script src="https://dev.prismjs.com/components.js"></script>
+<script src="prism.js"></script>
+<script src="plugins/autoloader/prism-autoloader.js"></script>
+<script src="plugins/line-highlight/prism-line-highlight.js"></script>
+<script src="components.js"></script>
 <script src="assets/code.js"></script>
 
 </body>
