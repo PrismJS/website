@@ -1,4 +1,4 @@
-const SOURCE_URL = "https://dev.prismjs.com/";
+const SOURCE_URL = "https://v1.dev.prismjs.com/";
 
 (function () {
 
