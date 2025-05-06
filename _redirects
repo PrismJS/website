@@ -9,3 +9,6 @@ dependencies.js             https://v1.dev.prismjs.com/dependencies.js          
 /themes/*                   https://v1.dev.prismjs.com/themes/:splat              200
 /plugins/:plugin/:file.js   https://v1.dev.prismjs.com/plugins/:plugin/:file.js   200
 /plugins/:plugin/:file.css  https://v1.dev.prismjs.com/plugins/:plugin/:file.css  200
+
+# Other
+package.json                https://v1.dev.prismjs.com/package.json               200
