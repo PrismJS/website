@@ -1,0 +1,4 @@
+{
+	"permalink": "{{ page.filePathStem.replace('README', '') }}/index.html",
+	"tags": ["plugin"]
+}
