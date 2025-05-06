@@ -4,7 +4,7 @@ import markdownItDeflist from "markdown-it-deflist";
 import pluginTOC from "eleventy-plugin-toc";
 import * as filters from "./filters.js";
 
-import components from "prismjs/src/components.json" with { type: "json" };
+import components from "../node_modules/prismjs/src/components.json" with { type: "json" };
 
 /** @param {import("@11ty/eleventy").UserConfig} config */
 export default config => {
@@ -14,6 +14,7 @@ export default config => {
 		theme_switcher: true,
 		toc: true,
 		permalink: `{{ "index" if page.filePathStem == "/README" else page.filePathStem }}.html`,
+		plugins_url: "https://dev.prismjs.com/plugins",
 	};
 
 	for (let p in data) {

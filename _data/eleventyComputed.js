@@ -1,13 +1,6 @@
 export default {
 	components (data) {
-		let components = { ...data.components };
-		components.plugins = { ...(data.pluginsWithMeta ?? {}) };
-		return components;
-	},
-	plugins (data) {
-		let plugins = { ...data.pluginsWithMeta };
-		delete plugins.meta;
-		return plugins;
+		return { ...data.components };
 	},
 	themes (data) {
 		let themes = { ...data.components.themes };
@@ -51,6 +44,43 @@ export default {
 		for (let file of data.tree) {
 			ret[file.path] = file.size;
 		}
+		return ret;
+	},
+	// Plugin ID
+	id (data) {
+		let parts = data.page.inputPath.slice(2).split("/");
+		if (parts[0] === "plugins") {
+			// Folder name ↔ plugin id
+			return parts[1];
+		}
+	},
+	resources (data) {
+		let { id, resources = [], plugins_url } = data;
+		let ret = [];
+
+		resources = Array.isArray(resources) ? resources : [resources];
+		ret.push(...resources);
+
+		if (!id) {
+			return ret;
+		}
+
+		// We are working with a plugin's resources.
+		// Convert relative URLs pointing to another plugin to absolute URLs
+		for (let [index, resource] of ret.entries()) {
+			if (resource.startsWith("../")) {
+				resource = resource.slice(2); // remove "../"
+				resource = `${plugins_url}${resource}`;
+				ret[index] = resource;
+			}
+		}
+
+		ret.push(`${plugins_url}/${id}/prism-${id}.js { type="module" }`);
+
+		if (!data.noCSS) {
+			ret.push(`${plugins_url}/${id}/prism-${id}.css`);
+		}
+
 		return ret;
 	},
 };
