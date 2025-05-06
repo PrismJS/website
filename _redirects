@@ -1,0 +1,2 @@
+# Make the autoloader plugin work
+/plugins/:plugin/components/* https://dev.prismjs.com/components/:splat  301
