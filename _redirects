@@ -1,10 +1,14 @@
 # Core
-prism.js        https://v1.dev.prismjs.com/prism.js 301
-components.js   https://v1.dev.prismjs.com/components.js 301
-components.json https://v1.dev.prismjs.com/components.json 301
-dependencies.js https://v1.dev.prismjs.com/dependencies.js 301
+prism.js                    https://v1.dev.prismjs.com/prism.js                   200
+components.js               https://v1.dev.prismjs.com/components.js              200
+components.json             https://v1.dev.prismjs.com/components.json            200
+dependencies.js             https://v1.dev.prismjs.com/dependencies.js            200
 
 # Components: languages, themes, plugins, etc.
-/components/*   https://v1.dev.prismjs.com/components/:splat 301
-/plugins/*      https://v1.dev.prismjs.com/plugins/:splat 301
-/themes/*       https://v1.dev.prismjs.com/themes/:splat 301
+/components/*               https://v1.dev.prismjs.com/components/:splat          200
+/themes/*                   https://v1.dev.prismjs.com/themes/:splat              200
+/plugins/:plugin/:file.js   https://v1.dev.prismjs.com/plugins/:plugin/:file.js   200
+/plugins/:plugin/:file.css  https://v1.dev.prismjs.com/plugins/:plugin/:file.css  200
+
+# Other
+package.json                https://v1.dev.prismjs.com/package.json               200

@@ -6,7 +6,7 @@
 
 	$$('[data-plugin-header]').forEach(function (element) {
 		var plugin = components.plugins[element.getAttribute('data-plugin-header')];
-		element.innerHTML = '<div class="intro" data-src="assets/templates/header.html" data-type="text/html"></div>\n'
+		element.innerHTML = '<div class="intro" data-src="assets/templates/header-plugins.html" data-type="text/html"></div>\n'
 	+ '<h2>' + plugin.title + '</h2>\n<p>' + plugin.description + '</p>';
 	});
 
