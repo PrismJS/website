@@ -905,3 +905,14 @@ ul.plugin-list {
 		border-bottom-left-radius: 0;
 	}
 }
+
+/* Decorate only the first link in headings */
+section :is(h1, h2, h3)[id] {
+	a:not(:first-of-type) {
+		text-decoration: revert;
+
+		&::before {
+			display: none;
+		}
+	}
+}
