@@ -240,10 +240,11 @@ Couldn’t find the language you were looking for? [Request it](https://github.c
 Plugins are additional scripts (and CSS code) that extend Prism’s functionality. Many of the following plugins are official, but are released as plugins to keep the Prism Core small for those who don’t need the extra functionality.
 
 <ul class="plugin-list">
-	{% for id, plugin in plugins -%}
+	{% for plugin in collections.plugin -%}
+	{%- set meta = plugin.data -%}
 	<li>
-		<a href="https://plugins.prismjs.com/{{ id }}">{{ plugin.title }}</a>
-		<div>{{ plugin.description | safe }}</div>
+		<a href="plugins/{{ meta.id }}">{{ meta.title | md }}</a>
+		<div>{{ meta.description | md }}</div>
 	</li>
 	{% endfor -%}
 </ul>
