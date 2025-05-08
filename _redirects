@@ -4,6 +4,7 @@
 /plugins/:plugin/demo.js       /plugins/:plugin/demo.js                       200
 
 # Components: languages, themes, plugins, etc.
+/components/*                  https://dev.prismjs.com/components/:splat      200
 /plugins/:plugin/:file         https://dev.prismjs.com/plugins/:plugin/:file  301
 
 # Make the autoloader plugin work
