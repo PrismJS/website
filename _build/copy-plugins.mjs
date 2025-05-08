@@ -40,7 +40,7 @@ await copy();
 
 // Create plugins.json in the plugins folder with global data
 let json = {
-	permalink: "{{ page.filePathStem.replace('README', '') }}/index.html",
+	permalink: "{{ page.filePathStem.replace('README', '/index') }}.html",
 	tags: ["plugin"],
 };
 
