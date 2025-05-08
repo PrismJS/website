@@ -56,9 +56,9 @@ If you’re still not sold, you can [view more examples](examples.html) or [try 
 - Highlights embedded languages (e.g. CSS inside HTML, JavaScript inside HTML).
 - Highlights inline code as well, not just code blocks.
 - It doesn’t force you to use any Prism-specific markup, not even a Prism-specific class name, only standard markup you should be using anyway. So, you can just try it for a while, remove it if you don’t like it and leave no traces behind.
-- Highlight specific lines and/or line ranges (requires [plugin](https://plugins.prismjs.com/line-highlight/)).
-- Show invisible characters like tabs, line breaks etc (requires [plugin](https://plugins.prismjs.com/show-invisibles/)).
-- Autolink URLs and emails, use Markdown links in comments (requires [plugin](https://plugins.prismjs.com/autolinker/)).
+- Highlight specific lines and/or line ranges (requires [plugin](plugins/line-highlight/)).
+- Show invisible characters like tabs, line breaks etc (requires [plugin](plugins/show-invisibles/)).
+- Autolink URLs and emails, use Markdown links in comments (requires [plugin](plugins/autolinker/)).
 
 </section>
 
@@ -107,7 +107,7 @@ Inline code snippets are done like this:
 <code class="language-css">p { color: red }</code>
 ```
 
-**Note**: You have to escape all `<` and `&` characters inside `<code>` elements (code blocks and inline snippets) with `&lt;` and `&amp;` respectively, or else the browser might interpret them as an HTML tag or [entity](https://developer.mozilla.org/en-US/docs/Glossary/Entity). If you have large portions of HTML code, you can use the [Unescaped Markup plugin](https://plugins.prismjs.com/unescaped-markup/) to work around this.
+**Note**: You have to escape all `<` and `&` characters inside `<code>` elements (code blocks and inline snippets) with `&lt;` and `&amp;` respectively, or else the browser might interpret them as an HTML tag or [entity](https://developer.mozilla.org/en-US/docs/Glossary/Entity). If you have large portions of HTML code, you can use the [Unescaped Markup plugin](plugins/unescaped-markup/) to work around this.
 
 ## Language inheritance
 
@@ -115,7 +115,7 @@ To make things easier however, Prism assumes that the language class is inherite
 
 If you want to opt-out of highlighting a `<code>` element that inherits its language, you can add the `language-none` class to it. The `none` language can also be inherited to disable highlighting for the element with the class and all of its descendants.
 
-If you want to opt-out of highlighting but still use plugins like [Show Invisibles](https://plugins.prismjs.com/show-invisibles/), use `language-plain` class instead.
+If you want to opt-out of highlighting but still use plugins like [Show Invisibles](plugins/show-invisibles/), use `language-plain` class instead.
 
 ## Manual highlighting
 
@@ -137,7 +137,7 @@ window.Prism.manual = true;
 
 ## Usage with CDNs { #basic-usage-cdn }
 
-In combination with CDNs, we recommend using the [Autoloader plugin](https://plugins.prismjs.com/autoloader) which automatically loads languages when necessary.
+In combination with CDNs, we recommend using the [Autoloader plugin](plugins/autoloader) which automatically loads languages when necessary.
 
 The setup of the Autoloader, will look like the following. You can also add your own themes of course.
 

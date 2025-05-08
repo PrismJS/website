@@ -3,9 +3,9 @@ title: Extending Prism
 tagline: Prism is awesome out of the box, but it’s even awesomer when it’s customized to your own needs. This section will help you write new language definitions, plugins and all-around Prism hacking.
 body_classes: language-javascript
 resources:
-  - https://plugins.prismjs.com/line-highlight/prism-line-highlight.css
-  - https://plugins.prismjs.com/line-highlight/prism-line-highlight.js
-  - https://plugins.prismjs.com/autoloader/prism-autoloader.js
+  - plugins/line-highlight/prism-line-highlight.css
+  - plugins/line-highlight/prism-line-highlight.js
+  - plugins/autoloader/prism-autoloader.js
 ---
 
 <section>
@@ -577,7 +577,7 @@ Note: You can declare a component as both `require` and `modify`.
 
 ## Resolving dependencies
 
-We consider the dependencies of components an implementation detail, so they may change from release to release. Prism will usually resolve dependencies for you automatically. So you won't have to worry about dependency loading if you [download](download.html) a bundle or use the `loadLanguages` function in NodeJS, the [AutoLoader](https://plugins.prismjs.com/autoloader/), or our Babel plugin.
+We consider the dependencies of components an implementation detail, so they may change from release to release. Prism will usually resolve dependencies for you automatically. So you won't have to worry about dependency loading if you [download](download.html) a bundle or use the `loadLanguages` function in NodeJS, the [AutoLoader](plugins/autoloader/), or our Babel plugin.
 
 If you have to resolve dependencies yourself, use the `getLoader` function exported by [`dependencies.js`](https://github.com/PrismJS/prism/blob/master/dependencies.js). Example:
 
