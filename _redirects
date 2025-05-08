@@ -2,6 +2,7 @@
 /plugins/:plugin/index.html    /plugins/:plugin/index.html                    200
 /plugins/:plugin/demo.html     /plugins/:plugin/demo.html                     200
 /plugins/:plugin/demo.js       /plugins/:plugin/demo.js                       200
+/plugins/:plugin/demo.css       /plugins/:plugin/demo.css                     200
 
 # Components: languages, themes, plugins, etc.
 /components/*                  https://dev.prismjs.com/components/:splat      200
