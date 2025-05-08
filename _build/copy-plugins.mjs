@@ -28,8 +28,8 @@ async function copy () {
 			}
 
 			let name = path.parse(file.name).name;
-			// Don't copy the plugin source files
-			if (!name.endsWith(plugin.name)) {
+			// Copy only the README.md and demo.* files
+			if (["README", "demo"].includes(name)) {
 				await fs.copyFile(path.join(source, file.name), path.join(dest, file.name));
 			}
 		}
