@@ -4,7 +4,7 @@ import markdownItDeflist from "markdown-it-deflist";
 import pluginTOC from "eleventy-plugin-toc";
 import * as filters from "./filters.js";
 
-import components from "prismjs/src/components.json" with { type: "json" };
+import components from "../node_modules/prismjs/src/components.json" with { type: "json" };
 
 /** @param {import("@11ty/eleventy").UserConfig} config */
 export default config => {
@@ -71,6 +71,9 @@ export default config => {
 		tags: ["h1", "h2", "h3"],
 		ul: true,
 	});
+
+	// Don't ignore the folders that are gitignored (plugins, examples, themes, etc.)
+	config.setUseGitIgnore(false);
 
 	return {
 		markdownTemplateEngine: "njk",

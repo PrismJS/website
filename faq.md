@@ -5,7 +5,7 @@ back_to_top: true
 body_classes: language-none
 resources:
   - assets/faq.js { type="module" }
-  - https://plugins.prismjs.com/autoloader/prism-autoloader.js
+  - plugins/autoloader/prism-autoloader.js
 ---
 
 <section>
@@ -39,7 +39,7 @@ Web Workers are good for preventing syntax highlighting of really large code blo
 
 # Why is pre-existing HTML stripped off?
 
-Because it would complicate the code a lot, although it’s not a crucial feature for most people. If it’s very important to you, you can use the [Keep Markup plugin](https://plugins.prismjs.com/keep-markup/).
+Because it would complicate the code a lot, although it’s not a crucial feature for most people. If it’s very important to you, you can use the [Keep Markup plugin](plugins/keep-markup/).
 </section>
 
 <section>
@@ -48,7 +48,7 @@ Because it would complicate the code a lot, although it’s not a crucial featur
 
 There is a number of ways around it. You can always break the block of code into multiple parts, and wrap the HTML around it (or just use a `.highlight` class). You can see an example of this in action at the “[Basic usage](index.html#basic-usage)” section of the homepage.
 
-Another way around the limitation is to use the [Line Highlight plugin](https://plugins.prismjs.com/line-highlight/), to highlight and link to specific lines and/or line ranges.
+Another way around the limitation is to use the [Line Highlight plugin](plugins/line-highlight/), to highlight and link to specific lines and/or line ranges.
 </section>
 
 <section>
