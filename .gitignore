@@ -4,6 +4,8 @@ Thumbs.db
 
 # Generated files
 *.html
+api
+plugins
 
 # Cache
 .cache

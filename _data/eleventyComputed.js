@@ -1,8 +1,6 @@
 export default {
-	plugins (data) {
-		let plugins = { ...data.components.plugins };
-		delete plugins.meta;
-		return plugins;
+	components (data) {
+		return { ...data.components };
 	},
 	themes (data) {
 		let themes = { ...data.components.themes };
@@ -24,6 +22,14 @@ export default {
 
 		return languages;
 	},
+	// Plugin id
+	id (data) {
+		let parts = data.page.inputPath.slice(2).split("/");
+		if (parts[0] === "plugins") {
+			// Folder name ↔ plugin id
+			return parts[1];
+		}
+	},
 	title (data) {
 		if (data.title) {
 			return data.title;
@@ -40,6 +46,26 @@ export default {
 		title = title.replace(/-/g, " ");
 
 		return title[0].toUpperCase() + title.slice(1);
+	},
+	resources (data) {
+		let { id, resources = [] } = data;
+		let ret = [];
+
+		resources = Array.isArray(resources) ? resources : [resources];
+		ret.push(...resources);
+
+		if (!id) {
+			return ret;
+		}
+
+		// We are working with plugin resources
+		ret.push(`./prism-${id}.js { type="module" }`);
+
+		if (!data.noCSS) {
+			ret.push(`./prism-${id}.css`);
+		}
+
+		return ret;
 	},
 	files_sizes (data) {
 		let ret = {};

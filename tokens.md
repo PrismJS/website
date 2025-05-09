@@ -3,12 +3,12 @@ title: Prism tokens
 tagline: Prism identifies tokens in your code, which are in turn styled by CSS to produce the syntax highlighting. This page provides an overview of the standard tokens and corresponding examples.
 body_classes: language-none
 resources:
-  - https://plugins.prismjs.com/line-highlight/prism-line-highlight.css
-  - https://plugins.prismjs.com/toolbar/prism-toolbar.css
-  - https://plugins.prismjs.com/line-highlight/prism-line-highlight.js
-  - https://plugins.prismjs.com/toolbar/prism-toolbar.js
-  - https://plugins.prismjs.com/show-language/prism-show-language.js
-  - https://plugins.prismjs.com/autoloader/prism-autoloader.js
+  - plugins/line-highlight/prism-line-highlight.css
+  - plugins/toolbar/prism-toolbar.css
+  - plugins/line-highlight/prism-line-highlight.js
+  - plugins/toolbar/prism-toolbar.js
+  - plugins/show-language/prism-show-language.js
+  - plugins/autoloader/prism-autoloader.js
 ---
 
 <section>
