@@ -59,7 +59,7 @@ export default {
 		}
 
 		// We are working with plugin resources
-		ret.push(`./prism-${id}.js { type="module" }`);
+		ret.push(`./prism-${id}.js`);
 
 		if (!data.noCSS) {
 			ret.push(`./prism-${id}.css`);

@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const sourcePath = path.resolve(__dirname, "../node_modules/prismjs/src/plugins");
+const sourcePath = path.resolve(__dirname, "../node_modules/prismjs/plugins");
 const destPath = path.resolve(__dirname, "../plugins");
 
 async function copy () {

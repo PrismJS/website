@@ -5,7 +5,6 @@
 	"type": "module",
 	"scripts": {
 		"postinstall": "node _build/copy-plugins.mjs",
-		"dependencies": "npm install --prefix node_modules/prismjs",
 		"dev": "netlify dev -p 8844",
 		"serve": "npx @11ty/eleventy --config=_build/eleventy.js --serve --quiet",
 		"build:html": "npx @11ty/eleventy --config=_build/eleventy.js --quiet",
@@ -33,6 +32,6 @@
 		"prettier-plugin-brace-style": "^0.7.2",
 		"prettier-plugin-merge": "^0.7.2",
 		"prettier-plugin-space-before-function-paren": "^0.0.7",
-		"prismjs": "github:PrismJS/prism"
+		"prismjs": "github:PrismJS/prism#master"
 	}
 }

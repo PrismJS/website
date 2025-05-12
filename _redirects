@@ -2,11 +2,21 @@
 /plugins/:plugin/index.html    /plugins/:plugin/index.html                    200
 /plugins/:plugin/demo.html     /plugins/:plugin/demo.html                     200
 /plugins/:plugin/demo.js       /plugins/:plugin/demo.js                       200
-/plugins/:plugin/demo.css       /plugins/:plugin/demo.css                     200
+/plugins/:plugin/demo.css      /plugins/:plugin/demo.css                      200
+
+# Core
+prism.js                       https://dev.prismjs.com/prism.js               200
+components.js                  https://dev.prismjs.com/components.js          200
+components.json                https://dev.prismjs.com/components.json        200
+dependencies.js                https://dev.prismjs.com/dependencies.js        200
 
 # Components: languages, themes, plugins, etc.
 /components/*                  https://dev.prismjs.com/components/:splat      200
+/themes/*                      https://dev.prismjs.com/themes/:splat          200
 /plugins/:plugin/:file         https://dev.prismjs.com/plugins/:plugin/:file  301
+
+# Other
+package.json                   https://dev.prismjs.com/package.json           200
 
 # Make the autoloader plugin work
 /plugins/:plugin/components/*  https://dev.prismjs.com/components/:splat      301
