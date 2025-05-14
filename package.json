@@ -30,8 +30,8 @@
 		"markdown-it-deflist": "^3.0.0",
 		"prettier": "^3.5.3",
 		"prettier-plugin-brace-style": "^0.7.2",
-		"prettier-plugin-merge": "^0.7.2",
-		"prettier-plugin-space-before-function-paren": "^0.0.7",
+		"prettier-plugin-merge": "^0.7.3",
+		"prettier-plugin-space-before-function-paren": "^0.0.8",
 		"prismjs": "github:PrismJS/prism#master"
 	}
 }
