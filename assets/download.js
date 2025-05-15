@@ -4,10 +4,8 @@
 
 import { getFileContents, toArray } from "./util.js";
 
-let components = await (await fetch("https://dev.prismjs.com/components.json")).json();
-
-let treeURL = "https://api.github.com/repos/PrismJS/prism/git/trees/master?recursive=1";
-let tree = (await (await fetch(treeURL)).json()).tree;
+let components = await (await fetch("components.json")).json();
+let fileSizes = await (await fetch("file-sizes.json")).json();
 
 let cache = {};
 let form = document.querySelector("form");
@@ -179,11 +177,14 @@ form.elements.compression[0].onclick =
 
 getFilesSizes();
 
-function getFileSize(filepath) {
-	for (let i = 0, l = tree.length; i < l; i++) {
-		if (tree[i].path === filepath) {
-			return tree[i].size;
-		}
+function getFileSize (category, id, filepath) {
+	let type = filepath.match(/\.(css|js)$/)[1];
+	let version = /\.min\./.test(filepath) ? "minified" : "dev";
+
+	if (category === "core") {
+		return fileSizes.core.js[version];
+	} else {
+		return fileSizes[category][id][type][version];
 	}
 }
 
@@ -203,7 +204,7 @@ function getFilesSizes() {
 				let file = cache[filepath] = cache[filepath] || {};
 
 				if (!file.size) {
-					let size = getFileSize(filepath);
+					let size = getFileSize(category, id, filepath);
 					if (size) {
 						file.size = size;
 						distro.size += file.size;
@@ -469,6 +470,6 @@ function buildCode(promises) {
  * @returns {Promise<string>}
  */
 async function getVersion() {
-	let packageJSON = await getFileContents("https://dev.prismjs.com/package.json");
+	let packageJSON = await getFileContents("package.json");
 	return JSON.parse(packageJSON).version;
 }

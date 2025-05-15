@@ -67,11 +67,4 @@ export default {
 
 		return ret;
 	},
-	files_sizes (data) {
-		let ret = {};
-		for (let file of data.tree) {
-			ret[file.path] = file.size;
-		}
-		return ret;
-	},
 };
