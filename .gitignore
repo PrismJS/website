@@ -4,8 +4,13 @@ Thumbs.db
 
 # Generated files
 *.html
-api
+
+# Prism files and folders
+docs
 plugins
+components.json
+file-sizes.json
+dependencies.js
 
 # Cache
 .cache

@@ -7,8 +7,6 @@
 # Core
 prism.js                       https://dev.prismjs.com/prism.js               200
 components.js                  https://dev.prismjs.com/components.js          200
-components.json                https://dev.prismjs.com/components.json        200
-dependencies.js                https://dev.prismjs.com/dependencies.js        200
 
 # Components: languages, themes, plugins, etc.
 /components/*                  https://dev.prismjs.com/components/:splat      200

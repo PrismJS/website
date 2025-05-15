@@ -4,12 +4,14 @@ import markdownItDeflist from "markdown-it-deflist";
 import pluginTOC from "eleventy-plugin-toc";
 import * as filters from "./filters.js";
 
-import components from "../node_modules/prismjs/components.json" with { type: "json" };
+import components from "../components.json" with { type: "json" };
+import file_sizes from "../file-sizes.json" with { type: "json" };
 
 /** @param {import("@11ty/eleventy").UserConfig} config */
 export default config => {
 	let data = {
 		components,
+		file_sizes,
 		layout: "page.njk",
 		theme_switcher: true,
 		toc: true,
