@@ -13,8 +13,5 @@ components.js                  https://dev.prismjs.com/components.js          20
 /themes/*                      https://dev.prismjs.com/themes/:splat          200
 /plugins/:plugin/:file         https://dev.prismjs.com/plugins/:plugin/:file  301
 
-# Other
-package.json                   https://dev.prismjs.com/package.json           200
-
 # Make the autoloader plugin work
 /plugins/:plugin/components/*  https://dev.prismjs.com/components/:splat      301

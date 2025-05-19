@@ -470,6 +470,6 @@ function buildCode(promises) {
  * @returns {Promise<string>}
  */
 async function getVersion() {
-	let packageJSON = await getFileContents("package.json");
-	return JSON.parse(packageJSON).version;
+	let packageJSON = await (await fetch("https://dev.prismjs.com/package.json")).json();
+	return packageJSON.version;
 }
