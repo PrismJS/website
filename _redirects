@@ -1,17 +1,17 @@
 # Do not redirect
-/plugins/:plugin/index.html    /plugins/:plugin/index.html                    200
-/plugins/:plugin/demo.html     /plugins/:plugin/demo.html                     200
-/plugins/:plugin/demo.js       /plugins/:plugin/demo.js                       200
-/plugins/:plugin/demo.css      /plugins/:plugin/demo.css                      200
+/plugins/:plugin/index.html    /plugins/:plugin/index.html                       200
+/plugins/:plugin/demo.html     /plugins/:plugin/demo.html                        200
+/plugins/:plugin/demo.js       /plugins/:plugin/demo.js                          200
+/plugins/:plugin/demo.css      /plugins/:plugin/demo.css                         200
 
 # Core
-prism.js                       https://dev.prismjs.com/prism.js               200
-components.js                  https://dev.prismjs.com/components.js          200
+prism.js                       https://v1.dev.prismjs.com/prism.js               200
+components.js                  https://v1.dev.prismjs.com/components.js          200
 
 # Components: languages, themes, plugins, etc.
-/components/*                  https://dev.prismjs.com/components/:splat      200
-/themes/*                      https://dev.prismjs.com/themes/:splat          200
-/plugins/:plugin/:file         https://dev.prismjs.com/plugins/:plugin/:file  301
+/components/*                  https://v1.dev.prismjs.com/components/:splat      200
+/themes/*                      https://v1.dev.prismjs.com/themes/:splat          200
+/plugins/:plugin/:file         https://v1.dev.prismjs.com/plugins/:plugin/:file  301
 
 # Make the autoloader plugin work
-/plugins/:plugin/components/*  https://dev.prismjs.com/components/:splat      301
+/plugins/:plugin/components/*  https://v1.dev.prismjs.com/components/:splat      301
