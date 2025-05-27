@@ -1,7 +1,7 @@
 {
 	"name": "prismjs-website",
 	"version": "0.0.1",
-	"description": "The website of prismjs.com",
+	"description": "Prism website",
 	"type": "module",
 	"scripts": {
 		"postinstall": "node _build/copy-plugins.mjs",
