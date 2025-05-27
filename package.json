@@ -24,18 +24,18 @@
 	"homepage": "https://prismjs.com",
 	"license": "MIT",
 	"devDependencies": {
-		"@11ty/eleventy": "^3.0.0",
+		"@11ty/eleventy": "^3.1.0",
 		"@11ty/eleventy-fetch": "^5.0.2",
 		"eleventy-plugin-toc": "^1.1.5",
 		"markdown-it-anchor": "^9.2.0",
 		"markdown-it-attrs": "^4.3.1",
 		"markdown-it-deflist": "^3.0.0",
 		"prettier": "^3.5.3",
-		"prettier-plugin-brace-style": "^0.7.2",
-		"prettier-plugin-merge": "^0.7.2",
-		"prettier-plugin-space-before-function-paren": "^0.0.7",
+		"prettier-plugin-brace-style": "^0.7.3",
+		"prettier-plugin-merge": "^0.7.4",
+		"prettier-plugin-space-before-function-paren": "^0.0.8",
 		"prismjs": "github:PrismJS/prism#v2",
-		"typedoc": "^0.28.1",
+		"typedoc": "^0.28.5",
 		"typedoc-plugin-rename-defaults": "^0.7.3"
 	}
 }
