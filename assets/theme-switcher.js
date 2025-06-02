@@ -17,12 +17,14 @@ document.querySelectorAll("input[name=theme]").forEach(input => {
 	if (input.value === currentTheme) {
 		input.checked = true;
 		themeLink.href =
-			"https://dev.prismjs.com/" + themes.meta.path.replace(/\{id\}/g, input.value);
+			// FIXME: Remove “v2” when Prism v2 is released
+			"https://v2.dev.prismjs.com/dist/" + themes.meta.path.replace(/\{id\}/g, input.value);
 	}
 
 	input.addEventListener("change", () => {
 		let id = input.value;
-		themeLink.href = "https://dev.prismjs.com/" + themes.meta.path.replace(/\{id\}/g, id);
+		// FIXME: Remove “v2” when Prism v2 is released
+		themeLink.href = "https://v2.dev.prismjs.com/dist/" + themes.meta.path.replace(/\{id\}/g, id);
 		localStorage.setItem("theme", id);
 	});
 });
