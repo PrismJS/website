@@ -620,6 +620,6 @@ Of course, to understand which hooks to use you would have to read Prism’s sou
 
 # API documentation
 
-All public and stable parts of [Prism's API are documented here](https://prismjs.com/docs/).
+All public and stable parts of [Prism's API are documented here](api/).
 
 </section>
