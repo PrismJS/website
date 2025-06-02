@@ -1,4 +1,4 @@
-let components = await (await fetch("https://dev.prismjs.com/components.json")).json();
+let components = await (await fetch("/components.json")).json();
 let themes = components.themes;
 
 let currentTheme = (location.search.match(/theme=([\w-]+)/) ?? [])[1];
