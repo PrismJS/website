@@ -4,7 +4,7 @@
 
 import { toArray, getFileContents } from "./util.js";
 
-let components = await (await fetch("https://dev.prismjs.com/components.json")).json();
+let components = await (await fetch("/components.json")).json();
 let languages = components.languages;
 let examples = {};
 
