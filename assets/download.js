@@ -4,7 +4,8 @@
 
 import { getFileContents, toArray } from "./util.js";
 
-let components = await (await fetch("https://dev.prismjs.com/components.json")).json();
+let components = await (await fetch("/components.json")).json();
+let fileSizes = await (await fetch("/file-sizes.json")).json();
 
 // Expand shorthand entries (e.g. "core": "Core") into objects so the rest of the code can assume an object shape.
 for (let category in components) {
@@ -15,12 +16,8 @@ for (let category in components) {
 	}
 }
 
-let treeURL = "https://api.github.com/repos/PrismJS/prism/git/trees/master?recursive=1";
-let tree = (await (await fetch(treeURL)).json()).tree;
-
 let cache = {};
 let form = document.querySelector("form");
-let minified = true;
 
 let dependencies = {};
 let timerId = 0;
@@ -105,7 +102,13 @@ for (let category in components) {
 		input.checked = checked;
 		input.disabled = disabled;
 
-		let filepath = all.meta.path.replace(/\{id\}/g, id);
+		let filepath = all.meta.path;
+		if (category === "plugins") {
+			// When built, the plugins live in one directory called `plugins/`, not every plugin in its own directory
+			filepath = filepath.replace("{id}/", "");
+		}
+
+		filepath = filepath.replace(/\{id\}/g, id);
 
 		let info = all[id] = {
 			noCSS: all[id].noCSS || all.meta.noCSS,
@@ -115,15 +118,9 @@ for (let category in components) {
 			after: toArray(all[id].after),
 			modify: toArray(all[id].modify),
 			files: {
-				minified: {
-					paths: [],
-					size: 0
-				},
-				dev: {
-					paths: [],
-					size: 0
-				}
-			}
+				paths: [],
+				size: 0,
+			},
 		};
 
 		info.require.forEach(v => {
@@ -131,17 +128,11 @@ for (let category in components) {
 		});
 
 		if (!all[id].noJS && !/\.css$/.test(filepath)) {
-			info.files.minified.paths.push(filepath.replace(/(\.js)?$/, ".min.js"));
-			info.files.dev.paths.push(filepath.replace(/(\.js)?$/, ".js"));
+			info.files.paths.push(filepath.replace(/(\.js)?$/, ".js"));
 		}
 
-
 		if ((!all[id].noCSS && !/\.js$/.test(filepath)) || /\.css$/.test(filepath)) {
-			let cssFile = filepath.replace(/(\.css)?$/, ".css");
-			let minCSSFile = cssFile.replace(/(?:\.css)$/, ".min.css");
-
-			info.files.minified.paths.push(minCSSFile);
-			info.files.dev.paths.push(cssFile);
+			info.files.paths.push(filepath.replace(/(\.css)?$/, ".css"));
 		}
 
 		input.addEventListener("change", ({ target }) => {
@@ -181,20 +172,16 @@ for (let category in components) {
 	}
 }
 
-form.elements.compression[0].onclick =
-	form.elements.compression[1].onclick = function () {
-		minified = !!+this.value;
-
-		getFilesSizes();
-	};
-
 getFilesSizes();
 
-function getFileSize(filepath) {
-	for (let i = 0, l = tree.length; i < l; i++) {
-		if (tree[i].path === filepath) {
-			return tree[i].size;
-		}
+function getFileSize (category, id, filepath) {
+	let type = filepath.match(/\.(css|js)$/)[1];
+
+	if (category === "core") {
+		return fileSizes.core.js;
+	}
+	else {
+		return fileSizes[category][id]?.[type] ?? 0;
 	}
 }
 
@@ -207,14 +194,14 @@ function getFilesSizes() {
 				continue;
 			}
 
-			let distro = all[id].files[minified ? "minified" : "dev"];
+			let distro = all[id].files;
 			let files = distro.paths;
 
 			files.forEach(filepath => {
 				let file = cache[filepath] = cache[filepath] || {};
 
 				if (!file.size) {
-					let size = getFileSize(filepath);
+					let size = getFileSize(category, id, filepath);
 					if (size) {
 						file.size = size;
 						distro.size += file.size;
@@ -246,7 +233,7 @@ function update(updatedCategory, updatedId) {
 			let info = all[id];
 
 			if (info.enabled || id === updatedId) {
-				let distro = info.files[minified ? "minified" : "dev"];
+				let distro = info.files;
 
 				distro.paths.forEach(path => {
 					if (cache[path]) {
@@ -258,7 +245,8 @@ function update(updatedCategory, updatedId) {
 						if (info.enabled) {
 
 							if (!file.contentsPromise) {
-								file.contentsPromise = getFileContents("https://dev.prismjs.com/" + path);
+								// FIXME: Remove “v2” when Prism v2 is released
+								file.contentsPromise = getFileContents("https://v2.dev.prismjs.com/dist/" + path);
 							}
 
 							total[type] += size;
@@ -342,7 +330,7 @@ async function generateCode() {
 					redownload[category] = redownload[category] || [];
 					redownload[category].push(id);
 				}
-				info.files[minified ? "minified" : "dev"].paths.forEach(path => {
+				info.files.paths.forEach(path => {
 					if (cache[path]) {
 						let type = path.match(/\.(\w+)$/)[1];
 
