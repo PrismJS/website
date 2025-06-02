@@ -4,11 +4,15 @@ Thumbs.db
 
 # Generated files
 *.html
+!examples/*.html
 api
 plugins
+components.json
+file-sizes.json
 
 # Cache
 .cache
 
-# Local Netlify folder
+# Local Netlify folders and files
 .netlify
+deno.lock
