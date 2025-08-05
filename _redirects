@@ -11,7 +11,7 @@ components.js                  https://v1.dev.prismjs.com/components.js         
 # Components: languages, themes, plugins, etc.
 /components/*                  https://v1.dev.prismjs.com/components/:splat      200
 /themes/*                      https://v1.dev.prismjs.com/themes/:splat          200
-/plugins/:plugin/:file         https://v1.dev.prismjs.com/plugins/:plugin/:file  301
+/plugins/:plugin/:file         https://v1.dev.prismjs.com/plugins/:plugin/:file  200
 
 # Make the autoloader plugin work
-/plugins/:plugin/components/*  https://v1.dev.prismjs.com/components/:splat      301
+/plugins/:plugin/components/*  https://v1.dev.prismjs.com/components/:splat      200
