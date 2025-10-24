@@ -23,7 +23,7 @@ Prism is used on several websites, small and large. Some of them are:
 # Examples
 
 The Prism source, highlighted with Prism (don’t you just love how meta this is?):
-<pre data-src="https://v2.dev.prismjs.com/dist/prism.js"></pre>
+<pre data-src="https://v2.dev.prismjs.com/src/core/prism.js"></pre>
 
 This page’s CSS code, highlighted with Prism:
 
