@@ -3,9 +3,9 @@ title: Extending Prism
 tagline: Prism is awesome out of the box, but it’s even awesomer when it’s customized to your own needs. This section will help you write new language definitions, plugins and all-around Prism hacking.
 body_classes: language-javascript
 resources:
-  - plugins/line-highlight/prism-line-highlight.css
-  - plugins/line-highlight/prism-line-highlight.js
-  - plugins/autoloader/prism-autoloader.js
+  - /plugins/line-highlight.css
+  - /plugins/line-highlight.js { type="module" }
+  - /plugins/autoloader.js { type="module" }
 ---
 
 <section>
@@ -14,7 +14,7 @@ resources:
 
 Every language is defined as a set of tokens, which are expressed as [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions). For example, this is the language definition for JSON:
 
-<pre data-src="https://dev.prismjs.com/components/prism-json.js"></pre>
+<pre data-src="/languages/json.js"></pre>
 
 At its core, a language definition is just a JavaScript object, and a token is just an entry of the language definition. The simplest language definition is an empty object:
 

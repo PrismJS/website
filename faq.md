@@ -4,8 +4,8 @@ tagline: Frequently Asked Questions, with a few Questions I want people to Frequ
 back_to_top: true
 body_classes: language-none
 resources:
-  - assets/faq.js { type="module" }
-  - plugins/autoloader/prism-autoloader.js
+  - /assets/faq.js { type="module" }
+  - /plugins/autoloader.js { type="module" }
 ---
 
 <section>

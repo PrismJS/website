@@ -13,7 +13,7 @@ export default {
 
 		for (let id in languages) {
 			let ret = [id];
-			let alias = languages[id].alias;
+			let alias = Object.keys(languages[id].aliasTitles ?? {});
 			if (alias) {
 				ret = ret.concat(Array.isArray(alias) ? alias : [alias]);
 			}
@@ -52,6 +52,7 @@ export default {
 		let ret = [];
 
 		resources = Array.isArray(resources) ? resources : [resources];
+		resources = resources.map(r => r.replace(/^\/plugins\//, "/dist/plugins/"));
 		ret.push(...resources);
 
 		if (!id) {
@@ -59,10 +60,10 @@ export default {
 		}
 
 		// We are working with plugin resources
-		ret.push(`./prism-${id}.js { type="module" }`);
+		ret.push(`/dist/plugins/${id}.js { type="module" }`);
 
 		if (!data.noCSS) {
-			ret.push(`./prism-${id}.css`);
+			ret.push(`/dist/plugins/${id}.css`);
 		}
 
 		return ret;
