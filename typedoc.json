@@ -4,16 +4,16 @@
 	"json": "./api/docs.json",
 	"name": "Prism API",
 	"includeVersion": true,
-	"entryPoints": ["node_modules/prismjs/src/**/*.ts"],
+	"entryPoints": ["node_modules/prismjs/src/**/*.js"],
 	"exclude": [
-		"node_modules/prismjs/src/plugins/**/*.ts",
-		"node_modules/prismjs/src/languages/**/*.ts",
-		"node_modules/prismjs/src/known-plugins.d.ts"
+		"node_modules/prismjs/src/plugins/**/*.js",
+		"node_modules/prismjs/src/languages/**/*.js"
 	],
 	"externalPattern": ["**/node_modules/**/node_modules/**"],
 	"compilerOptions": {
 		"skipLibCheck": true,
-		"noCheck": true
+		"noCheck": true,
+		"allowJs": true
 	},
 	"markdownItOptions": {
 		"html": true,
