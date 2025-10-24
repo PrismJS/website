@@ -20,7 +20,7 @@ resources:
 	{%- endif %}
 	{% for id, component in components -%}
 		{% if id != "meta" %}
-			{%- set name = component.title or id | replace("prism-", "") | capitalize -%}
+			{%- set name = component.title or id | capitalize -%}
 			{%- if component.aliasTitles -%}
 				{% for id, title in component.aliasTitles %}
 					{%- set name = name + " + " + title -%}

@@ -35,7 +35,7 @@ if (hstr) {
 				}
 			}
 			if (category === "themes" && ids.length) {
-				let themeInput = document.querySelector(`#theme input[value="${ ids[0] }"]`);
+				let themeInput = document.querySelector(`#theme input[value="${ids[0]}"]`);
 				if (themeInput) {
 					themeInput.checked = true;
 					themeInput.dispatchEvent(new Event("change"));
@@ -71,7 +71,9 @@ for (let category in components) {
 	let all = components[category];
 
 	all.meta.section = form.querySelector(`#category-${category}`);
-	all.meta.section.querySelector(`[name="check-all-${category}"]`)?.addEventListener("change", ({ target }) => {
+	all.meta.section.querySelector(`[name="check-all-${category}"]`)?.addEventListener("change", ({
+		target,
+	}) => {
 		all.meta.section.querySelectorAll(`input[name="download-${category}"]`).forEach(input => {
 			all[input.value].enabled = input.checked = target.checked;
 		});
@@ -91,8 +93,10 @@ for (let category in components) {
 		let option = all[id].option || all.meta.option;
 
 		switch (option) {
-			case "mandatory": disabled = true; // fallthrough
-			case "default": checked = true;
+			case "mandatory":
+				disabled = true; // fallthrough
+			case "default":
+				checked = true;
 		}
 
 		if (category === "themes" && storedTheme) {
@@ -110,7 +114,7 @@ for (let category in components) {
 
 		filepath = filepath.replace(/\{id\}/g, id);
 
-		let info = all[id] = {
+		let info = (all[id] = {
 			noCSS: all[id].noCSS || all.meta.noCSS,
 			noJS: all[id].noJS || all.meta.noJS,
 			enabled: checked,
@@ -121,7 +125,7 @@ for (let category in components) {
 				paths: [],
 				size: 0,
 			},
-		};
+		});
 
 		info.require.forEach(v => {
 			dependencies[v] = (dependencies[v] || []).concat(id);
@@ -148,7 +152,8 @@ for (let category in components) {
 				});
 			}
 
-			if (dependencies[id] && !target.checked) { // It’s required by others
+			if (dependencies[id] && !target.checked) {
+				// It’s required by others
 				dependencies[id].forEach(dependent => {
 					let input = form.querySelector(`label[data-id="${dependent}"] > input`);
 					input.checked = false;
@@ -185,7 +190,7 @@ function getFileSize (category, id, filepath) {
 	}
 }
 
-function getFilesSizes() {
+function getFilesSizes () {
 	for (let category in components) {
 		let all = components[category];
 
@@ -198,7 +203,7 @@ function getFilesSizes() {
 			let files = distro.paths;
 
 			files.forEach(filepath => {
-				let file = cache[filepath] = cache[filepath] || {};
+				let file = (cache[filepath] = cache[filepath] || {});
 
 				if (!file.size) {
 					let size = getFileSize(category, id, filepath);
@@ -217,13 +222,14 @@ function getFilesSizes() {
 	}
 }
 
-function prettySize(size) {
-	return Math.round(100 * size / 1024) / 100 + "KB";
+function prettySize (size) {
+	return Math.round((100 * size) / 1024) / 100 + "KB";
 }
 
-function update(updatedCategory, updatedId) {
+function update (updatedCategory, updatedId) {
 	// Update total size
-	let total = { js: 0, css: 0 }; let updated = { js: 0, css: 0 };
+	let total = { js: 0, css: 0 };
+	let updated = { js: 0, css: 0 };
 
 	for (let category in components) {
 		let all = components[category];
@@ -243,10 +249,11 @@ function update(updatedCategory, updatedId) {
 						let size = file.size || 0;
 
 						if (info.enabled) {
-
 							if (!file.contentsPromise) {
 								// FIXME: Remove “v2” when Prism v2 is released
-								file.contentsPromise = getFileContents("https://v2.dev.prismjs.com/dist/" + path);
+								file.contentsPromise = getFileContents(
+									"https://v2.dev.prismjs.com/dist/" + path,
+								);
 							}
 
 							total[type] += size;
@@ -284,36 +291,37 @@ function update(updatedCategory, updatedId) {
 
 		Object.assign(form.querySelector(`label[data-id="${updatedId}"] .filesize`), {
 			textContent: prettySize(updated.all),
-			title: (updated.js ? Math.round(100 * updated.js / updated.all) + "% JavaScript" : "") +
+			title:
+				(updated.js ? Math.round((100 * updated.js) / updated.all) + "% JavaScript" : "") +
 				(updated.js && updated.css ? " + " : "") +
-				(updated.css ? Math.round(100 * updated.css / updated.all) + "% CSS" : "")
+				(updated.css ? Math.round((100 * updated.css) / updated.all) + "% CSS" : ""),
 		});
 	}
 
 	form.querySelector("#filesize").textContent = prettySize(total.all);
 
 	Object.assign(form.querySelector("#percent-js"), {
-		textContent: Math.round(100 * total.js / total.all) + "%",
-		title: prettySize(total.js)
+		textContent: Math.round((100 * total.js) / total.all) + "%",
+		title: prettySize(total.js),
 	});
 
 	Object.assign(form.querySelector("#percent-css"), {
-		textContent: Math.round(100 * total.css / total.all) + "%",
-		title: prettySize(total.css)
+		textContent: Math.round((100 * total.css) / total.all) + "%",
+		title: prettySize(total.css),
 	});
 
 	delayedGenerateCode();
 }
 
 // "debounce" multiple rapid requests to generate and highlight code
-function delayedGenerateCode() {
+function delayedGenerateCode () {
 	if (timerId !== 0) {
 		clearTimeout(timerId);
 	}
 	timerId = setTimeout(generateCode, 500);
 }
 
-async function generateCode() {
+async function generateCode () {
 	/** @type {CodePromiseInfo[]} */
 	let promises = [];
 	let redownload = {};
@@ -339,7 +347,7 @@ async function generateCode() {
 							id: id,
 							category: category,
 							path: path,
-							type: type
+							type: type,
 						});
 					}
 				});
@@ -380,11 +388,14 @@ async function generateCode() {
 
 		let newCode = Object.assign(document.createElement("code"), {
 			className: codeElement.className,
-			textContent: text
+			textContent: text,
 		});
 
-		Prism.highlightElement(newCode, false, () => {
-			codeElement.replaceWith(newCode);
+		Prism.highlightElement(newCode, {
+			async: false,
+			callback: () => {
+				codeElement.replaceWith(newCode);
+			},
 		});
 
 		form.querySelector(`#download-${type} .download-button`).onclick = () => {
@@ -406,7 +417,7 @@ async function generateCode() {
  * @property {string} path
  * @property {string} type
  */
-function buildCode(promises) {
+function buildCode (promises) {
 	// sort the promises
 
 	/** @type {CodePromiseInfo[]} */
@@ -417,7 +428,8 @@ function buildCode(promises) {
 	promises.forEach(p => {
 		if (p.category === "core" || p.category === "themes") {
 			finalPromises.push(p);
-		} else {
+		}
+		else {
 			let infos = toSortMap[p.id];
 			if (!infos) {
 				toSortMap[p.id] = infos = [];
@@ -427,12 +439,14 @@ function buildCode(promises) {
 	});
 
 	// this assumes that the ids in `toSortMap` are complete under transitive requirements
-	getLoader(components, Object.keys(toSortMap)).getIds().forEach(id => {
-		if (!toSortMap[id]) {
-			console.error(`${ id } not found.`);
-		}
-		finalPromises.push.apply(finalPromises, toSortMap[id]);
-	});
+	getLoader(components, Object.keys(toSortMap))
+		.getIds()
+		.forEach(id => {
+			if (!toSortMap[id]) {
+				console.error(`${id} not found.`);
+			}
+			finalPromises.push.apply(finalPromises, toSortMap[id]);
+		});
 	promises = finalPromises;
 
 	// build
@@ -445,18 +459,22 @@ function buildCode(promises) {
 		if (i < l) {
 			let p = promises[i];
 			p.contentsPromise.then(function (contents) {
-				code[p.type] += contents + (p.type === "js" && !/;\s*$/.test(contents) ? ";" : "") + "\n";
+				code[p.type] +=
+					contents + (p.type === "js" && !/;\s*$/.test(contents) ? ";" : "") + "\n";
 				i++;
 				f(resolve);
 			});
 			p.contentsPromise["catch"](function () {
-				errors.push(Object.assign(document.createElement("p"), {
-					textContent: `An error occurred while fetching the file "${ p.path }".`
-				}));
+				errors.push(
+					Object.assign(document.createElement("p"), {
+						textContent: `An error occurred while fetching the file "${p.path}".`,
+					}),
+				);
 				i++;
 				f(resolve);
 			});
-		} else {
+		}
+		else {
 			resolve({ code: code, errors: errors });
 		}
 	};
@@ -467,7 +485,7 @@ function buildCode(promises) {
 /**
  * @returns {Promise<string>}
  */
-async function getVersion() {
-	let packageJSON = await getFileContents("https://dev.prismjs.com/package.json");
+async function getVersion () {
+	let packageJSON = await getFileContents("https://v2.dev.prismjs.com/package.json");
 	return JSON.parse(packageJSON).version;
 }
