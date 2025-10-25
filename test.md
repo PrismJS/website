@@ -2,9 +2,8 @@
 title: Test drive
 tagline: Take Prism for a spin!
 resources:
-  - assets/test-drive.js
-  - plugins/autoloader/prism-autoloader.js
-  - <script> Prism.plugins.autoloader.use_minified = false; </script>
+  - /assets/test-drive.js
+  - /plugins/autoloader.js { type="module" }
 ---
 
 

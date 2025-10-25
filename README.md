@@ -23,7 +23,7 @@ Prism is used on several websites, small and large. Some of them are:
 # Examples
 
 The Prism source, highlighted with Prism (don’t you just love how meta this is?):
-<pre data-src="https://dev.prismjs.com/prism.js"></pre>
+<pre data-src="https://v2.dev.prismjs.com/src/core/prism.js"></pre>
 
 This page’s CSS code, highlighted with Prism:
 
@@ -56,7 +56,7 @@ If you’re still not sold, you can [view more examples](examples.html) or [try 
 - Highlights embedded languages (e.g. CSS inside HTML, JavaScript inside HTML).
 - Highlights inline code as well, not just code blocks.
 - It doesn’t force you to use any Prism-specific markup, not even a Prism-specific class name, only standard markup you should be using anyway. So, you can just try it for a while, remove it if you don’t like it and leave no traces behind.
-- Highlight specific lines and/or line ranges (requires [plugin](plugins/line-highlight/)).
+- Highlight specific lines and/or line ranges (requires [plugin](plugins/line-highlight/index.html)).
 - Show invisible characters like tabs, line breaks etc (requires [plugin](plugins/show-invisibles/)).
 - Autolink URLs and emails, use Markdown links in comments (requires [plugin](plugins/autolinker/)).
 
@@ -221,7 +221,7 @@ This is the list of all {{ languages | length }} languages currently supported b
 <ul id="languages-list">
 	{% for id, language in languages -%}
 	<li data-id="{{ id }}">
-		{{ language.title }}&nbsp;— 
+		{{ language.title }}&nbsp;—
 		{%- for alias in language.alias -%}
 			<code>{{ alias }}</code>{{ ", " if not loop.last }}
 		{%- endfor %}

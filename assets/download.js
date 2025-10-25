@@ -4,14 +4,11 @@
 
 import { getFileContents, toArray } from "./util.js";
 
-let components = await (await fetch("https://dev.prismjs.com/components.json")).json();
-
-let treeURL = "https://api.github.com/repos/PrismJS/prism/git/trees/master?recursive=1";
-let tree = (await (await fetch(treeURL)).json()).tree;
+let components = await (await fetch("/components.json")).json();
+let fileSizes = await (await fetch("/file-sizes.json")).json();
 
 let cache = {};
 let form = document.querySelector("form");
-let minified = true;
 
 let dependencies = {};
 let timerId = 0;
@@ -30,7 +27,7 @@ if (hstr) {
 				}
 			}
 			if (category === "themes" && ids.length) {
-				let themeInput = document.querySelector(`#theme input[value="${ ids[0] }"]`);
+				let themeInput = document.querySelector(`#theme input[value="${ids[0]}"]`);
 				if (themeInput) {
 					themeInput.checked = true;
 					themeInput.dispatchEvent(new Event("change"));
@@ -63,7 +60,9 @@ for (let category in components) {
 	let all = components[category];
 
 	all.meta.section = form.querySelector(`#category-${category}`);
-	all.meta.section.querySelector(`[name="check-all-${category}"]`)?.addEventListener("change", ({ target }) => {
+	all.meta.section.querySelector(`[name="check-all-${category}"]`)?.addEventListener("change", ({
+		target,
+	}) => {
 		all.meta.section.querySelectorAll(`input[name="download-${category}"]`).forEach(input => {
 			all[input.value].enabled = input.checked = target.checked;
 		});
@@ -83,8 +82,10 @@ for (let category in components) {
 		let option = all[id].option || all.meta.option;
 
 		switch (option) {
-			case "mandatory": disabled = true; // fallthrough
-			case "default": checked = true;
+			case "mandatory":
+				disabled = true; // fallthrough
+			case "default":
+				checked = true;
 		}
 
 		if (category === "themes" && storedTheme) {
@@ -94,9 +95,15 @@ for (let category in components) {
 		input.checked = checked;
 		input.disabled = disabled;
 
-		let filepath = all.meta.path.replace(/\{id\}/g, id);
+		let filepath = all.meta.path;
+		if (category === "plugins") {
+			// When built, the plugins live in one directory called `plugins/`, not every plugin in its own directory
+			filepath = filepath.replace("{id}/", "");
+		}
 
-		let info = all[id] = {
+		filepath = filepath.replace(/\{id\}/g, id);
+
+		let info = (all[id] = {
 			noCSS: all[id].noCSS || all.meta.noCSS,
 			noJS: all[id].noJS || all.meta.noJS,
 			enabled: checked,
@@ -104,33 +111,21 @@ for (let category in components) {
 			after: toArray(all[id].after),
 			modify: toArray(all[id].modify),
 			files: {
-				minified: {
-					paths: [],
-					size: 0
-				},
-				dev: {
-					paths: [],
-					size: 0
-				}
-			}
-		};
+				paths: [],
+				size: 0,
+			},
+		});
 
 		info.require.forEach(v => {
 			dependencies[v] = (dependencies[v] || []).concat(id);
 		});
 
 		if (!all[id].noJS && !/\.css$/.test(filepath)) {
-			info.files.minified.paths.push(filepath.replace(/(\.js)?$/, ".min.js"));
-			info.files.dev.paths.push(filepath.replace(/(\.js)?$/, ".js"));
+			info.files.paths.push(filepath.replace(/(\.js)?$/, ".js"));
 		}
 
-
 		if ((!all[id].noCSS && !/\.js$/.test(filepath)) || /\.css$/.test(filepath)) {
-			let cssFile = filepath.replace(/(\.css)?$/, ".css");
-			let minCSSFile = cssFile.replace(/(?:\.css)$/, ".min.css");
-
-			info.files.minified.paths.push(minCSSFile);
-			info.files.dev.paths.push(cssFile);
+			info.files.paths.push(filepath.replace(/(\.css)?$/, ".css"));
 		}
 
 		input.addEventListener("change", ({ target }) => {
@@ -146,7 +141,8 @@ for (let category in components) {
 				});
 			}
 
-			if (dependencies[id] && !target.checked) { // It’s required by others
+			if (dependencies[id] && !target.checked) {
+				// It’s required by others
 				dependencies[id].forEach(dependent => {
 					let input = form.querySelector(`label[data-id="${dependent}"] > input`);
 					input.checked = false;
@@ -170,24 +166,20 @@ for (let category in components) {
 	}
 }
 
-form.elements.compression[0].onclick =
-	form.elements.compression[1].onclick = function () {
-		minified = !!+this.value;
-
-		getFilesSizes();
-	};
-
 getFilesSizes();
 
-function getFileSize(filepath) {
-	for (let i = 0, l = tree.length; i < l; i++) {
-		if (tree[i].path === filepath) {
-			return tree[i].size;
-		}
+function getFileSize (category, id, filepath) {
+	let type = filepath.match(/\.(css|js)$/)[1];
+
+	if (category === "core") {
+		return fileSizes.core.js;
+	}
+	else {
+		return fileSizes[category][id]?.[type] ?? 0;
 	}
 }
 
-function getFilesSizes() {
+function getFilesSizes () {
 	for (let category in components) {
 		let all = components[category];
 
@@ -196,14 +188,14 @@ function getFilesSizes() {
 				continue;
 			}
 
-			let distro = all[id].files[minified ? "minified" : "dev"];
+			let distro = all[id].files;
 			let files = distro.paths;
 
 			files.forEach(filepath => {
-				let file = cache[filepath] = cache[filepath] || {};
+				let file = (cache[filepath] = cache[filepath] || {});
 
 				if (!file.size) {
-					let size = getFileSize(filepath);
+					let size = getFileSize(category, id, filepath);
 					if (size) {
 						file.size = size;
 						distro.size += file.size;
@@ -219,13 +211,14 @@ function getFilesSizes() {
 	}
 }
 
-function prettySize(size) {
-	return Math.round(100 * size / 1024) / 100 + "KB";
+function prettySize (size) {
+	return Math.round((100 * size) / 1024) / 100 + "KB";
 }
 
-function update(updatedCategory, updatedId) {
+function update (updatedCategory, updatedId) {
 	// Update total size
-	let total = { js: 0, css: 0 }; let updated = { js: 0, css: 0 };
+	let total = { js: 0, css: 0 };
+	let updated = { js: 0, css: 0 };
 
 	for (let category in components) {
 		let all = components[category];
@@ -235,7 +228,7 @@ function update(updatedCategory, updatedId) {
 			let info = all[id];
 
 			if (info.enabled || id === updatedId) {
-				let distro = info.files[minified ? "minified" : "dev"];
+				let distro = info.files;
 
 				distro.paths.forEach(path => {
 					if (cache[path]) {
@@ -245,9 +238,11 @@ function update(updatedCategory, updatedId) {
 						let size = file.size || 0;
 
 						if (info.enabled) {
-
 							if (!file.contentsPromise) {
-								file.contentsPromise = getFileContents("https://dev.prismjs.com/" + path);
+								// FIXME: Remove “v2” when Prism v2 is released
+								file.contentsPromise = getFileContents(
+									"https://v2.dev.prismjs.com/dist/" + path,
+								);
 							}
 
 							total[type] += size;
@@ -285,36 +280,37 @@ function update(updatedCategory, updatedId) {
 
 		Object.assign(form.querySelector(`label[data-id="${updatedId}"] .filesize`), {
 			textContent: prettySize(updated.all),
-			title: (updated.js ? Math.round(100 * updated.js / updated.all) + "% JavaScript" : "") +
+			title:
+				(updated.js ? Math.round((100 * updated.js) / updated.all) + "% JavaScript" : "") +
 				(updated.js && updated.css ? " + " : "") +
-				(updated.css ? Math.round(100 * updated.css / updated.all) + "% CSS" : "")
+				(updated.css ? Math.round((100 * updated.css) / updated.all) + "% CSS" : ""),
 		});
 	}
 
 	form.querySelector("#filesize").textContent = prettySize(total.all);
 
 	Object.assign(form.querySelector("#percent-js"), {
-		textContent: Math.round(100 * total.js / total.all) + "%",
-		title: prettySize(total.js)
+		textContent: Math.round((100 * total.js) / total.all) + "%",
+		title: prettySize(total.js),
 	});
 
 	Object.assign(form.querySelector("#percent-css"), {
-		textContent: Math.round(100 * total.css / total.all) + "%",
-		title: prettySize(total.css)
+		textContent: Math.round((100 * total.css) / total.all) + "%",
+		title: prettySize(total.css),
 	});
 
 	delayedGenerateCode();
 }
 
 // "debounce" multiple rapid requests to generate and highlight code
-function delayedGenerateCode() {
+function delayedGenerateCode () {
 	if (timerId !== 0) {
 		clearTimeout(timerId);
 	}
 	timerId = setTimeout(generateCode, 500);
 }
 
-async function generateCode() {
+async function generateCode () {
 	/** @type {CodePromiseInfo[]} */
 	let promises = [];
 	let redownload = {};
@@ -331,7 +327,7 @@ async function generateCode() {
 					redownload[category] = redownload[category] || [];
 					redownload[category].push(id);
 				}
-				info.files[minified ? "minified" : "dev"].paths.forEach(path => {
+				info.files.paths.forEach(path => {
 					if (cache[path]) {
 						let type = path.match(/\.(\w+)$/)[1];
 
@@ -340,7 +336,7 @@ async function generateCode() {
 							id: id,
 							category: category,
 							path: path,
-							type: type
+							type: type,
 						});
 					}
 				});
@@ -381,11 +377,14 @@ async function generateCode() {
 
 		let newCode = Object.assign(document.createElement("code"), {
 			className: codeElement.className,
-			textContent: text
+			textContent: text,
 		});
 
-		Prism.highlightElement(newCode, false, () => {
-			codeElement.replaceWith(newCode);
+		Prism.highlightElement(newCode, {
+			async: false,
+			callback: () => {
+				codeElement.replaceWith(newCode);
+			},
 		});
 
 		form.querySelector(`#download-${type} .download-button`).onclick = () => {
@@ -407,7 +406,7 @@ async function generateCode() {
  * @property {string} path
  * @property {string} type
  */
-function buildCode(promises) {
+function buildCode (promises) {
 	// sort the promises
 
 	/** @type {CodePromiseInfo[]} */
@@ -418,7 +417,8 @@ function buildCode(promises) {
 	promises.forEach(p => {
 		if (p.category === "core" || p.category === "themes") {
 			finalPromises.push(p);
-		} else {
+		}
+		else {
 			let infos = toSortMap[p.id];
 			if (!infos) {
 				toSortMap[p.id] = infos = [];
@@ -428,12 +428,14 @@ function buildCode(promises) {
 	});
 
 	// this assumes that the ids in `toSortMap` are complete under transitive requirements
-	getLoader(components, Object.keys(toSortMap)).getIds().forEach(id => {
-		if (!toSortMap[id]) {
-			console.error(`${ id } not found.`);
-		}
-		finalPromises.push.apply(finalPromises, toSortMap[id]);
-	});
+	getLoader(components, Object.keys(toSortMap))
+		.getIds()
+		.forEach(id => {
+			if (!toSortMap[id]) {
+				console.error(`${id} not found.`);
+			}
+			finalPromises.push.apply(finalPromises, toSortMap[id]);
+		});
 	promises = finalPromises;
 
 	// build
@@ -446,18 +448,22 @@ function buildCode(promises) {
 		if (i < l) {
 			let p = promises[i];
 			p.contentsPromise.then(function (contents) {
-				code[p.type] += contents + (p.type === "js" && !/;\s*$/.test(contents) ? ";" : "") + "\n";
+				code[p.type] +=
+					contents + (p.type === "js" && !/;\s*$/.test(contents) ? ";" : "") + "\n";
 				i++;
 				f(resolve);
 			});
 			p.contentsPromise["catch"](function () {
-				errors.push(Object.assign(document.createElement("p"), {
-					textContent: `An error occurred while fetching the file "${ p.path }".`
-				}));
+				errors.push(
+					Object.assign(document.createElement("p"), {
+						textContent: `An error occurred while fetching the file "${p.path}".`,
+					}),
+				);
 				i++;
 				f(resolve);
 			});
-		} else {
+		}
+		else {
 			resolve({ code: code, errors: errors });
 		}
 	};
@@ -468,7 +474,7 @@ function buildCode(promises) {
 /**
  * @returns {Promise<string>}
  */
-async function getVersion() {
-	let packageJSON = await getFileContents("https://dev.prismjs.com/package.json");
+async function getVersion () {
+	let packageJSON = await getFileContents("https://v2.dev.prismjs.com/package.json");
 	return JSON.parse(packageJSON).version;
 }

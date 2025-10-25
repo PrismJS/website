@@ -14,7 +14,7 @@
 	<meta charset="utf-8" />
 	<link rel="icon" href="{{ base_url }}/assets/logo.svg" />
 	<link rel="stylesheet" href="{{ base_url }}/assets/style.css" />
-	<link rel="stylesheet" href="https://dev.prismjs.com/themes/prism.css" />
+	<link rel="stylesheet" href="/themes/prism.css" />
 	<script>var _gaq = [["_setAccount", "UA-33746269-1"], ["_trackPageview"]];</script>
 	<script src="https://www.google-analytics.com/ga.js" async></script>
 
@@ -89,7 +89,8 @@
 		</nav>
 	</footer>
 
-	<script src="https://dev.prismjs.com/prism.js"></script>
+	<script src="https://v2.dev.prismjs.com/dist/prism.js"></script>
+	<script src="/plugins/file-highlight.js" type="module"></script>
 	{% if theme_switcher -%}
 	<script src="{{ base_url }}/assets/theme-switcher.js" type="module"></script>
 	{%- endif %}

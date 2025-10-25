@@ -1,0 +1,22 @@
+---
+permalink: _redirects
+layout: null
+eleventyExcludeFromCollections: true
+---
+
+# Themes and languages
+/themes/:file                  https://v2.dev.prismjs.com/dist/themes/:file                   301
+/languages/:file               https://v2.dev.prismjs.com/dist/languages/:file                301
+
+# Plugins
+{% for plugin in collections.plugin -%}
+{%- set id = plugin.data.id -%}
+/plugins/{{ id }}.js   https://v2.dev.prismjs.com/dist/plugins/{{ id }}.js   301
+/plugins/{{ id }}/{{ id }}.js   https://v2.dev.prismjs.com/src/plugins/{{ id }}/{{ id }}.js   301
+{% if not meta.noCSS -%}
+/plugins/{{ id }}.css   https://v2.dev.prismjs.com/dist/plugins/{{ id }}.css   301
+/plugins/{{ id }}/{{ id }}.css   https://v2.dev.prismjs.com/src/plugins/{{ id }}/{{ id }}.css   301
+{% endif -%}
+{% endfor -%}
+/plugins/:plugin/demo.js       https://v2.dev.prismjs.com/dist/plugins/:plugin/demo.js        301
+/plugins/:plugin/demo.css       https://v2.dev.prismjs.com/dist/plugins/:plugin/demo.css        301

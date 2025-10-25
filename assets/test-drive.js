@@ -100,7 +100,7 @@ function highlightCode () {
 		className: code.className,
 	});
 
-	Prism.highlightElement(newCode);
+	globalThis.Prism?.highlightElement(newCode);
 
 	code.replaceWith(newCode);
 	code = newCode;
