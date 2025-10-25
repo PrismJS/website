@@ -1,4 +1,0 @@
-# Components: languages, themes, plugins, etc.
-/themes/:file                  https://v2.dev.prismjs.com/dist/themes/:file         301
-/languages/:file               https://v2.dev.prismjs.com/dist/languages/:file      301
-/dist/plugins/:file            https://v2.dev.prismjs.com/dist/plugins/:file        301

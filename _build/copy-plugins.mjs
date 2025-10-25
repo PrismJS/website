@@ -27,9 +27,8 @@ async function copy () {
 				continue;
 			}
 
-			let name = path.parse(file.name).name;
-			// Copy only the README.md and demo.* files
-			if (["README", "demo"].includes(name)) {
+			let filename = path.parse(file.name).base;
+			if (["README.md", "demo.md"].includes(filename)) {
 				await fs.copyFile(path.join(source, file.name), path.join(dest, file.name));
 			}
 		}

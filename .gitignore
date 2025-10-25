@@ -9,6 +9,7 @@ api
 plugins
 components.json
 file-sizes.json
+_redirects
 
 # Cache
 .cache
