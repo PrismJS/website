@@ -14,8 +14,7 @@ let sourcePath, destPath;
 console.log("[postinstall] Cloning Prism...");
 // Ensure we work with a fresh copy
 await fs.rm(prismPath, { recursive: true, force: true });
-// FIXME: Remove “--branch v2” when Prism v2 is released to fallback to the default branch
-execSync("git clone --branch v2 https://github.com/PrismJS/prism.git prismjs", {
+execSync("git clone https://github.com/PrismJS/prism.git prismjs", {
 	cwd: root,
 	stdio: "inherit",
 });
@@ -56,9 +55,8 @@ async function copy () {
 				continue;
 			}
 
-			let name = path.parse(file.name).name;
-			// Copy only the README.md and demo.* files
-			if (["README", "demo"].includes(name)) {
+			let filename = path.parse(file.name).base;
+			if (["README.md", "demo.md"].includes(filename)) {
 				await fs.copyFile(path.join(source, file.name), path.join(dest, file.name));
 			}
 		}
