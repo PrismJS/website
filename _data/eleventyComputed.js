@@ -52,7 +52,6 @@ export default {
 		let ret = [];
 
 		resources = Array.isArray(resources) ? resources : [resources];
-		resources = resources.map(r => r.replace(/^\/plugins\//, "/dist/plugins/"));
 		ret.push(...resources);
 
 		if (!id) {
@@ -60,10 +59,10 @@ export default {
 		}
 
 		// We are working with plugin resources
-		ret.push(`/dist/plugins/${id}.js { type="module" }`);
+		ret.push(`/plugins/${id}.js { type="module" }`);
 
 		if (!data.noCSS) {
-			ret.push(`/dist/plugins/${id}.css`);
+			ret.push(`/plugins/${id}.css`);
 		}
 
 		return ret;
