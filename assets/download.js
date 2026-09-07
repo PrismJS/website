@@ -7,6 +7,15 @@ import { getFileContents, toArray } from "./util.js";
 let components = await (await fetch("components.json")).json();
 let fileSizes = await (await fetch("file-sizes.json")).json();
 
+// Expand shorthand entries (e.g. "core": "Core") into objects so the rest of the code can assume an object shape.
+for (let category in components) {
+	for (let id in components[category]) {
+		if (id !== "meta" && typeof components[category][id] === "string") {
+			components[category][id] = { title: components[category][id] };
+		}
+	}
+}
+
 let cache = {};
 let form = document.querySelector("form");
 let minified = true;
