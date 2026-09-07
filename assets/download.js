@@ -22,7 +22,6 @@ let minified = true;
 
 let dependencies = {};
 let timerId = 0;
-let storedTheme = localStorage.getItem("theme");
 
 let hstr = location.hash.match(/(?:languages|plugins)=[-+\w]+|themes=[-\w]+/g);
 if (hstr) {
@@ -65,6 +64,9 @@ if (qstr && !hstr) {
 	location.hash = location.search.replace(/^\?/, "");
 	location.search = "";
 }
+
+// Read after hash processing above, so a theme requested in the URL takes priority over a previously stored one.
+let storedTheme = localStorage.getItem("theme");
 
 for (let category in components) {
 	let all = components[category];
