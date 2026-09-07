@@ -6,6 +6,15 @@ import { getFileContents, toArray } from "./util.js";
 
 let components = await (await fetch("https://dev.prismjs.com/components.json")).json();
 
+// Expand shorthand entries (e.g. "core": "Core") into objects so the rest of the code can assume an object shape.
+for (let category in components) {
+	for (let id in components[category]) {
+		if (id !== "meta" && typeof components[category][id] === "string") {
+			components[category][id] = { title: components[category][id] };
+		}
+	}
+}
+
 let treeURL = "https://api.github.com/repos/PrismJS/prism/git/trees/master?recursive=1";
 let tree = (await (await fetch(treeURL)).json()).tree;
 
