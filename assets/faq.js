@@ -19,9 +19,10 @@ function printTokens (grammar) {
 
 	let languageMap = new Map();
 	let languages = [...languageSelect.options].map(o => o.value);
-	Object.keys(Prism.languages)
+	Prism.components.entries
+		.keys()
 		.filter(l => languages.includes(l))
-		.forEach(l => languageMap.set(Prism.languages[l], `Prism.languages["${l}"]`));
+		.forEach(l => languageMap.set(Prism.components.getLanguage(l), `Prism.languages["${l}"]`));
 
 	let stack = new Map();
 
@@ -70,25 +71,25 @@ function printTokens (grammar) {
 let loadedLanguages = {};
 function showTokens () {
 	let language = languageSelect.value;
-	if (Prism.languages[language]) {
-		tokensOutput.textContent = printTokens(Prism.languages[language]);
+	if (Prism.components.has(language)) {
+		tokensOutput.textContent = printTokens(Prism.components.getLanguage(language));
 	}
 	else if (language in loadedLanguages) {
 		tokensOutput.textContent = `"${language}" doesn't have any tokens.`;
 	}
 	else {
 		// load grammar
-		Prism.plugins.autoloader.loadLanguages(
-			[language],
-			function () {
+		Prism.plugins.autoloader
+			.loadLanguages(language)
+			.then(() => {
 				loadedLanguages[language] = true;
 				showTokens();
-			},
-			function () {
+			})
+			.catch(() => {
 				tokensOutput.textContent = `Unable to load "${language}"`;
-			},
-		);
+			});
 	}
 }
 
-showTokens();
+// Give Prism a chance to load
+setTimeout(showTokens, 100);

@@ -4,11 +4,12 @@
 
 import { toArray, getFileContents } from "./util.js";
 
-let components = await (await fetch("https://dev.prismjs.com/components.json")).json();
+let components = await (await fetch("/components.json")).json();
 let languages = components.languages;
 let examples = {};
 
-let treeURL = "https://api.github.com/repos/PrismJS/website/git/trees/main?recursive=1";
+// FIXME: Switch to the main branch when the Prism v2 is released
+let treeURL = "https://api.github.com/repos/PrismJS/website/git/trees/v2?recursive=1";
 let tree = (await (await fetch(treeURL)).json()).tree;
 
 async function fileExists (filepath) {
@@ -33,22 +34,21 @@ async function fileExists (filepath) {
 
 function buildContentsHeader (id) {
 	let language = languages[id];
-	let header = `<h1>${ language.title }</h1>`;
-	if (language.alias) {
-		let alias = toArray(language.alias);
+	let header = `<h1>${language.title}</h1>`;
+	if (language.aliasTitles) {
+		let alias = Object.keys(language.aliasTitles);
 		header += "<p>To use this language, use one of the following classes:</p>";
-		header += `<ul><li><code class="language-none">"language-${ id }"</code></li>`;
+		header += `<ul><li><code class="language-none">"language-${id}"</code></li>`;
 		alias.forEach(alias => {
-			header += `<li><code class="language-none">"language-${ alias }"</code></li>`;
+			header += `<li><code class="language-none">"language-${alias}"</code></li>`;
 		});
 		header += "</ul>";
 	}
 	else {
-		header +=
-			`<p>To use this language, use the class <code class="language-none">"language-${ id }"</code>.</p>`;
+		header += `<p>To use this language, use the class <code class="language-none">"language-${id}"</code>.</p>`;
 	}
 	function wrapCode (text) {
-		return `<code class="language-none">${ text }</code>`;
+		return `<code class="language-none">${text}</code>`;
 	}
 	let deps = [];
 	if (language.require) {
@@ -65,13 +65,13 @@ function buildContentsHeader (id) {
 		header += `<a href="extending.html#dependencies"><strong>Dependencies:</strong></a>`;
 		header += " This component";
 		if (deps.length === 1) {
-			header += ` ${ deps[0] }.`;
+			header += ` ${deps[0]}.`;
 		}
 		else {
 			header += ":";
 			header += "<ul>";
 			deps.forEach(text => {
-				header += `<li>${ text }.</li>`;
+				header += `<li>${text}.</li>`;
 			});
 			header += "</ul>";
 		}
@@ -100,7 +100,7 @@ async function update (id) {
 			},
 		);
 
-		Prism.highlightAllUnder(container);
+		Prism.highlightAll({ root: container });
 	}
 	else {
 		examples[id].innerHTML = "";
@@ -110,17 +110,19 @@ async function update (id) {
 let languagesSection = document.querySelector("#languages");
 let examplesSection = document.querySelector("#examples");
 
-let res = await Promise.all(Object.keys(languages)
-	.filter(id => id !== "meta")
-	.map(async id => {
-		let language = languages[id];
+let res = await Promise.all(
+	Object.keys(languages)
+		.filter(id => id !== "meta")
+		.map(async id => {
+			let language = languages[id];
 
-		language.enabled = language.option === "default";
-		language.path = languages.meta.path.replace(/\{id\}/g, id) + ".js";
-		language.examplesPath = languages.meta.examplesPath.replace(/\{id\}/g, id) + ".html";
-		let exists = await fileExists(language.examplesPath);
-		return { id, exists };
-	}));
+			language.enabled = language.option === "default";
+			language.path = languages.meta.path.replace(/\{id\}/g, id) + ".js";
+			language.examplesPath = languages.meta.examplesPath.replace(/\{id\}/g, id) + ".html";
+			let exists = await fileExists(language.examplesPath);
+			return { id, exists };
+		}),
+);
 
 res.forEach(async ({ id, exists }) => {
 	let language = languages[id];

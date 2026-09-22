@@ -13,7 +13,7 @@ export default {
 
 		for (let id in languages) {
 			let ret = [id];
-			let alias = languages[id].alias;
+			let alias = Object.keys(languages[id].aliasTitles ?? {});
 			if (alias) {
 				ret = ret.concat(Array.isArray(alias) ? alias : [alias]);
 			}
@@ -59,19 +59,12 @@ export default {
 		}
 
 		// We are working with plugin resources
-		ret.push(`./prism-${id}.js { type="module" }`);
+		ret.push(`/plugins/${id}.js { type="module" }`);
 
 		if (!data.noCSS) {
-			ret.push(`./prism-${id}.css`);
+			ret.push(`/plugins/${id}.css`);
 		}
 
-		return ret;
-	},
-	files_sizes (data) {
-		let ret = {};
-		for (let file of data.tree) {
-			ret[file.path] = file.size;
-		}
 		return ret;
 	},
 };

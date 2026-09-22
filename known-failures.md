@@ -2,10 +2,10 @@
 tagline: A list of rare edge cases where Prism highlights code incorrectly.
 back_to_top: true
 body_classes: language-none
-resources: plugins/autoloader/prism-autoloader.js
+resources: /plugins/autoloader.js { type="module" }
 ---
 
-There are certain edge cases where Prism will fail. There are always such cases in every regex-based syntax highlighter.  
+There are certain edge cases where Prism will fail. There are always such cases in every regex-based syntax highlighter.
 However, Prism dares to be open and honest about them. If a failure is listed here, it doesn’t mean it will never be fixed. This is more of a “known bugs” list, just with a certain type of bug.
 
 <section class="language-applescript">

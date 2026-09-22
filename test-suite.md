@@ -2,7 +2,7 @@
 title: Running the test suite
 tagline: Prism has a test suite, that ensures that the correct tokens are matched.
 body_classes: language-javascript
-resources: https://dev.prismjs.com/components/prism-bash.js
+resources: /languages/bash.js { type="module" }
 ---
 
 <section>
@@ -88,8 +88,8 @@ You can use all conventions as a prefix, so `string_interpolation_feature_inline
 A test case file is built up of two or three sections separated by ten or more dashes `-` starting at the begin of the line. The sections are the following:
 
 1. Your language snippet. The code you want to tokenize using Prism. (**required**)
-2. The simplified token stream you expect. Needs to be valid JSON. (_optional_)  
-   The test runner will automatically insert this if not present. **Carefully check** that the inserted token stream is what you expected.  
+2. The simplified token stream you expect. Needs to be valid JSON. (_optional_)
+   The test runner will automatically insert this if not present. **Carefully check** that the inserted token stream is what you expected.
    If the test case fails because the JSON is present but incorrect, then you can use the [`--update` flag](#updating-tests) to overwrite it.
 3. A brief comment explaining the test case. (_optional_)
 
