@@ -1,8 +1,8 @@
 ---
 tagline: "The examples in this page serve a dual purpose: They act as unit tests, making it easy to spot bugs, and at the same time demonstrate what Prism can do, on simple and on edge cases."
 resources:
-  - /assets/examples.js { type="module" }
-  - /plugins/autoloader.js { type="module" }
+    - /assets/examples.js { type="module" }
+    - /plugins/autoloader.js { type="module" }
 ---
 
 <section class="language-markup">
@@ -63,7 +63,7 @@ Should not be highlighted.
 # Per language examples
 
 <div id="languages">
-	{% for id, language in languages -%}
+	{% for id, language in prism.languages -%}
 	<label data-id="{{ id }}">
 		<input type="checkbox" name="language" value="{{ id }}" {{ "checked" if language.option == "default" }} /> {{ language.title }}
 	</label>
@@ -72,7 +72,7 @@ Should not be highlighted.
 </section>
 
 <section id="examples">
-{% for id, language in languages -%}
+{% for id, language in prism.languages -%}
 	<section id="language-{{ id }}" class="language-{{ id }}"></section>
 {% endfor %}
 </section>

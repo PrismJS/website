@@ -2,6 +2,7 @@
  * Manage downloads
  */
 
+import Prism from "./prism.js";
 import { getFileContents, toArray } from "./util.js";
 
 let components = await (await fetch("/components.json")).json();
@@ -486,6 +487,7 @@ function buildCode (promises) {
  * @returns {Promise<string>}
  */
 async function getVersion () {
+	// FIXME: Drop “v2” from the host when Prism v2 is released
 	let packageJSON = await getFileContents("https://v2.dev.prismjs.com/package.json");
 	return JSON.parse(packageJSON).version;
 }

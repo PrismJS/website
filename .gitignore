@@ -3,13 +3,8 @@ node_modules
 Thumbs.db
 
 # Generated files
-*.html
-!examples/*.html
-api
-plugins
-components.json
-file-sizes.json
-_redirects
+.prism
+_site
 
 # Cache
 .cache
