@@ -2,6 +2,7 @@
  * Show tokens for a language on the FAQ page
  */
 
+import Prism from "./prism.js";
 import { toArray } from "./util.js";
 
 let languageSelect = document.querySelector("#language-select");
@@ -9,7 +10,12 @@ languageSelect.addEventListener("change", showTokens);
 
 let tokensOutput = document.querySelector("#print-tokens-output");
 
-function printTokens (grammar) {
+// Prism.languages holds language definitions; the tokens live in the grammar they resolve to
+function grammar (id) {
+	return Prism.languageRegistry.getLanguage(id).resolvedGrammar;
+}
+
+function printTokens (root) {
 	let lines = [];
 	function log (line) {
 		if (!lines.includes(line)) {
@@ -19,14 +25,18 @@ function printTokens (grammar) {
 
 	let languageMap = new Map();
 	let languages = [...languageSelect.options].map(o => o.value);
-	Prism.components.entries
-		.keys()
+	Object.keys(Prism.languages)
 		.filter(l => languages.includes(l))
-		.forEach(l => languageMap.set(Prism.components.getLanguage(l), `Prism.languages["${l}"]`));
+		.forEach(l => languageMap.set(grammar(l), `Prism.languages["${l}"]`));
 
 	let stack = new Map();
 
 	function inner (g, prefix) {
+		// v2 can name the grammar by language id, as in `inside: "xml"`
+		if (typeof g === "string") {
+			log(`${prefix} > ...Prism.languages["${g}"]`);
+			return;
+		}
 		if (prefix && languageMap.has(g)) {
 			log(prefix + " > ..." + languageMap.get(g));
 			return;
@@ -40,11 +50,12 @@ function printTokens (grammar) {
 
 		for (let name in g) {
 			let element = g[name];
-			if (name === "rest") {
+			if (name === "$rest") {
 				inner(element, (prefix ? prefix + " > " : "") + ":rest:");
 			}
-			else {
-				for (let a = toArray(element), i = 0, token; (token = a[i++]); ) {
+			// Other special keys, like `$inner`, aren't tokens
+			else if (!name.startsWith("$")) {
+				for (let a = toArray(element), i = 0, token; (token = a[i++]);) {
 					let line =
 						(prefix ? prefix + " > " : "") +
 						name +
@@ -63,7 +74,7 @@ function printTokens (grammar) {
 
 		stack.delete(g);
 	}
-	inner(grammar, "");
+	inner(root, "");
 
 	return lines.join("\n");
 }
@@ -71,16 +82,15 @@ function printTokens (grammar) {
 let loadedLanguages = {};
 function showTokens () {
 	let language = languageSelect.value;
-	if (Prism.components.has(language)) {
-		tokensOutput.textContent = printTokens(Prism.components.getLanguage(language));
+	if (Prism.languageRegistry.has(language)) {
+		tokensOutput.textContent = printTokens(grammar(language));
 	}
 	else if (language in loadedLanguages) {
 		tokensOutput.textContent = `"${language}" doesn't have any tokens.`;
 	}
 	else {
 		// load grammar
-		Prism.plugins.autoloader
-			.loadLanguages(language)
+		Prism.loadLanguage(language)
 			.then(() => {
 				loadedLanguages[language] = true;
 				showTokens();
@@ -91,5 +101,4 @@ function showTokens () {
 	}
 }
 
-// Give Prism a chance to load
-setTimeout(showTokens, 100);
+showTokens();
