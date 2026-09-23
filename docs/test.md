@@ -2,10 +2,9 @@
 title: Test drive
 tagline: Take Prism for a spin!
 resources:
-  - /assets/test-drive.js
-  - /plugins/autoloader.js { type="module" }
+    - /assets/test-drive.js { type="module" }
+    - /plugins/autoloader.js { type="module" }
 ---
-
 
 <section>
 	<form>
@@ -26,7 +25,7 @@ resources:
 		</div>
 		<p id="language">
 			<strong>Language:</strong>
-			{% for id, language in languages -%}
+			{% for id, language in prism.languages -%}
 			<label data-id="{{ id }}">
 				<input type="radio" name="language" value="{{ id }}" /> {{ language.title }}
 			</label>

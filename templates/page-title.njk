@@ -1,0 +1,9 @@
+{# The page's title and lede. A plugin README carries both in its front matter,
+   as `title` and `description`. #}
+{% if title %}
+<hgroup class="page-title">
+	<h1>{{ title | md }}</h1>
+	{% set lede = tagline or description %}
+	{% if lede %}<p>{{ lede | md }}</p>{% endif %}
+</hgroup>
+{% endif %}

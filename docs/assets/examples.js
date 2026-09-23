@@ -2,6 +2,7 @@
  * Manage examples
  */
 
+import Prism from "./prism.js";
 import { toArray, getFileContents } from "./util.js";
 
 let components = await (await fetch("/components.json")).json();
@@ -22,7 +23,7 @@ async function fileExists (filepath) {
 	// on localhost: The missing example might be for a new language
 	if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
 		try {
-			await getFileContents(filepath);
+			await getFileContents("/" + filepath);
 			return true;
 		}
 		catch (error) {
@@ -34,7 +35,8 @@ async function fileExists (filepath) {
 
 function buildContentsHeader (id) {
 	let language = languages[id];
-	let header = `<h1>${language.title}</h1>`;
+	// h2: the page already has its own <h1>, and this sits inside a section of it
+	let header = `<h2>${language.title}</h2>`;
 	if (language.aliasTitles) {
 		let alias = Object.keys(language.aliasTitles);
 		header += "<p>To use this language, use one of the following classes:</p>";
@@ -62,7 +64,7 @@ function buildContentsHeader (id) {
 	}
 	if (deps.length) {
 		header += "<p>";
-		header += `<a href="extending.html#dependencies"><strong>Dependencies:</strong></a>`;
+		header += `<a href="/extending/#dependencies"><strong>Dependencies:</strong></a>`;
 		header += " This component";
 		if (deps.length === 1) {
 			header += ` ${deps[0]}.`;
@@ -83,22 +85,21 @@ function buildContentsHeader (id) {
 async function update (id) {
 	let language = languages[id];
 	if (language.enabled) {
-		let contents = await getFileContents(language.examplesPath);
-		examples[id].innerHTML = buildContentsHeader(id) + contents;
+		// Leading slash: examplesPath is a repo path, and this page is served from /examples/
+		let contents = await getFileContents("/" + language.examplesPath);
 
 		/** @type {HTMLElement} */
 		let container = examples[id];
 		container.innerHTML = buildContentsHeader(id) + contents;
 
-		// the current language might be an extension of a language
-		// so to be safe, we explicitly add a dependency to the current language
-		container.querySelectorAll("pre").forEach(
-			/** @param {HTMLElement} pre */ pre => {
-				let dependencies = (pre.getAttribute("data-dependencies") || "").trim();
-				dependencies = dependencies ? dependencies + "," + id : id;
-				pre.setAttribute("data-dependencies", dependencies);
-			},
-		);
+		for (let pre of container.querySelectorAll("pre")) {
+			// An example file may name its own language, as OpenCL's does with cpp
+			let language = pre.className.match(/language-([\w-]+)/)?.[1] ?? id;
+
+			// The language might extend another, so depend on the current one explicitly
+			pre.dataset.dependencies = [pre.dataset.dependencies, id].filter(Boolean).join(",");
+			pre.className = `language-${language}`;
+		}
 
 		Prism.highlightAll({ root: container });
 	}

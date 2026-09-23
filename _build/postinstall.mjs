@@ -5,8 +5,10 @@ import { execSync } from "child_process";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const root = path.resolve(__dirname, "../node_modules");
-const prismPath = path.join(root, "prismjs");
+// Not node_modules/prismjs: markdown-it-prism, which highlights the docs, resolves the real
+// `prismjs` package from there, and it needs v1
+const root = path.resolve(__dirname, "..");
+const prismPath = path.join(root, ".prism");
 
 let sourcePath, destPath;
 
@@ -14,7 +16,7 @@ let sourcePath, destPath;
 console.log("[postinstall] Cloning Prism...");
 // Ensure we work with a fresh copy
 await fs.rm(prismPath, { recursive: true, force: true });
-execSync("git clone https://github.com/PrismJS/prism.git prismjs", {
+execSync("git clone https://github.com/PrismJS/prism.git .prism", {
 	cwd: root,
 	stdio: "inherit",
 });
@@ -33,7 +35,7 @@ execSync("npm run build", {
 
 // --- Working with plugins ---
 sourcePath = path.join(prismPath, "src/plugins");
-destPath = path.resolve(__dirname, "../plugins");
+destPath = path.resolve(__dirname, "../docs/plugins");
 
 async function copy () {
 	// We need { recursive: true } so the script doesn't fail if the folder already exists
@@ -71,18 +73,9 @@ catch (error) {
 	console.error(`[postinstall] Failed to copy Prism plugins docs: ${error.message}`);
 }
 
-// Create plugins.json in the plugins folder with global data
-console.log("[postinstall] Creating plugins.json...");
-let json = {
-	permalink: "{{ page.filePathStem.replace('README', '/index') }}.html",
-	tags: ["plugin"],
-};
-
-await fs.writeFile(path.join(destPath, "plugins.json"), JSON.stringify(json, null, "\t"));
-
 // --- Copying other files (components.json, file-sizes.json, etc.) ---
 sourcePath = path.join(prismPath, "dist");
-destPath = path.resolve(__dirname, "..");
+destPath = path.resolve(__dirname, "../docs");
 
 let filenames = ["components.json", "file-sizes.json"];
 for (let file of filenames) {
