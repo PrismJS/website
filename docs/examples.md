@@ -60,6 +60,28 @@ Should not be highlighted.
 
 <section>
 
+# Whole files
+
+The Prism source, highlighted with Prism (don’t you just love how meta this is?):
+{# FIXME: Drop “v2” from the host when Prism v2 is released #}
+<pre data-src="https://v2.dev.prismjs.com/src/core/prism.js"></pre>
+
+This site’s CSS code, highlighted with Prism:
+
+<pre data-src="/assets/styles/brand.css"></pre>
+
+The home page’s HTML, highlighted with Prism:
+
+<pre data-src="/" class="language-html"></pre>
+
+Prism’s logo (SVG), highlighted with Prism:
+
+<pre data-src="/assets/logo.svg"></pre>
+
+</section>
+
+<section>
+
 # Per language examples
 
 <div id="languages">

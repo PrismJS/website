@@ -33,3 +33,11 @@
 	to = "https://v2.dev.prismjs.com/src/plugins/:plugin/:file"
 	status = 301
 
+# The home page's usage sections moved to Getting started, and links into them still arrive as
+# /index.html#basic-usage-cdn. The browser keeps the fragment across the redirect.
+# Forced: /index.html is also the home page's own file.
+[[redirects]]
+	from = "/index.html"
+	to = "/start/"
+	status = 301
+	force = true
