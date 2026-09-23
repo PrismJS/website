@@ -23,6 +23,7 @@ export default {
 		landing,
 		{
 			url: import.meta.url,
+			styles: "brand.css",
 			scripts: "/assets/prism.js",
 			slotted: { "content.start": "page-title", "content.end": "resources" },
 			plugin (config) {
