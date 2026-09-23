@@ -5,7 +5,6 @@ body_classes: language-javascript
 resources:
   - /plugins/line-highlight.css
   - /plugins/line-highlight.js { type="module" }
-  - /plugins/autoloader.js { type="module" }
 ---
 
 <section>
@@ -99,7 +98,7 @@ Instead of using just plain regular expressions, Prism also supports an object n
 
 `alias: string | string[]` { id="object-notation-alias" }
 
-:	This option can be used to define one or more aliases for the token. The result will be that the styles of the token name and the alias(es) are combined. This can be useful to combine the styling of a [standard token](/tokens.html), which is already supported by most of the themes, with a more precise token name. For more information on this topic, see [granular highlighting](#granular-highlighting).
+:	This option can be used to define one or more aliases for the token. The result will be that the styles of the token name and the alias(es) are combined. This can be useful to combine the styling of a [standard token](/tokens/), which is already supported by most of the themes, with a more precise token name. For more information on this topic, see [granular highlighting](#granular-highlighting).
 
 	E.g. the token name `latex-equation`{ .language-none } is not supported by most themes, but it will be highlighted the same as a string in the following example:
 
@@ -113,7 +112,7 @@ Instead of using just plain regular expressions, Prism also supports an object n
 	};
 	```
 
-`inside: Grammar` { id="object-notation-inside }
+`inside: Grammar` { id="object-notation-inside" }
 
 : This option accepts another object literal, with tokens that are allowed to be nested in this token. All tokens in the `inside` grammar will be encapsulated by this token. This makes it easier to define certain languages.
 
@@ -167,13 +166,13 @@ The name of a token determines the _semantic meaning_ of matched text of the tok
 
 A token name can theoretically be any string that is a valid CSS class name. However, in practice, it makes sense for token names to follow some rules. In Prism's code, we enforce that all token names use kebab case (`foo-bar`{ .language-none }) and contain only lower-case ASCII letters, digits, and hyphen characters. E.g. `class-name`{ .language-none } is allowed but `Class_name`{ .language-none } is not.
 
-Prism also defines some [standard tokens names](tokens.html) that should be used for most tokens.
+Prism also defines some [standard tokens names](/tokens/) that should be used for most tokens.
 
 ### Themes
 
 Prism's themes assign color (and other styles) to tokens based on their name (and aliases). This means that the language definition does not control the color of tokens, themes do.
 
-However, themes only support a limited number of **known token names**. If a theme does not know a particular token name, no styles will be applied. While different themes may support different token names, all themes are guaranteed to support Prism's [standard tokens](tokens.html). Standard tokens as special token names with specific semantic meanings. They are the common ground all language definitions and themes agree on and must follow. Standard tokens should be preferred when choosing token names.
+However, themes only support a limited number of **known token names**. If a theme does not know a particular token name, no styles will be applied. While different themes may support different token names, all themes are guaranteed to support Prism's [standard tokens](/tokens/). Standard tokens as special token names with specific semantic meanings. They are the common ground all language definitions and themes agree on and must follow. Standard tokens should be preferred when choosing token names.
 
 ### Granular highlighting
 
@@ -214,7 +213,7 @@ This is granular highlighting: using a non-standard token name and a standard to
 
 The job of Prism's matching algorithm is to produce a token stream given a language definition and some text. A token stream is Prism's representation of (partially or fully) tokenized text and is implemented as a list of strings (representing literal text) and tokens (representing tokenized text).
 
-_Note:_ The word "token" is ambiguous here. We use "token" to refer to both the entry of a language definition (as described in above sections) and a [Token object](docs/Token.html) inside a token stream. Which type of "token" is meant can be inferred from context.
+_Note:_ The word "token" is ambiguous here. We use "token" to refer to both the entry of a language definition (as described in above sections) and a [Token object](/api/classes/core_classes_token.Token.html) inside a token stream. Which type of "token" is meant can be inferred from context.
 
 The simplified token stream notation will be used in this section. Briefly, the notation uses JSON to represent a token stream. E.g. `["foo ", ["keyword", "bar"], " baz"]` is the simplified token stream notation for the token stream that starts with the string `foo`{ .language-none }, is followed by a token of type `keyword`{ .language-none } and text `bar`{ .language-none }, and ends with the string `baz`{ .language-none }.
 
@@ -372,7 +371,7 @@ When deciding whether a token should be greedy, use the following guide lines:
 
 ## Helper functions
 
-Prism also provides some useful function for creating and modifying language definitions. [`Prism.languages.insertBefore`](docs/Prism.languages.html#.insertBefore) can be used to modify existing languages definitions. [`Prism.languages.extend`](docs/Prism.languages.html#.extend) is useful for when your language is very similar to another existing language.
+Prism also provides some useful function for creating and modifying language definitions. [`insertBefore`](/api/functions/util_insert.insertBefore.html) can be used to modify existing languages definitions. [`extend`](/api/functions/util_extend.extend.html) is useful for when your language is very similar to another existing language.
 
 ## The rest property
 
@@ -410,7 +409,7 @@ As an example, we will create the language definition of the fictional _Foo's Bi
    
 3. Rebuild Prism by running `npm run build`{ .language-bash }.
    
-   This will make your language available to the [test page](test.html), or more precise: your local version of it. You can open your local `test.html` page in any browser, select your language, and see how your language definition highlights any code you input.
+   This will make your language available to the [test page](/test/), or more precise: your local version of it. You can open your local `test.html` page in any browser, select your language, and see how your language definition highlights any code you input.
    
    _Note:_ You have to reload the test page to apply changes made to `prism-foo-bar.js` but you don't have to rebuild Prism itself. However, if you change `components.json` (e.g. because you added a dependency) then these changes will not show up on the test page until you rebuild Prism.
    
@@ -460,7 +459,7 @@ As an example, we will create the language definition of the fictional _Foo's Bi
    
 6. Adding tests.
    
-   Create a folder `tests/languages/foo-bar/`. This is where your test files will live. The test format and how to run tests is described [here](test-suite.html).
+   Create a folder `tests/languages/foo-bar/`. This is where your test files will live. The test format and how to run tests is described [here](/test-suite/).
    
    You should add a test for every major feature of your language. Test files should test the common case and certain edge cases (if any). Good examples are [the tests of the JavaScript language](https://github.com/PrismJS/prism/tree/master/tests/languages/javascript).
    
@@ -487,7 +486,7 @@ As an example, we will create the language definition of the fictional _Foo's Bi
       
       `npm run test:languages -- --language=foo-bar --accept`{ .language-bash }
       
-      This command will take the token stream your language definition currently produces and inserted into the test file. The empty space between the two lines separating the code and the description of test case will be replaced with a [simplified version of the token stream](test-suite.html#explaining-the-simplified-token-stream).
+      This command will take the token stream your language definition currently produces and inserted into the test file. The empty space between the two lines separating the code and the description of test case will be replaced with a [simplified version of the token stream](/test-suite/#explaining-the-simplified-token-stream).
       
    4. **Carefully check** that the inserted token stream JSON is what you expect.
       
@@ -577,7 +576,7 @@ Note: You can declare a component as both `require` and `modify`.
 
 ## Resolving dependencies
 
-We consider the dependencies of components an implementation detail, so they may change from release to release. Prism will usually resolve dependencies for you automatically. So you won't have to worry about dependency loading if you [download](download.html) a bundle or use the `loadLanguages` function in NodeJS, the [AutoLoader](plugins/autoloader/), or our Babel plugin.
+We consider the dependencies of components an implementation detail, so they may change from release to release. Prism will usually resolve dependencies for you automatically. So you won't have to worry about dependency loading if you [download](/download/) a bundle or use the `loadLanguages` function in NodeJS, the [AutoLoader](/plugins/autoloader/), or our Babel plugin.
 
 If you have to resolve dependencies yourself, use the `getLoader` function exported by [`dependencies.js`](https://github.com/PrismJS/prism/blob/master/dependencies.js). Example:
 
@@ -620,6 +619,6 @@ Of course, to understand which hooks to use you would have to read Prism’s sou
 
 # API documentation
 
-All public and stable parts of [Prism's API are documented here](api/).
+All public and stable parts of [Prism's API are documented here](/api/).
 
 </section>
