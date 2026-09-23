@@ -11,7 +11,7 @@ resources:
 {%- set meta = components.meta -%}
 
 <section class="options" id="category-{{ category }}">
-	<h1>{{ category | capitalize }}</h1>
+	<h2>{{ category | capitalize }}</h2>
 	{%- if meta.addCheckAll %}
 		<label data-id="check-all-{{ category }}">
 			<input type="checkbox" name="check-all-{{ category }}" />
