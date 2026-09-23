@@ -1,7 +1,5 @@
 ---
 tagline: Prism has a benchmark suite which can be run and extended similar to the test suite.
-body_classes: language-javascript
-resources: /languages/bash.js { type="module" }
 ---
 
 <section>
@@ -27,6 +25,7 @@ To run the tests only for a certain set of languages, you can use the `language`
 ```bash
 npm run benchmark -- --language=javascript,markup
 ```
+
 </section>
 
 <section>
@@ -65,7 +64,7 @@ cases: {
 The files of a case can be specified by:
 
 - Specifying the URI of files. A URI is either an HTTPS URL or a file path relative to `./benchmark/`.
-    
+
     ```javascript
     cases: {
     	'css': {
@@ -76,9 +75,9 @@ The files of a case can be specified by:
     	}
     }
     ```
-    
+
 - Using `extends` to copy all files from another case.
-    
+
     ```javascript
     cases: {
     	'css': { files: [ 'style.css' ] },
@@ -87,6 +86,7 @@ The files of a case can be specified by:
     	}
     }
     ```
+
 </section>
 
 <section>
@@ -133,4 +133,5 @@ summary
   PrismJS@master                0      1
   RunDevelopment@greedy-fix     1      0
 ```
+
 </section>

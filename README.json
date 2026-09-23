@@ -1,4 +1,0 @@
-{
-	"layout": "home.njk",
-	"resources": ["/plugins/keep-markup.js { type=module }", "/languages/bash.js { type=module }"]
-}

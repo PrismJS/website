@@ -1,10 +1,10 @@
 ---
 title: Customize your download
-tagline: Select your compression level, as well as the languages and plugins you need.
+tagline: Select the languages and plugins you need.
 resources:
   - https://dev.prismjs.com/dependencies.js
-  - assets/vendor/FileSaver.min.js
-  - assets/download.js { type="module" }
+  - /assets/vendor/FileSaver.min.js
+  - /assets/download.js { type="module" }
 ---
 
 {%- macro list(category, components) %}
@@ -29,8 +29,8 @@ resources:
 			{%- set option = component.option or meta.option -%}
 
 			<label data-id="{{ id }}">
-				{%- set js_size = (file_sizes[category][id].js if id != "core" else file_sizes.core.js) or 0 -%}
-				{%- set css_size = file_sizes[category][id].css or 0 -%}
+				{%- set js_size = (prism.file_sizes[category][id].js if id != "core" else prism.file_sizes.core.js) or 0 -%}
+				{%- set css_size = prism.file_sizes[category][id].css or 0 -%}
 				{%- set total_size = js_size + css_size -%}
 
 				<input type="{{ "radio" if meta.exclusive else "checkbox" }}" name="download-{{ category }}" value="{{ id }}" {{ "checked" if option == "mandatory" }} {{ "disabled" if option == "mandatory" or total_size == 0 }} />
@@ -57,7 +57,7 @@ resources:
 <section>
 	<form>
 		<section id="components">
-			{%- for category, components in components -%}
+			{%- for category, components in prism.components -%}
 				{{ list(category, components) }}
 			{% endfor %}
 		</section>

@@ -1,3 +1,5 @@
+import Prism from "./prism.js";
+
 /** @type {HTMLFormElement} */
 let form = document.querySelector("form");
 
@@ -100,7 +102,7 @@ function highlightCode () {
 		className: code.className,
 	});
 
-	globalThis.Prism?.highlightElement(newCode);
+	Prism.highlightElement(newCode);
 
 	code.replaceWith(newCode);
 	code = newCode;
