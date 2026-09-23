@@ -44,7 +44,7 @@ Because it would complicate the code a lot, although it’s not a crucial featur
 
 # If pre-existing HTML is stripped off, how can I highlight certain parts of the code? { #if-pre-existing-html-is-stripped-off-how-can-i-highlight }
 
-There is a number of ways around it. You can always break the block of code into multiple parts, and wrap the HTML around it (or just use a `.highlight` class). You can see an example of this in action at the “[Basic usage](/#basic-usage)” section of the homepage.
+There is a number of ways around it. You can always break the block of code into multiple parts, and wrap the HTML around it (or just use a `.highlight` class). You can see an example of this in action at the “[Basic usage](/start/#basic-usage)” section of the homepage.
 
 Another way around the limitation is to use the [Line Highlight plugin](/plugins/line-highlight/), to highlight and link to specific lines and/or line ranges.
 </section>
