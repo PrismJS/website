@@ -110,6 +110,21 @@ export default {
 					};
 				});
 
+				// A long page repeats this at the end of every section. "top" is the fragment
+				// the HTML spec reserves for the top of the document.
+				config.addContentTransform(function (tree) {
+					if (this.back_to_top) {
+						tree.match({ tag: "section" }, node => {
+							node.content.push(
+								`<p><a href="#top" class="back-to-top">↑ Back to top</a></p>`,
+							);
+							return node;
+						});
+					}
+
+					return tree;
+				});
+
 				// The language its code is written in, for Prism in the browser
 				config.addContentRead(function () {
 					bodyClasses.set(this.page.inputPath, this.body_classes);
