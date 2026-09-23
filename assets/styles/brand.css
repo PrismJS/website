@@ -165,26 +165,93 @@ mark {
 	display: inline-block;
 }
 
+/* Homepage walkthrough: numbered steps, one snippet each (see docs/index.md), as on nudeps.dev.
+   Two-column grid (number, content) that each step subgrids into, so numbers and content align across steps. */
+.steps {
+	list-style: none;
+	counter-reset: step;
+	margin-block: var(--size-l);
+	padding: 0;
+	display: grid;
+	/* minmax(0) so a wide code block scrolls instead of widening the column */
+	grid-template-columns: auto minmax(0, 1fr);
+	column-gap: var(--size-m);
+
+	> li {
+		counter-increment: step;
+		display: grid;
+		grid-template-columns: subgrid;
+		grid-column: 1 / -1;
+
+		/* Step number, in the accent color like the hero's primary action */
+		&::before {
+			content: counter(step);
+			width: var(--size-2xl);
+			aspect-ratio: 1;
+			border-radius: 50%;
+			display: grid;
+			place-content: center;
+			font-weight: 700;
+			--color-core: var(--color-accent);
+			background: var(--color-core-45-65);
+			color: var(--color-core-100-15);
+		}
+
+		/* Everything else stacks in the content column */
+		> * {
+			grid-column: 2;
+		}
+
+		/* Space between steps, with a connector from this step's number down to the next */
+		&:not(:last-child) {
+			padding-block-end: var(--size-xl);
+			background: linear-gradient(var(--ui-border-color), var(--ui-border-color))
+				calc(var(--size-2xl) / 2 - 0.5px) var(--size-2xl) / 1px 100% no-repeat;
+		}
+
+		> h3 {
+			margin-block: 0 var(--size-2xs);
+			/* Same box height as the number, so the two line up */
+			line-height: var(--size-2xl);
+		}
+
+		> p {
+			margin-block: var(--size-2xs) 0;
+			color: var(--ui-color-text-quiet);
+		}
+	}
+}
+
+/* Tiled like the landing page's feature cards, but light in dark mode too: some logos are dark on transparent */
 .used-by-logos {
-	overflow: hidden;
-}
-.used-by-logos > a {
-	float: left;
-	width: 33.33%;
-	height: 100px;
-	text-align: center;
-	background: #f5f2f0;
-	box-sizing: border-box;
-	border: 5px solid white;
-	position: relative;
-}
-.used-by-logos > a > img {
-	max-height: 100%;
-	max-width: 100%;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+	color-scheme: light;
+	list-style: none;
+	padding: 0;
+	display: grid;
+	/* Three columns, or fewer once a tile would get narrower than 8rem; 30% leaves no room for a fourth */
+	grid-template-columns: repeat(auto-fill, minmax(max(8rem, 30%), 1fr));
+	gap: var(--size-m);
+
+	a {
+		display: block;
+		aspect-ratio: 3 / 2;
+		padding: var(--size-s);
+		background: var(--color-bg-soft);
+		border-radius: var(--rounding-l);
+
+		&:hover {
+			background: light-dark(var(--color-base-90), var(--color-base-30));
+		}
+	}
+
+	/* Each logo file is pre-sized for this: a 3:2 viewBox, its logo centered at the same area as the others,
+	   so a wordmark and a compact mark look equally big */
+	img {
+		display: block;
+		inline-size: 100%;
+		block-size: 100%;
+		object-fit: contain;
+	}
 }
 
 label a.owner {
