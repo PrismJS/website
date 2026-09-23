@@ -2,10 +2,9 @@
 title: Test drive
 tagline: Take Prism for a spin!
 resources:
-  - /assets/test-drive.js
-  - /plugins/autoloader.js { type="module" }
+    - /assets/test-drive.js { type="module" }
+    - /plugins/autoloader.js { type="module" }
 ---
-
 
 <section>
 	<form>
@@ -14,10 +13,10 @@ resources:
 		</p>
 		<p>Result:</p>
 		<pre><code></code></pre>
-		<div id="options" style="margin: 1em 0">
+		<div id="options">
 			<label><input type="checkbox" id="option-show-tokens"> Show tokens </label>
 			<div class="link-wrapper">
-				<a id="share-link" href="" style="float: right;"> Share </a>
+				<a id="share-link" href=""> Share </a>
 				<div class="hidden-wrapper">
 					<input id="share-link-input" type="text" readonly />
 					<button type="button" id="copy-share-link">Copy to clipboard</button>
@@ -26,7 +25,7 @@ resources:
 		</div>
 		<p id="language">
 			<strong>Language:</strong>
-			{% for id, language in languages -%}
+			{% for id, language in prism.languages -%}
 			<label data-id="{{ id }}">
 				<input type="radio" name="language" value="{{ id }}" /> {{ language.title }}
 			</label>

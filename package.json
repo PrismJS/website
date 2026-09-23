@@ -6,11 +6,11 @@
 	"scripts": {
 		"postinstall": "node _build/postinstall.mjs",
 		"dev": "netlify dev -p 8844",
-		"serve": "npx @11ty/eleventy --config=_build/eleventy.js --serve --quiet",
-		"build:html": "npx @11ty/eleventy --config=_build/eleventy.js --quiet",
+		"serve": "docspire --serve",
+		"build:html": "docspire",
 		"build:apidocs": "npx typedoc",
 		"build": "npm run build:html && npm run build:apidocs",
-		"watch:html": "npx @11ty/eleventy --config=_build/eleventy.js --watch --quiet --incremental",
+		"watch:html": "docspire --watch",
 		"watch": "npm run watch:html"
 	},
 	"repository": {
@@ -23,10 +23,7 @@
 	"homepage": "https://prismjs.com",
 	"license": "MIT",
 	"devDependencies": {
-		"@11ty/eleventy": "^3.1.6",
-		"eleventy-plugin-toc": "^1.1.5",
-		"markdown-it-anchor": "^9.2.1",
-		"markdown-it-attrs": "^4.5.0",
+		"docspire": "^0.0.4",
 		"markdown-it-deflist": "^3.0.1",
 		"prettier": "^3.9.8",
 		"prettier-plugin-brace-style": "^0.10.3",
