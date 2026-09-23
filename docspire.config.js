@@ -26,6 +26,11 @@ export default {
 			styles: "brand.css",
 			scripts: "/assets/prism.js",
 			slotted: { "content.start": "page-title", "content.end": "resources" },
+			data: {
+				// The layout titles every page with an h1, so the Markdown under it starts a level
+				// lower. The pages, and the plugin READMEs from the Prism repo, open sections at #.
+				headingOffset: 1,
+			},
 			plugin (config) {
 				// 11ty skips gitignored files, and the plugin docs are generated.
 				config.setUseGitIgnore(false);
@@ -72,6 +77,23 @@ export default {
 
 				config.amendLibrary("md", md => {
 					md.use(markdownItDeflist);
+
+					// A page's `headingOffset` moves every Markdown heading that many levels down
+					md.core.ruler.push("heading_offset", ({ env, tokens }) => {
+						if (!env?.headingOffset) {
+							return;
+						}
+
+						for (let token of tokens) {
+							if (token.type === "heading_open" || token.type === "heading_close") {
+								let level = Math.min(
+									Number(token.tag.slice(1)) + env.headingOffset,
+									6,
+								);
+								token.tag = `h${level}`;
+							}
+						}
+					});
 
 					// A fence's attributes go on the <pre>, where Prism's plugins read them:
 					// ```html { data-line="2" } → <pre data-line="2"><code class="language-html">
