@@ -17,4 +17,4 @@ parentOf: plugin
 
 No assembly required to use them. Just select them in the [download](/download/) page.
 
-It’s very easy to [write your own Prism plugins](/extending/#writing-plugins). Did you write a plugin for Prism that you want added to this list? [Send a pull request](https://github.com/PrismJS/plugins/)!
+It’s very easy to [write your own Prism plugins](/extending/#writing-plugins). Did you write a plugin for Prism that you want added to this list? [Send a pull request](https://github.com/PrismJS/prism/tree/HEAD/src/plugins)!
