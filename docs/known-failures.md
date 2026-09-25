@@ -2,7 +2,6 @@
 tagline: A list of rare edge cases where Prism highlights code incorrectly.
 back_to_top: true
 body_classes: language-none
-resources: /plugins/autoloader.js { type="module" }
 ---
 
 There are certain edge cases where Prism will fail. There are always such cases in every regex-based syntax highlighter.
@@ -459,7 +458,7 @@ Some of our themes are not compatible with certain layouts.
 
 Coy's shadows and background might not wrap around the code correctly if combined with float of flexbox layouts.
 
-![](assets/img/failures/coy-overlap.png)
+![](/assets/img/failures/coy-overlap.png)
 
 ## Workarounds
 

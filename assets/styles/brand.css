@@ -1,0 +1,684 @@
+@import url(https://fonts.googleapis.com/css?family=Questrial);
+@import url(https://fonts.googleapis.com/css?family=Arvo);
+
+/*
+ * What Prism's docs add to the theme: the brand faces and logo, definition lists, the
+ * highlighted-markup `<mark>` affordance, and the page-specific widgets below — the language
+ * and plugin lists, the download builder, the test drive, the token tables.
+ */
+
+/* The brand faces */
+:root {
+	--font-body: Questrial, sans-serif;
+	--font-heading: Rockwell, Arvo, serif;
+}
+
+/*
+ * Docspire marks the current page and section by weight alone (600 and 550), which Questrial
+ * can't show: it ships one weight. The accent color marks them instead. Docspire reads
+ * --ui-color-accent but never defines it, so the outline's marker was invisible too.
+ * The outline's variable goes on the element, not :root, where the component's own value would win.
+ */
+:root {
+	/* The tints links use, 45 in light mode and 65 in dark */
+	--ui-color-accent: light-dark(
+		oklch(from var(--color-accent) var(--tint-45)),
+		oklch(from var(--color-accent) var(--tint-65))
+	);
+}
+
+page-outline {
+	--ui-color-text-outline-hover: var(--ui-color-accent);
+}
+
+#sidebar a.current {
+	color: var(--ui-color-accent);
+}
+
+body {
+	tab-size: 4;
+	hyphens: auto;
+}
+
+/* A hyphen dropped into an identifier reads as part of it */
+:is(code, pre, kbd, samp) {
+	hyphens: none;
+}
+
+/* Line numbers are rows beside the code, so a line of code must be exactly as tall as a row.
+   With line-height: normal, its height follows the font a line happens to be drawn in, and the
+   <code> is not even in the block's font. Prism's own themes set both. */
+pre:has(> code) {
+	line-height: 1.5;
+
+	& code {
+		font-family: inherit;
+	}
+}
+
+/* Prism's plugins make room for their gutters with the <pre>'s padding, like line-highlight's
+   `pre[data-line] { padding: 1em 0 1em 3em }`. So a code-block pads its <pre>, not itself,
+   and a plugin's padding replaces Docspire's there too, instead of adding to it. */
+code-block {
+	padding: 0;
+
+	& > pre {
+		padding: var(--size-l);
+	}
+}
+
+/* A long block, like a whole file fetched by file-highlight, scrolls inside itself */
+pre {
+	max-height: 30em;
+	overflow: auto;
+}
+
+/* FIXME: Drop once Prism's autoloader stops highlighting again a <pre> file-highlight took over.
+   That pass replaces the <code> with bare tokens, and Docspire styles only `pre:has(> code)`. */
+pre[data-src]:not(:has(> code)) {
+	padding: var(--size-l);
+	background: var(--ui-background-code, var(--ui-background-code-default));
+	border-radius: var(--ui-rounding-code, var(--rounding));
+	font: var(--size-s) / 1.5 var(--font-mono);
+}
+
+/*
+ * Nothing here was ever bold: section titles came from `font: 100% Rockwell…` and the rest
+ * from `h2, h3 { font-weight: normal }`. The page title takes h1 now, so those two sets are
+ * h2 and h3/h4. Sizes are the theme's, which already sit under that title.
+ */
+h2,
+h3,
+h4 {
+	font-weight: normal;
+}
+
+/* Below a section title the old stylesheet left headings in the body face */
+h3,
+h4 {
+	font-family: var(--font-body);
+}
+
+/*
+ * logo.svg is a white silhouette drawn for the dark spectrum header the old site had. Give it a
+ * dark ground back wherever it appears, rather than inverting it per color scheme — the shape
+ * then reads the same either way, as it does in the browser tab.
+ */
+:is(header .logo img, .hero .image) {
+	padding: var(--size-6xs);
+	border-radius: var(--rounding);
+	background: black;
+}
+
+/*
+ * Shown large, it gets the spectrum itself: the whole image, squeezed to fit, since cropping it
+ * leaves only the green middle. The dark overlay it used to carry went with the old header,
+ * which needed white text to stay legible over the colors.
+ */
+.hero .image {
+	padding: var(--size-l);
+	background: url("/assets/img/spectrum.png") center / 100% 100%;
+}
+
+/* Title and lede read as one block, and the title is no bolder than any other heading */
+.page-title {
+	margin-block-end: var(--size-xl);
+
+	h1 {
+		font-weight: normal;
+		margin-block-end: var(--size-3xs);
+	}
+
+	p {
+		color: var(--ui-color-text-quiet);
+	}
+}
+
+dt {
+	margin: 1em 0 0 0;
+	font-size: 130%;
+}
+
+dt:after {
+	content: ":";
+}
+
+dd {
+	margin-left: 2em;
+}
+
+mark {
+	outline: 0.4em solid red;
+	outline-offset: 0.4em;
+	margin: 0.4em 0;
+	background-color: transparent;
+	display: inline-block;
+}
+
+/* Homepage walkthrough: numbered steps, one snippet each (see docs/index.md), as on nudeps.dev.
+   Two-column grid (number, content) that each step subgrids into, so numbers and content align across steps. */
+.steps {
+	list-style: none;
+	counter-reset: step;
+	margin-block: var(--size-l);
+	padding: 0;
+	display: grid;
+	/* minmax(0) so a wide code block scrolls instead of widening the column */
+	grid-template-columns: auto minmax(0, 1fr);
+	column-gap: var(--size-m);
+
+	> li {
+		counter-increment: step;
+		display: grid;
+		grid-template-columns: subgrid;
+		grid-column: 1 / -1;
+
+		/* Step number, in the accent color like the hero's primary action */
+		&::before {
+			content: counter(step);
+			width: var(--size-2xl);
+			aspect-ratio: 1;
+			border-radius: 50%;
+			display: grid;
+			place-content: center;
+			font-weight: 700;
+			--color-core: var(--color-accent);
+			background: var(--color-core-45-65);
+			color: var(--color-core-100-15);
+		}
+
+		/* Everything else stacks in the content column */
+		> * {
+			grid-column: 2;
+		}
+
+		/* Space between steps, with a connector from this step's number down to the next */
+		&:not(:last-child) {
+			padding-block-end: var(--size-xl);
+			background: linear-gradient(var(--ui-border-color), var(--ui-border-color))
+				calc(var(--size-2xl) / 2 - 0.5px) var(--size-2xl) / 1px 100% no-repeat;
+		}
+
+		> h3 {
+			margin-block: 0 var(--size-2xs);
+			/* Same box height as the number, so the two line up */
+			line-height: var(--size-2xl);
+		}
+
+		> p {
+			margin-block: var(--size-2xs) 0;
+			color: var(--ui-color-text-quiet);
+		}
+	}
+}
+
+.used-by-logos {
+	overflow: hidden;
+}
+.used-by-logos > a {
+	float: left;
+	width: 33.33%;
+	height: 100px;
+	text-align: center;
+	background: #f5f2f0;
+	box-sizing: border-box;
+	border: 5px solid white;
+	position: relative;
+}
+.used-by-logos > a > img {
+	max-height: 100%;
+	max-width: 100%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+label a.owner {
+	margin: 0 0.5em;
+}
+
+label a.owner:not(:hover) {
+	text-decoration: none;
+	color: #aaa;
+}
+
+#languages-list {
+	column-count: 3;
+	column-gap: 2em;
+
+	li {
+		padding: 0.2em;
+	}
+
+	li[data-id="javascript"] {
+		border-bottom: 1px solid #aaa;
+		padding-bottom: 1em;
+		margin-bottom: 1em;
+		margin-right: 1em;
+	}
+}
+
+ul.plugin-list {
+	column-count: 2;
+	column-gap: 2em;
+
+	> li {
+		break-inside: avoid;
+		page-break-inside: avoid;
+
+		> a {
+			font-size: 110%;
+		}
+
+		> div {
+			margin-bottom: 0.5em;
+		}
+	}
+}
+
+[data-inputpath="examples.md"] {
+	#languages {
+		column-count: 4;
+
+		> h1 {
+			margin-top: 0;
+			column-span: all;
+		}
+
+		label {
+			display: block;
+			padding: 0.2em;
+
+			&[data-id="javascript"] {
+				border-bottom: 1px solid #aaa;
+				padding-bottom: 1em;
+				margin-bottom: 1em;
+			}
+		}
+
+		.unavailable {
+			color: #aaa;
+		}
+
+		input {
+			margin-right: 0.7em;
+		}
+	}
+
+	#examples {
+		/*
+		 * Two kinds of h2: the language name that opens each section, and the titles inside
+		 * the example file below it. Same size, told apart by the face, as before the
+		 * migration — where the language name was the section's h1.
+		 */
+		h2 {
+			font-size: 1.5em;
+			font-family: var(--font-body);
+		}
+
+		> section > h2:first-child {
+			font-family: var(--font-heading);
+		}
+
+		/* Sections lay out as a flex column, where `margin: auto` alone would shrink each
+		   example to its widest line */
+		> section {
+			margin-inline: auto;
+			inline-size: min(100%, 900px);
+
+			/* Every language has one, and the column's gap would space out the ~300 unused */
+			&:empty {
+				display: none;
+			}
+		}
+
+		h3 {
+			margin: 1em 0 0.3em;
+		}
+	}
+
+	main ul {
+		padding-left: 40px;
+	}
+}
+
+[data-inputpath="known-failures.md"] {
+	/* h2 is the language, h3 the failure: keep the failure a label, not a second title */
+	main h3 {
+		font-size: 1.2em;
+
+		&[id] > a::before {
+			content: "";
+		}
+	}
+}
+
+[data-inputpath="tokens.md"] {
+	table.styled {
+		border: 1px solid #ccc;
+		border-spacing: 0;
+
+		tr:not(:first-child) > * {
+			border-top: 1px solid #ccc;
+		}
+
+		tr > *:not(:first-child) {
+			border-left: 1px solid #ccc;
+		}
+
+		/* Between the page and the code surface, so a code block still reads as a block */
+		tr:nth-child(2n + 1) {
+			background-color: color-mix(in oklch, var(--color-bg-soft), var(--color-bg));
+		}
+
+		tr > * {
+			padding: 0.5em 0.75em;
+		}
+
+		tr > th {
+			text-align: left;
+		}
+	}
+}
+
+[data-inputpath="extending.md"] {
+	ol.indent {
+		margin: 1em 0;
+		padding-left: 2em;
+	}
+
+	table.stylish {
+		border-collapse: collapse;
+
+		&,
+		tr,
+		td,
+		th {
+			border: 1px solid #ccc;
+		}
+
+		td,
+		th {
+			padding: 0.5em 0.75em;
+		}
+
+		th,
+		td:first-child {
+			background-color: #f8f8f8;
+		}
+	}
+}
+
+[data-inputpath="test.md"] {
+	textarea {
+		width: 100%;
+		height: 10em;
+		padding: 1em;
+		box-sizing: border-box;
+		margin: 0.5em 0;
+		background: #f5f2f0;
+		color: black;
+		text-shadow: 0 1px white;
+		tab-size: 4;
+		font:
+			100% Consolas,
+			Monaco,
+			monospace;
+		white-space: pre;
+		word-wrap: normal;
+		resize: vertical;
+	}
+
+	#language {
+		column-count: 4;
+
+		label {
+			display: block;
+			padding: 0.2em;
+		}
+
+		label[data-id="javascript"] {
+			border-bottom: 1px solid #aaa;
+			padding-bottom: 1em;
+			margin-bottom: 1em;
+		}
+
+		input {
+			margin-right: 1em;
+		}
+
+		strong {
+			display: block;
+			column-span: all;
+		}
+	}
+
+	pre.show-tokens {
+		line-height: calc(1.5em + 12px);
+	}
+
+	.show-tokens {
+		.token:not(:first-child) {
+			margin-left: 1px;
+		}
+
+		.token:empty {
+			background: red;
+		}
+
+		.token:empty::before {
+			color: white;
+			content: "empty";
+			font-style: italic;
+			text-shadow: black 0 0 0.3em;
+		}
+
+		.token {
+			border: 1px solid;
+			padding: 6px 1px;
+		}
+
+		.token > .token {
+			padding: 4px 1px;
+		}
+
+		.token > .token > .token {
+			padding: 2px 1px;
+		}
+
+		.token > .token > .token > .token {
+			padding: 0 1px;
+		}
+
+		.token > .token > .token > .token > .token {
+			border: none;
+			border-left: 1px solid;
+			border-right: 1px solid;
+			padding: 0;
+			margin: 0 1px;
+		}
+	}
+
+	#options {
+		position: relative;
+	}
+
+	.link-wrapper {
+		position: absolute;
+		top: 0;
+		right: 0;
+		background-color: white;
+
+		.hidden-wrapper {
+			display: none;
+		}
+
+		&:hover {
+			top: -0.5em;
+			right: -1em;
+			width: 300px;
+			padding: 0.5em 1em;
+			outline: 1px solid #888;
+
+			.hidden-wrapper {
+				display: block;
+			}
+		}
+
+		input {
+			width: 100%;
+			box-sizing: border-box;
+		}
+
+		button {
+			border: none;
+			background: none;
+			font: inherit;
+			text-decoration: underline;
+			cursor: pointer;
+		}
+	}
+}
+
+[data-inputpath^="download"] {
+	form label {
+		display: block;
+		padding: 0.2em;
+		padding-left: 1.9em;
+		page-break-inside: avoid;
+		break-inside: avoid;
+
+		.name {
+			margin-right: 0.3em;
+		}
+
+		a.owner {
+			margin-left: 0;
+			hyphens: none;
+		}
+
+		input {
+			margin-right: 0.7em;
+			margin-left: -1.7em;
+		}
+	}
+
+	.filesize:empty {
+		display: none;
+	}
+
+	#components {
+		overflow: hidden;
+	}
+
+	section.options {
+		width: 33.3%;
+		width: calc(100% / 3);
+		float: left;
+
+		label[data-id^="check-all-"] {
+			border-bottom: 1px solid #aaa;
+			padding-bottom: 1em;
+			margin-bottom: 1em;
+		}
+	}
+
+	section.options#category-languages,
+	section.options#category-plugins {
+		width: 100%;
+		float: none;
+		column-count: 3;
+		padding-top: 2em;
+		overflow: visible;
+
+		label {
+			break-inside: avoid;
+		}
+
+		> h2 {
+			margin-top: 0;
+			column-span: all;
+		}
+
+		label[data-id="javascript"] {
+			border-bottom: 1px solid #aaa;
+			padding-bottom: 1em;
+			margin-bottom: 1em;
+		}
+	}
+
+	section.options#category-themes {
+		width: 66.6%;
+		width: calc(100% * 2 / 3);
+		column-count: 2;
+		overflow: visible;
+		float: none;
+
+		> h2 {
+			column-span: all;
+		}
+	}
+
+	section.download {
+		width: 50%;
+		float: left;
+	}
+
+	.download-button {
+		display: block;
+		padding: 0.2em 0.8em 0.1em;
+		border: 1px solid rgba(0, 0, 0, 0.5);
+		border-radius: 10px;
+		background: #39a1cf;
+		box-shadow:
+			0 2px 10px black,
+			inset 0 1px hsla(0, 0%, 100%, 0.3),
+			inset 0 0.4em hsla(0, 0%, 100%, 0.2),
+			inset 0 10px 20px hsla(0, 0%, 100%, 0.25),
+			inset 0 -15px 30px rgba(0, 0, 0, 0.3);
+		color: white;
+		text-shadow: 0 -1px 2px black;
+		text-align: center;
+		font-size: 250%;
+		line-height: 1.5;
+		text-transform: uppercase;
+		text-decoration: none;
+		hyphens: manual;
+
+		&:hover {
+			background-color: #7fab14;
+		}
+
+		&:active {
+			box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+		}
+	}
+
+	#download {
+		overflow: hidden;
+		padding: 0.3em;
+		.error {
+			color: #b61500;
+			display: none;
+		}
+		pre {
+			height: 20em;
+		}
+		.download-button {
+			cursor: pointer;
+			width: 100%;
+		}
+	}
+
+	#download-js .download-button {
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+
+	#download-css .download-button {
+		background-color: #dc9e23;
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+}
