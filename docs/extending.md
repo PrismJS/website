@@ -4,7 +4,7 @@ tagline: Prism is awesome out of the box, but it’s even awesomer when it’s c
 body_classes: language-javascript
 resources:
   - /plugins/line-highlight.css
-  - /plugins/line-highlight.js { type="module" }
+  - /plugins/line-highlight.js
 ---
 
 <section>
