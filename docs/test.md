@@ -3,7 +3,7 @@ title: Test drive
 tagline: Take Prism for a spin!
 resources:
     - /assets/test-drive.js { type="module" }
-    - /plugins/autoloader.js { type="module" }
+    - /plugins/autoloader.js
 ---
 
 <section>
