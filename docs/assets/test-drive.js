@@ -1,7 +1,7 @@
 import Prism from "./prism.js";
 
 /** @type {HTMLFormElement} */
-let form = document.querySelector("form");
+let form = document.forms["test-drive"];
 
 /** @type {HTMLElement} */
 let code = form.querySelector("code");

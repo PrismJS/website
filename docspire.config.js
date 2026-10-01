@@ -1,6 +1,7 @@
 import markdownItDeflist from "markdown-it-deflist";
 import landing from "docspire/plugins/landing";
 import { parse_resources, pretty_size } from "./_build/filters.js";
+import icons from "./icons.js";
 
 export default {
 	title: "Prism",
@@ -23,8 +24,13 @@ export default {
 		{
 			url: import.meta.url,
 			styles: "brand.css",
-			scripts: "/assets/prism.js",
-			slotted: { "content.start": "page-title", "content.end": "resources" },
+			scripts: ["/assets/prism.js", "/assets/theme-switcher.js"],
+			slotted: {
+				"nav.start": "theme-switcher",
+				"content.start": "page-title",
+				"content.end": "resources",
+			},
+			icons,
 			data: {
 				// The layout titles every page with an h1, so the Markdown under it starts a level
 				// lower. The pages, and the plugin READMEs from the Prism repo, open sections at #.

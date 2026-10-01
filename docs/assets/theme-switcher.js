@@ -1,27 +1,21 @@
-let components = await (await fetch("/components.json")).json();
-let themes = components.themes;
+// The form lists the themes and their stylesheet path, generated at build time
+let form = document.forms.theme;
+let radios = form.elements.theme;
+let themes = [...radios].map(input => input.value);
 
-let currentTheme = (location.search.match(/theme=([\w-]+)/) ?? [])[1];
-if (!(currentTheme in themes)) {
-	currentTheme = undefined;
-}
+let requested = new URLSearchParams(location.search).get("theme");
+let stored = localStorage.getItem("theme");
+let currentTheme = [requested, stored].find(id => themes.includes(id)) ?? "prism";
 
-if (currentTheme === undefined) {
-	let stored = localStorage.getItem("theme");
+let themeLink = document.getElementById("prism-theme");
+let setTheme = id => {
+	themeLink.href = "/" + form.dataset.path.replaceAll("{id}", id);
+};
 
-	currentTheme = stored in themes ? stored : "prism";
-}
+radios.value = currentTheme;
+setTheme(currentTheme);
 
-let themeLink = document.querySelector(`link[href*="themes/prism"]`);
-document.querySelectorAll("input[name=theme]").forEach(input => {
-	if (input.value === currentTheme) {
-		input.checked = true;
-		themeLink.href = "/" + themes.meta.path.replace(/\{id\}/g, input.value);
-	}
-
-	input.addEventListener("change", () => {
-		let id = input.value;
-		themeLink.href = "/" + themes.meta.path.replace(/\{id\}/g, id);
-		localStorage.setItem("theme", id);
-	});
+form.addEventListener("change", () => {
+	setTheme(radios.value);
+	localStorage.setItem("theme", radios.value);
 });

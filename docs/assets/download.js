@@ -18,7 +18,7 @@ for (let category in components) {
 }
 
 let cache = {};
-let form = document.querySelector("form");
+let form = document.forms["bundle-builder"];
 
 let dependencies = {};
 let timerId = 0;
@@ -39,7 +39,7 @@ if (hstr) {
 				let themeInput = document.querySelector(`#theme input[value="${ids[0]}"]`);
 				if (themeInput) {
 					themeInput.checked = true;
-					themeInput.dispatchEvent(new Event("change"));
+					themeInput.dispatchEvent(new Event("change", { bubbles: true }));
 				}
 			}
 			let makeDefault = id => {
@@ -275,7 +275,7 @@ function update (updatedCategory, updatedId) {
 				let themeInput = document.querySelector(`#theme input[value="${updatedId}"]`);
 				if (themeInput) {
 					themeInput.checked = true;
-					themeInput.dispatchEvent(new Event("change"));
+					themeInput.dispatchEvent(new Event("change", { bubbles: true }));
 				}
 			}
 		}
