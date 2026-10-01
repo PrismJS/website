@@ -1,0 +1,14 @@
+{# The Prism theme picker in the header. theme-switcher.js applies and remembers the choice. #}
+{% set themes = prism.components.themes %}
+<link rel="stylesheet" id="prism-theme" href="/{{ themes.meta.path | replace('{id}', 'prism') }}" />
+<button class="theme-switcher icon-before" popovertarget="theme" aria-label="Prism theme" title="Prism theme"></button>
+<form id="theme" popover data-path="{{ themes.meta.path }}">
+	<fieldset>
+		<legend>Prism theme</legend>
+		{%- for id, theme in themes %}
+		{%- if id != "meta" %}
+		<label><input type="radio" name="theme" value="{{ id }}"> {{ theme.title or theme }}</label>
+		{%- endif %}
+		{%- endfor %}
+	</fieldset>
+</form>
