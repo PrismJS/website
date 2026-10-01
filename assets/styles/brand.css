@@ -54,14 +54,44 @@ pre:has(> code) {
 	}
 }
 
-/* Prism's plugins make room for their gutters with the <pre>'s padding, like line-highlight's
-   `pre[data-line] { padding: 1em 0 1em 3em }`. So a code-block pads its <pre>, not itself,
-   and a plugin's padding replaces Docspire's there too, instead of adding to it. */
+/* The Prism theme styles what Prism highlights. Docspire's own look shows through wherever a theme sets nothing:
+   a frame around the theme's block that also clips Coy's shadows, rounded corners on a square theme,
+   and token colors a theme leaves out, like Twilight's functions.
+   These rules load after Docspire's and before the theme. */
 code-block {
-	padding: 0;
+	background: revert;
+	border-radius: revert;
+	overflow: revert;
+
+	/* Prism has its own, the Copy to Clipboard plugin */
+	&::part(copy-button) {
+		display: none;
+	}
+}
+
+:is(pre, code)[class*="language-"] {
+	border-radius: revert;
+}
+
+/* As specific as a theme's `.token.function` */
+.token.token {
+	color: revert;
+	opacity: revert;
+}
+
+/* The toolbar's `top: .3em` counts from its wrapper, which the <pre>'s top margin collapses through in normal flow.
+   Docspire's sections are flex columns, where it doesn't, so the toolbar would sit above the code.
+   `div.toolbar` outranks the plugin's own rule, which loads later. */
+div.code-toolbar {
+	anchor-scope: --code;
 
 	& > pre {
-		padding: var(--size-l);
+		anchor-name: --code;
+	}
+
+	& > div.toolbar {
+		position-anchor: --code;
+		top: calc(anchor(top) + 0.3em);
 	}
 }
 
@@ -112,6 +142,63 @@ h4 {
 
 header .logo {
 	color: inherit;
+}
+
+/* Copies Docspire's header toggles (.color-scheme-toggle, .sidebar-toggle), which share no class */
+.theme-switcher {
+	--icon: var(--icon-palette);
+	anchor-name: --theme-switcher;
+	display: inline-grid;
+	place-items: center;
+	padding: 0;
+	border: 0;
+	background: none;
+	font-size: 1lh;
+	color: light-dark(black, white);
+	cursor: pointer;
+
+	&::before {
+		margin: 0;
+	}
+
+	&:not(:hover, :focus-visible) {
+		opacity: 0.7;
+	}
+}
+
+/* Under the sticky header, right-aligned with its button. Only the inline edge follows the button:
+   with the block edge anchored too, Chrome 152 paints the popover scrolling away with the page */
+#theme {
+	position-anchor: --theme-switcher;
+	inset: var(--ui-height-header) auto auto;
+	right: anchor(right);
+	margin: var(--size-3xs) 0 0;
+	padding: var(--size-s) var(--size-m);
+	border: var(--ui-border);
+	border-radius: var(--rounding-l);
+	background: var(--ui-background-page);
+	color: inherit;
+
+	fieldset {
+		display: grid;
+		gap: var(--size-4xs);
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+
+	legend {
+		margin-block-end: var(--size-3xs);
+		color: var(--ui-color-text-quiet);
+	}
+
+	label {
+		display: flex;
+		align-items: center;
+		gap: var(--size-3xs);
+		white-space: nowrap;
+		cursor: pointer;
+	}
 }
 
 /*
@@ -549,7 +636,7 @@ ul.plugin-list {
 }
 
 [data-page="download"] {
-	form label {
+	#bundle-builder label {
 		display: block;
 		padding: 0.2em;
 		padding-left: 1.9em;
