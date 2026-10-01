@@ -28,7 +28,11 @@ export function parse_resources (resources = []) {
 				`<script type="module" ${attributes}>import Prism from "/assets/prism.js"; import language from "${url}"; Prism.languageRegistry.add(language);</script>`,
 			);
 		}
-		else if (extension === "js" || extension === "mjs") {
+		else if (url.startsWith("/plugins/") && extension === "js") {
+			// Plugins are ES modules that register themselves on import
+			ret.push(`<script type="module" src="${url}" ${attributes}></script>`);
+		}
+		else if (extension === "js") {
 			ret.push(`<script src="${url}" ${attributes}></script>`);
 		}
 		else if (extension === "css") {
