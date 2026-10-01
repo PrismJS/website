@@ -3,7 +3,7 @@ title: Getting started
 tagline: Include Prism in your page, mark up your code, and Prism does the rest.
 order: 0
 resources:
-    - /plugins/keep-markup.js { type="module" }
+    - /plugins/keep-markup.js
 ---
 
 <section class="language-markup">

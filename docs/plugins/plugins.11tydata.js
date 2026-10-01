@@ -11,7 +11,7 @@ export default {
 
 		// The plugin comes before the page's own demo.js, which builds on it
 		resources: data => [
-			`/plugins/${data.id}.js { type="module" }`,
+			`/plugins/${data.id}.js`,
 			...(data.noCSS ? [] : [`/plugins/${data.id}.css`]),
 			...[data.resources ?? []].flat(),
 		],

@@ -5,9 +5,9 @@ body_classes: language-none
 resources:
     - /plugins/line-highlight.css
     - /plugins/toolbar.css
-    - /plugins/line-highlight.js { type="module" }
-    - /plugins/toolbar.js { type="module" }
-    - /plugins/show-language.js { type="module" }
+    - /plugins/line-highlight.js
+    - /plugins/toolbar.js
+    - /plugins/show-language.js
 ---
 
 <section>
