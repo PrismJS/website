@@ -33,7 +33,7 @@ let selectedRadio = radios[0];
 /** @type {HTMLInputElement} */
 let lastLanguageRadio = getRadio(getHashLanguage());
 
-document.addEventListener("hashchange", () => {
+window.addEventListener("hashchange", () => {
 	let input = getRadio(getHashLanguage());
 
 	if (input && !input.checked) {
