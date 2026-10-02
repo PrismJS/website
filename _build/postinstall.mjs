@@ -5,8 +5,6 @@ import { execSync } from "child_process";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Not node_modules/prismjs: markdown-it-prism, which highlights the docs, resolves the real
-// `prismjs` package from there, and it needs v1
 const root = path.resolve(__dirname, "..");
 const prismPath = path.join(root, ".prism");
 
