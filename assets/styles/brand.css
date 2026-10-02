@@ -101,6 +101,11 @@ div.code-toolbar {
 pre {
 	max-height: 30em;
 	overflow: auto;
+
+	/* Mobile browsers enlarge text in boxes wider than the screen, like a highlighted line's <mark>.
+	   Code lines never wrap, so the bigger text only breaks the block's line rhythm. */
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
 }
 
 /* FIXME: Drop once Prism's autoloader stops highlighting again a <pre> file-highlight took over.
