@@ -28,6 +28,7 @@ export default {
 				"nav.start": "theme-switcher",
 				"content.start": "page-title",
 				"content.end": "resources",
+				"content.after.end": "site-footer",
 			},
 			icons: {
 				// Bootstrap Icons: palette
