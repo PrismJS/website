@@ -36,7 +36,7 @@ catch {
 	// sessionStorage is blocked, e.g. with cookies disabled
 }
 
-document.addEventListener("hashchange", () => {
+window.addEventListener("hashchange", () => {
 	let input = getRadio(getHashLanguage());
 
 	if (input && !input.checked) {
