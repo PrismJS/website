@@ -231,6 +231,28 @@ header .logo {
 	}
 }
 
+/* Credits in the heading face beside Lea's logo, set apart from the pager above like Docspire's own footer rows */
+.site-footer {
+	display: flex;
+	align-items: center;
+	gap: var(--size-l);
+	margin-block-start: var(--size-xl);
+	padding-block-start: var(--size-xl);
+	border-block-start: var(--ui-border);
+	color: var(--ui-color-text-quiet);
+
+	p {
+		flex: 1;
+		margin: 0;
+		font-family: var(--font-heading);
+		hyphens: manual;
+	}
+
+	img {
+		block-size: 3em;
+	}
+}
+
 dt {
 	margin: 1em 0 0 0;
 	font-size: 130%;
