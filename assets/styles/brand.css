@@ -16,7 +16,7 @@
 /*
  * Docspire marks the current page and section by weight alone (600 and 550), which Questrial
  * can't show: it ships one weight. The accent color marks them instead. Docspire reads
- * --ui-color-accent but never defines it, so the outline's marker was invisible too.
+ * --ui-color-accent for the outline's marker too, but never defines it.
  * The outline's variable goes on the element, not :root, where the component's own value would win.
  */
 :root {
@@ -117,18 +117,15 @@ pre[data-src]:not(:has(> code)) {
 	font: var(--size-s) / 1.5 var(--font-mono);
 }
 
-/*
- * Nothing here was ever bold: section titles came from `font: 100% Rockwell…` and the rest
- * from `h2, h3 { font-weight: normal }`. The page title takes h1 now, so those two sets are
- * h2 and h3/h4. Sizes are the theme's, which already sit under that title.
- */
+/* The brand sets no heading bold: section titles (h2) and the headings below them (h3, h4).
+   Sizes are the theme's, which already sit under the page title. */
 h2,
 h3,
 h4 {
 	font-weight: normal;
 }
 
-/* Below a section title the old stylesheet left headings in the body face */
+/* Only section titles take the heading face */
 h3,
 h4 {
 	font-family: var(--font-body);
@@ -417,11 +414,6 @@ ul.plugin-list {
 	#languages {
 		column-count: 4;
 
-		> h1 {
-			margin-top: 0;
-			column-span: all;
-		}
-
 		label {
 			display: block;
 			padding: 0.2em;
@@ -445,8 +437,7 @@ ul.plugin-list {
 	#examples {
 		/*
 		 * Two kinds of h2: the language name that opens each section, and the titles inside
-		 * the example file below it. Same size, told apart by the face, as before the
-		 * migration — where the language name was the section's h1.
+		 * the example file below it. Same size, told apart by the face.
 		 */
 		h2 {
 			font-size: 1.5em;
