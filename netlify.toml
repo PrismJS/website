@@ -1,0 +1,43 @@
+[build]
+	command = "npm run build"
+	publish = "_site"
+
+[dev]
+	command = "npm run serve"
+	targetPort = 8080
+	publish = "_site"
+
+# Redirects live here, not in _redirects: nudeps writes its own rules there on Netlify.
+# A file the site has wins over these, so they only send what it lacks to the Prism build.
+# FIXME: Drop “v2” from the hosts below when Prism v2 is released
+
+[[redirects]]
+	from = "/themes/:file"
+	to = "https://v2.dev.prismjs.com/dist/themes/:file"
+	status = 301
+
+[[redirects]]
+	from = "/languages/:file"
+	to = "https://v2.dev.prismjs.com/dist/languages/:file"
+	status = 301
+
+# A plugin's bundle, like /plugins/toolbar.js
+[[redirects]]
+	from = "/plugins/:file"
+	to = "https://v2.dev.prismjs.com/dist/plugins/:file"
+	status = 301
+
+# A plugin's own files, like /plugins/toolbar/demo.js
+[[redirects]]
+	from = "/plugins/:plugin/:file"
+	to = "https://v2.dev.prismjs.com/src/plugins/:plugin/:file"
+	status = 301
+
+# The home page's usage sections moved to Getting started, and links into them still arrive as
+# /index.html#basic-usage-cdn. The browser keeps the fragment across the redirect.
+# Forced: /index.html is also the home page's own file.
+[[redirects]]
+	from = "/index.html"
+	to = "/start/"
+	status = 301
+	force = true
