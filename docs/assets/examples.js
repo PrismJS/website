@@ -135,6 +135,7 @@ res.forEach(async ({ id, exists }) => {
 		label.classList.add("unavailable");
 		input.disabled = true;
 		input.checked = false;
+		language.enabled = false;
 	}
 	else {
 		input.addEventListener("change", async () => {
