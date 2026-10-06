@@ -23,12 +23,12 @@
 	"homepage": "https://prismjs.com",
 	"license": "MIT",
 	"devDependencies": {
-		"docspire": "^0.0.4",
-		"markdown-it-deflist": "^3.0.1",
-		"prettier": "^3.9.8",
-		"prettier-plugin-brace-style": "^0.10.3",
-		"prettier-plugin-merge": "^0.10.1",
-		"prettier-plugin-space-before-function-paren": "^0.1.0",
+		"docspire": "^0",
+		"markdown-it-deflist": "^4",
+		"prettier": "^3.9.9",
+		"prettier-plugin-brace-style": "latest",
+		"prettier-plugin-merge": "latest",
+		"prettier-plugin-space-before-function-paren": "latest",
 		"typedoc": "^0.28.20",
 		"typedoc-plugin-rename-defaults": "^0.7.3"
 	}
