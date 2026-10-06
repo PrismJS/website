@@ -71,10 +71,7 @@ export default {
 				config.addPassthroughCopy({ "docs/assets": "assets" });
 
 				// Fetched at runtime, so nothing else copies them: .html is not a template format here
-				config.addPassthroughCopy({
-					// Outside docs/: the examples page finds them by this path in the repo's tree
-					examples: "examples",
-				});
+				config.addPassthroughCopy("examples");
 
 				// Prism's build, at the URLs its docs give, like /themes/prism.css. The bundles import
 				// their chunks as "../global-….js", so the chunks go to the root too.
@@ -85,6 +82,9 @@ export default {
 					{ ".prism/src/plugins": "plugins" },
 					{ filter: ["*/*.js", "*/*.css"] },
 				);
+
+				// The examples page shows the core's source
+				config.addPassthroughCopy({ ".prism/src/core/prism.js": "src/core/prism.js" });
 
 				config.addFilter("pretty_size", pretty_size);
 				config.addFilter("parse_resources", parse_resources);
