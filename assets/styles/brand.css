@@ -435,8 +435,8 @@ ul.plugin-list {
 			margin-inline: auto;
 			inline-size: min(100%, 900px);
 
-			/* Every language has one, and the column's gap would space out the ~300 unused */
-			&:empty {
+			/* Docspire's sections set `display`, which beats the `hidden` attribute */
+			&[hidden] {
 				display: none;
 			}
 		}
