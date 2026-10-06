@@ -6,7 +6,6 @@ import Prism from "./prism.js";
 import { getFileContents, toArray } from "./util.js";
 
 let components = await (await fetch("/components.json")).json();
-let fileSizes = await (await fetch("/file-sizes.json")).json();
 
 // Expand shorthand entries (e.g. "core": "Core") into objects so the rest of the code can assume an object shape.
 for (let category in components) {
@@ -180,15 +179,11 @@ for (let category in components) {
 
 getFilesSizes();
 
+// The build writes each component's sizes on its input, like data-js="2048"
 function getFileSize (category, id, filepath) {
 	let type = filepath.match(/\.(css|js)$/)[1];
-
-	if (category === "core") {
-		return fileSizes.core.js;
-	}
-	else {
-		return fileSizes[category][id]?.[type] ?? 0;
-	}
+	let input = components[category].meta.section.querySelector(`label[data-id="${id}"] > input`);
+	return Number(input.dataset[type]);
 }
 
 function getFilesSizes () {
@@ -251,10 +246,7 @@ function update (updatedCategory, updatedId) {
 
 						if (info.enabled) {
 							if (!file.contentsPromise) {
-								// FIXME: Remove “v2” when Prism v2 is released
-								file.contentsPromise = getFileContents(
-									"https://v2.dev.prismjs.com/dist/" + path,
-								);
+								file.contentsPromise = getFileContents("/" + path);
 							}
 
 							total[type] += size;
@@ -361,7 +353,7 @@ async function generateCode () {
 	error.style.display = "";
 
 	let res = await buildCode(promises);
-	let version = await getVersion();
+	let version = form.dataset.version;
 
 	let code = res.code;
 	let errors = res.errors;
@@ -481,13 +473,4 @@ function buildCode (promises) {
 	};
 
 	return new Promise(f);
-}
-
-/**
- * @returns {Promise<string>}
- */
-async function getVersion () {
-	// FIXME: Drop “v2” from the host when Prism v2 is released
-	let packageJSON = await getFileContents("https://v2.dev.prismjs.com/package.json");
-	return JSON.parse(packageJSON).version;
 }

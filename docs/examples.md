@@ -61,8 +61,7 @@ Should not be highlighted.
 # Whole files
 
 The Prism source, highlighted with Prism (don’t you just love how meta this is?):
-{# FIXME: Drop “v2” from the host when Prism v2 is released #}
-<pre data-src="https://v2.dev.prismjs.com/src/core/prism.js"></pre>
+<pre data-src="/src/core/prism.js"></pre>
 
 This site’s CSS code, highlighted with Prism:
 
@@ -84,15 +83,31 @@ Prism’s logo (SVG), highlighted with Prism:
 
 <div id="languages">
 	{% for id, language in prism.languages -%}
-	<label data-id="{{ id }}">
-		<input type="checkbox" name="language" value="{{ id }}" {{ "checked" if language.option == "default" }} /> {{ language.title }}
+	{% set available = id in examples -%}
+	<label data-id="{{ id }}" {% if not available %}class="unavailable" title="No examples are available for this language"{% endif %}>
+		<input type="checkbox" name="language" value="{{ id }}" {{ "checked" if language.option == "default" and available }} {{ "disabled" if not available }} /> {{ language.title }}
 	</label>
 	{% endfor %}
 </div>
 </section>
 
 <section id="examples">
-{% for id, language in prism.languages -%}
-	<section id="language-{{ id }}" class="language-{{ id }}"></section>
-{% endfor %}
+{%- for id, language in prism.languages %}
+{%- if id in examples %}
+	<section id="language-{{ id }}" class="language-{{ id }}" hidden>
+		<h2 docspire:ignore>{{ language.title }}</h2>
+		{%- if language.aliasTitles %}
+		<p>To use this language, use one of the following classes:</p>
+		<ul>
+			<li><code class="language-none">"language-{{ id }}"</code></li>
+			{%- for alias, title in language.aliasTitles %}
+			<li><code class="language-none">"language-{{ alias }}"</code></li>
+			{%- endfor %}
+		</ul>
+		{%- else %}
+		<p>To use this language, use the class <code class="language-none">"language-{{ id }}"</code>.</p>
+		{%- endif %}
+	</section>
+{%- endif %}
+{%- endfor %}
 </section>

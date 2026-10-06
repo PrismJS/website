@@ -2,7 +2,7 @@
 title: Customize your download
 tagline: Select the languages and plugins you need.
 resources:
-  - https://dev.prismjs.com/dependencies.js
+  - /assets/vendor/dependencies.js
   - /assets/vendor/FileSaver.min.js
   - /assets/download.js { type="module" }
 ---
@@ -29,11 +29,11 @@ resources:
 			{%- set option = component.option or meta.option -%}
 
 			<label data-id="{{ id }}">
-				{%- set js_size = (prism.file_sizes[category][id].js if id != "core" else prism.file_sizes.core.js) or 0 -%}
-				{%- set css_size = prism.file_sizes[category][id].css or 0 -%}
+				{%- set js_size = prism.size("index.js" if id == "core" else category + "/" + id + ".js") -%}
+				{%- set css_size = prism.size(category + "/" + id + ".css") -%}
 				{%- set total_size = js_size + css_size -%}
 
-				<input type="{{ "radio" if meta.exclusive else "checkbox" }}" name="download-{{ category }}" value="{{ id }}" {{ "checked" if option == "mandatory" }} {{ "disabled" if option == "mandatory" or total_size == 0 }} />
+				<input type="{{ "radio" if meta.exclusive else "checkbox" }}" name="download-{{ category }}" value="{{ id }}" {{ "checked" if option == "mandatory" }} {{ "disabled" if option == "mandatory" or total_size == 0 }} data-js="{{ js_size }}" data-css="{{ css_size }}" />
 
 				{%- if meta.link -%}
 					{%- set url = meta.link | replace("{id}", id) -%}
@@ -55,7 +55,7 @@ resources:
 {% endmacro -%}
 
 <section>
-	<form id="bundle-builder">
+	<form id="bundle-builder" data-version="{{ prism.version }}">
 		<section id="components">
 			{%- for category, components in prism.components -%}
 				{{ list(category, components) }}
