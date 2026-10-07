@@ -55,20 +55,8 @@ pre:has(> code) {
 }
 
 /* The Prism theme styles what Prism highlights. Docspire's own look shows through wherever a theme sets nothing:
-   a frame around the theme's block that also clips Coy's shadows, rounded corners on a square theme,
-   and token colors a theme leaves out, like Twilight's functions.
+   rounded corners on a square theme, and token colors a theme leaves out, like Twilight's functions.
    These rules load after Docspire's and before the theme. */
-code-block {
-	background: revert;
-	border-radius: revert;
-	overflow: revert;
-
-	/* Prism has its own, the Copy to Clipboard plugin */
-	&::part(copy-button) {
-		display: none;
-	}
-}
-
 :is(pre, code)[class*="language-"] {
 	border-radius: revert;
 }

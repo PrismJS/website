@@ -19,6 +19,8 @@ export default {
 	},
 	// markdown-it-prism highlights with Prism v1. Prism v2 highlights in the browser instead.
 	md: { prism: false },
+	// Prism's own plugins, like Copy to Clipboard and Toolbar, already handle code blocks
+	codeBlock: false,
 	plugins: [
 		landing,
 		{
