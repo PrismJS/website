@@ -1,0 +1,40 @@
+<h2>Comments</h2>
+<pre><code># This is a comment
+SECRET_KEY=YOURSECRETKEYGOESHERE # also a comment
+SECRET_HASH="something-with-a-hash-#-this-is-not-a-comment"</code></pre>
+
+<h2>Values</h2>
+<pre><code>SIMPLE=xyz123
+PORT=8080
+DEBUG=true
+INTERPOLATED="Multiple\nLines"
+NON_INTERPOLATED='raw text without variable interpolation'
+MULTILINE = `long text here,
+e.g. a private SSH key`</code></pre>
+
+<h2>The <code>export</code> keyword</h2>
+<pre><code>export NODE_ENV=production</code></pre>
+
+<h2>Interpolation</h2>
+<pre><code>HOST=localhost
+URL=https://${HOST}/api
+LITERAL='no ${interpolation}'    # single quotes stay literal</code></pre>
+
+<h2>Default and alternative values</h2>
+<pre><code>NAME=Dmitry # Use your name instead
+HELLO="Hi, ${NAME:-John Doe}"
+FULL=${HELLO}, welcome to ${APP_ENV+Prism}</code></pre>
+
+<h2>Command substitution</h2>
+<pre><code>DATABASE_URL="postgres://$(whoami)@localhost/my_database"
+SHORT_HASH=$(git rev-parse --short HEAD)</code></pre>
+
+<h2>Encrypted values</h2>
+<pre><code>#/-------------------[DOTENV_PUBLIC_KEY]--------------------/
+#/            public-key encryption for .env files          /
+#/       [how it works](https://dotenvx.com/encryption)     /
+#/----------------------------------------------------------/
+DOTENV_PUBLIC_KEY="03f98bf6e00bce6fdb933bc47738d671dffb75a916fa8c89854bdfa3483902632f"
+
+# .env
+HELLO="encrypted:BCV9qZmblsUm77IxgrEqY9t67qDVWQZg6jpogQhBWa9SaOCtvheEQ5/eUfPCigQ7KB6vN//6vFE+2+orG7LmUorWhe1JapWct6Dz58IY6mXi+ONs51F7TSed6R/T9e+lDBWYH04p"</code></pre>
