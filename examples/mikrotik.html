@@ -1,0 +1,127 @@
+<h2>Comments</h2>
+<pre><code># this is a comment
+# next line comment
+:global a; # another valid comment
+
+:global myStr "part of the string # is not a comment"</code></pre>
+
+<h2>Variables and strings</h2>
+<pre><code>:global myVar "world";
+
+:put ("Hello " . $myVar);
+# next line does the same as above
+:put "Hello $myVar";
+
+:local a 5;
+:local b 6;
+:put " 5x6 = $($a * $b)";
+
+:put " We have $[ :len [/ip route find] ] routes";
+:put "\48\45\4C\4C\4F\r\nThis\r\nis\r\na\r\ntest";</code></pre>
+
+<h2>Data types</h2>
+<pre><code>:local flag true;
+:local number 42;
+:local time 1d2h30m;
+:local clock 16:30:15;
+:local date may/13/1982;
+:local ip 192.168.88.1;
+:local network 10.0.0.0/8;
+:local ip6 2001:db8::/32;
+:local id *1A;
+:local array {1; 2; 3};
+:local map {"port"=22; "enabled"=true};</code></pre>
+
+<h2>Operators</h2>
+<pre><code>{
+:local IP 192.168.88.77;
+:local Network 192.168.88.0;
+:local CIDRnetmask 255.255.255.0;
+:local InvertedCIDR (~$CIDRnetmask);
+:put ($Network|$InvertedCIDR)
+}
+
+:if ($a = true \
+	and $b=false) do={ :put "$a $b"; }</code></pre>
+
+<h2>Control flow</h2>
+<pre><code>:global currentIP;
+
+:local newIP [/ip address get [find interface="ether1"] address];
+
+:if ($newIP != $currentIP) do={
+    :put "ip address $currentIP changed to $newIP";
+    :set currentIP $newIP;
+}
+
+:global ipaddress 10.1.101.1/24
+
+:for i from=( [:len $ipaddress] - 1) to=0 do={
+	:if ( [:pick $ipaddress $i] = "/") do={
+		:put [:pick $ipaddress 0 $i]
+	}
+}</code></pre>
+
+<h2>Functions</h2>
+<pre><code>#pass arguments to the function
+:global myFunc do={:put "arg name=$name"; :put "arg '1'=$1"}
+$myFunc name="this is arg name value" "this is arg1 value"
+
+:global funcA do={ :return 5 }
+:global funcB do={
+	:global funcA;
+	:return ([$funcA] + 4)
+}
+:put [$funcB]</code></pre>
+
+<h2>Error handling</h2>
+<pre><code>:do { :put [:resolve www.example.com] } on-error={ :put "resolver failed" }
+
+:if ([/system/script/job print count-only as-value where script=[:jobname] ] > 1) do={
+  :error "script instance already running"
+  }</code></pre>
+
+<h2>Menu paths and commands</h2>
+<pre><code>/ip/firewall/nat
+add action=redirect chain=dstnat comment=DNS dst-port=53 protocol=tcp to-ports=53
+add action=redirect chain=dstnat dst-port=53 protocol=udp to-ports=53
+/ip/firewall/filter
+add chain=forward dst-address-list=restricted action=drop
+
+# Physical ports and their VLAN subinterfaces, e.g. ether1 or sfp2.100
+/interface print where name~"^(ether|sfp)[1-9]+(\\.[0-9]+)?$"
+
+/system/scheduler add \
+  comment="Check and set NTP servers" \
+  disabled=no \
+  interval=12h \
+  name=CheckNTPServers \
+  on-event=setntppool \
+  policy=read,write,test \
+  start-date=jan/01/1970 \
+  start-time=16:00:00</code></pre>
+
+<h2>Full example</h2>
+<pre><code># Parse a file to add PPP secrets
+# Source: https://help.mikrotik.com/docs/spaces/ROS/pages/139067404/Scripting+examples
+:global content [/file get [/file find name=test.txt] contents] ;
+:global contentLen [ :len $content ] ;
+
+:global lineEnd 0;
+:global line "";
+:global lastEnd 0;
+
+
+:do {
+       :set lineEnd [:find $content "\r\n" $lastEnd ] ;
+       :set line [:pick $content $lastEnd $lineEnd] ;
+       :set lastEnd ( $lineEnd + 2 ) ;
+
+       :local tmpArray [:toarray $line] ;
+	:if ( [:pick $tmpArray 0] != "" ) do={
+	:put $tmpArray;
+         /ppp secret add name=[:pick $tmpArray 0] password=[:pick $tmpArray 1] \
+             local-address=[:pick $tmpArray 2] remote-address=[:pick $tmpArray 3] \
+             profile=[:pick $tmpArray 4] service=[:pick $tmpArray 5];
+}
+} while ($lineEnd &lt; $contentLen)</code></pre>
