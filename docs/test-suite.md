@@ -67,7 +67,9 @@ By default the last language is the main language: `php+markup` will have `marku
 
 If you need to load the languages in a given order, but you don't want to use the last language as main language, you can mark the main language with an exclamation mark: `php!+markup`. This will use `php` as main language. (You can only define one main language. The test runner will fail all tests in directories with more than one main language.)
 
-_Note: by loading multiple languages you can do integration tests (ensure that loading two or more languages together won't break anything)._
+::: note
+By loading multiple languages you can do integration tests (ensure that loading two or more languages together won't break anything).
+:::
 
 ## Creating your test case file
 
@@ -138,7 +140,9 @@ npm run test:languages -- --update
 
 Updates (overwrites) the expected token stream of all failing test files. The language tests are guaranteed to pass after running this command.
 
-_Keep in mind:_ This command makes it easy to create/update test files but this doesn't mean that the tests will be correct. **Always carefully check the inserted/updated token streams!**
+::: important
+This command makes it easy to create/update test files but this doesn't mean that the tests will be correct. **Always carefully check the inserted/updated token streams!**
+:::
 
 ## Explaining the simplified token stream
 

@@ -34,7 +34,12 @@ npm run benchmark -- --language=javascript,markup
 
 Remotes all you to compare different branches from different repos or the same repo. Repos can be the PrismJS repo or any your fork.
 
-All remotes are specified under the `remotes` section in `benchmark/config.json`. To add a new remote, add an object with the `repo` and `branch` properties to the array. Note: if the branch property is not specified, the `master` branch will be used.  
+All remotes are specified under the `remotes` section in `benchmark/config.json`. To add a new remote, add an object with the `repo` and `branch` properties to the array.
+
+::: note
+If the branch property is not specified, the `master` branch will be used.
+:::
+
 Example:
 
 ```javascript

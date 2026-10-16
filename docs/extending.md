@@ -66,7 +66,9 @@ Prism.languages['some-language'] = {
 };
 ```
 
-Note: An array **cannot** be used in the `pattern` property.
+::: note
+An array **cannot** be used in the `pattern` property.
+:::
 
 ## Object notation
 
@@ -158,7 +160,9 @@ Instead of using just plain regular expressions, Prism also supports an object n
 	Prism.languages.javascript['template-string'].inside['interpolation'].inside['expression'].inside = Prism.languages.javascript;
 	```
 
+	::: warning
 	Be careful when creating recursive grammars as they might lead to infinite recursion which will cause a stack overflow.
+	:::
 
 ## Token names
 
@@ -213,7 +217,9 @@ This is granular highlighting: using a non-standard token name and a standard to
 
 The job of Prism's matching algorithm is to produce a token stream given a language definition and some text. A token stream is Prism's representation of (partially or fully) tokenized text and is implemented as a list of strings (representing literal text) and tokens (representing tokenized text).
 
-_Note:_ The word "token" is ambiguous here. We use "token" to refer to both the entry of a language definition (as described in above sections) and a [Token object](/api/classes/core_classes_token.Token.html) inside a token stream. Which type of "token" is meant can be inferred from context.
+::: note
+The word "token" is ambiguous here. We use "token" to refer to both the entry of a language definition (as described in above sections) and a [Token object](/api/classes/core_classes_token.Token.html) inside a token stream. Which type of "token" is meant can be inferred from context.
+:::
 
 The simplified token stream notation will be used in this section. Briefly, the notation uses JSON to represent a token stream. E.g. `["foo ", ["keyword", "bar"], " baz"]` is the simplified token stream notation for the token stream that starts with the string `foo`{ .language-none }, is followed by a token of type `keyword`{ .language-none } and text `bar`{ .language-none }, and ends with the string `baz`{ .language-none }.
 
@@ -405,13 +411,17 @@ As an example, we will create the language definition of the fictional _Foo's Bi
    
    If your language definition depends any other languages, you have to specify this here as well by adding a `"require"`{ .language-js } property. E.g. `"require": "clike"`{ .language-js }, or `"require": ["markup", "css"]`{ .language-js }. For more information on dependencies read the [declaring dependencies](#declaring-dependencies) section.
    
-   _Note:_ Any changes made to `components.json` require a rebuild (see step 3).
+   ::: note
+   Any changes made to `components.json` require a rebuild (see step 3).
+   :::
    
 3. Rebuild Prism by running `npm run build`{ .language-bash }.
    
    This will make your language available to the [test page](/test/), or more precise: your local version of it. You can open your local `test.html` page in any browser, select your language, and see how your language definition highlights any code you input.
    
-   _Note:_ You have to reload the test page to apply changes made to `prism-foo-bar.js` but you don't have to rebuild Prism itself. However, if you change `components.json` (e.g. because you added a dependency) then these changes will not show up on the test page until you rebuild Prism.
+   ::: note
+   You have to reload the test page to apply changes made to `prism-foo-bar.js` but you don't have to rebuild Prism itself. However, if you change `components.json` (e.g. because you added a dependency) then these changes will not show up on the test page until you rebuild Prism.
+   :::
    
 4. Write the language definition.
    
@@ -439,7 +449,9 @@ As an example, we will create the language definition of the fictional _Foo's Bi
    }
    ```
    
-   _Note:_ `alias` can also be a string array if you need to register multiple aliases.
+   ::: note
+   `alias` can also be a string array if you need to register multiple aliases.
+   :::
    
    Using `aliasTitles`, it's also possible to give aliases specific titles. In this example, this won't be necessary but a good example as to where this is useful is the markup language:
    
@@ -479,8 +491,11 @@ As an example, we will create the language definition of the fictional _Foo's Bi
    
    1. Add the code to test and a brief description.
       
-   2. Verify that your language definition correctly highlights the test code. This can be done using your local version of the test page.  
-      _Note:_ Using the _Show tokens_ options, you see the token stream your language definition created.
+   2. Verify that your language definition correctly highlights the test code. This can be done using your local version of the test page.
+
+      ::: note
+      Using the _Show tokens_ options, you see the token stream your language definition created.
+      :::
       
    3. Once you **carefully checked** that the test case is handled correctly (i.e. by using the test page), run the following command:
       
@@ -572,7 +587,9 @@ To summarize the properties of the different dependency kinds:
 
 { .stylish }
 
-Note: You can declare a component as both `require` and `modify`.
+::: note
+You can declare a component as both `require` and `modify`.
+:::
 
 ## Resolving dependencies
 

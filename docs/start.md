@@ -40,7 +40,9 @@ Inline code snippets are done like this:
 <code class="language-css">p { color: red }</code>
 ```
 
-**Note**: You have to escape all `<` and `&` characters inside `<code>` elements (code blocks and inline snippets) with `&lt;` and `&amp;` respectively, or else the browser might interpret them as an HTML tag or [entity](https://developer.mozilla.org/en-US/docs/Glossary/Entity). If you have large portions of HTML code, you can use the [Unescaped Markup plugin](/plugins/unescaped-markup/) to work around this.
+::: note
+You have to escape all `<` and `&` characters inside `<code>` elements (code blocks and inline snippets) with `&lt;` and `&amp;` respectively, or else the browser might interpret them as an HTML tag or [entity](https://developer.mozilla.org/en-US/docs/Glossary/Entity). If you have large portions of HTML code, you can use the [Unescaped Markup plugin](/plugins/unescaped-markup/) to work around this.
+:::
 
 ## Language inheritance
 
@@ -87,7 +89,9 @@ The setup of the Autoloader, will look like the following. You can also add your
 &lt;/body>
 &lt;/html></code></pre>
 
-Please note that links in the above code sample serve as placeholders. You have to replace them with valid links to the CDN of your choice.
+::: note
+Links in the above code sample serve as placeholders. You have to replace them with valid links to the CDN of your choice.
+:::
 
 CDNs which provide PrismJS are e.g. [cdnjs](https://cdnjs.com/libraries/prism), [jsDelivr](https://www.jsdelivr.com/package/npm/prismjs), and [UNPKG](https://unpkg.com/browse/prismjs@1/).
 
@@ -139,8 +143,12 @@ const code = `= ['hi', 'there', 'reader!'].join " "`;
 const html = Prism.highlight(code, Prism.languages.haml, "haml");
 ```
 
-**Note**: Do _not_ use `loadLanguages()`{ .language-javascript } with Webpack or another bundler, as this will cause Webpack to include all languages and plugins. Use the babel plugin described above.
+::: note
+Do _not_ use `loadLanguages()`{ .language-javascript } with Webpack or another bundler, as this will cause Webpack to include all languages and plugins. Use the babel plugin described above.
+:::
 
-**Note**: `loadLanguages()`{ .language-javascript } will ignore unknown languages and log warning messages to the console. You can prevent the warnings by setting `loadLanguages.silent = true`{ .language-javascript }.
+::: note
+`loadLanguages()`{ .language-javascript } will ignore unknown languages and log warning messages to the console. You can prevent the warnings by setting `loadLanguages.silent = true`{ .language-javascript }.
+:::
 
 </section>
