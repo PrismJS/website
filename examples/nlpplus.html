@@ -1,0 +1,126 @@
+<h2>Comments</h2>
+<pre><code># A comment runs to the end of the line
+/* A block comment
+   can span lines */</code></pre>
+
+<h2>Regions</h2>
+<pre><code>@PATH _ROOT _paragraph _sentence
+
+@CODE
+G("count") = 0;
+@@CODE
+
+@POST
+single();
+@@POST
+
+@RULES
+_np &lt;- _det _noun @@
+@@RULES</code></pre>
+
+<h2>Rules</h2>
+<pre><code>@RULES
+_money &lt;-
+    \$                                  ### (1) a literal character
+    _xNUM [s]                           ### (2) a special node, with a modifier
+    \. [opt]
+    _xNUM [opt min=2 max=2]
+    @@
+
+_name &lt;- _xCAP [plus] _xWILD [one match=(Jr Sr III)] @@</code></pre>
+
+<h2>Variables and built-in functions</h2>
+<pre><code>@POST
+N("text") = strtolower(N("$text", 1));    # node variable
+S("value") = num(N("$text", 2));          # semantic variable of the new node
+X("count") = X("count") + 1;              # context node variable
+G("total")++;                             # global variable
+L("word") = strtrim(N("$text", 1));       # local variable
+single();
+
+@RULES
+_amount &lt;- _xALPHA _xNUM @@</code></pre>
+
+<h2>User functions</h2>
+<pre><code>@DECL
+AddWord(L("word")) {
+    if (!L("word"))
+        return 0;
+    L("con") = addword(L("word"));
+    return L("con");
+}
+@@DECL</code></pre>
+
+<h2>Full example</h2>
+<pre><code>###############################################
+# Source: https://github.com/VisualText/analyzer-templates/blob/main/Telephone%20Numbers/spec/telephone.nlp
+# (excerpt: two of the file's four phone-number shapes)
+# FILE: telephone
+# SUBJ: Match telephone numbers and extract area/prefix/station
+# AUTH: Kruthika
+# CREATED: 2023-6-5 19:28:12
+# MODIFIED:
+###############################################
+
+# Runs within each _LINE. Several rule variants match different phone-number
+# shapes. @PRE length() tests select the shape by digit-group sizes; @POST
+# extracts area/prefix/station (and sometimes type) into the _telephone node.
+
+@PATH _ROOT _LINE
+
+###############################################
+# 212-456-7890
+###############################################
+
+# North-American shape: 3-3-4 digit groups.
+@PRE
+&lt;2,2&gt; length(3);	# area  = 3 digits
+&lt;4,4&gt; length(3);	# prefix = 3 digits
+&lt;6,6&gt; length(4);	# station = 4 digits
+
+# Extract the three numeric groups; single() collapses the match to one node.
+@POST
+S("area") = num(N("$text",2));
+S("prefix") = num(N("$text",4));
+S("station") = num(N("$text",6));
+single();
+
+@RULES
+_telephone &lt;-
+    _xWILD [match=(\+ \- 1 \()]			### (1) optional leading +, -, 1, or (
+    _xNUM								### (2) area code
+    _xWILD [match=(\) \. \- _xWHITE)]	### (3) separator: ) . - or space
+    _xNUM								### (4) prefix
+    _xWILD [match=(\. \- _xWHITE)]		### (5) separator: . - or space
+    _xNUM								### (6) station
+    @@
+
+###############################################
+# +442012341234
+###############################################
+
+# Solid (unseparated) digit run, optionally prefixed with +.
+# Only accept 10-12 digits, then slice out area/prefix/station by position.
+@POST
+L("len") = strlength(N("$text",2));
+if (10 &lt;= L("len") &amp;&amp; L("len") &lt;= 12) {
+    if (N("$text",1)) {
+        # leading + present: skip the country digit at offset 0
+        S("area") = num(strpiece(N("$text",2),1,3));
+        S("prefix") = num(strpiece(N("$text",2),4,6));
+        S("station") = num(strpiece(N("$text",2),7,10));
+    } else {
+        # no +: slice from the start of the digit run
+        S("area") = num(strpiece(N("$text",2),0,2));
+        S("prefix") = num(strpiece(N("$text",2),3,5));
+        S("station") = num(strpiece(N("$text",2),6,9));
+    }
+    S("type")="mobile";
+    single();
+}
+
+@RULES
+_telephone &lt;-
+    \+ [opt]	### (1) optional leading +
+    _xNUM		### (2) full digit run (parsed by @POST)
+    @@</code></pre>

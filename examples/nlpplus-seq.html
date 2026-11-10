@@ -1,0 +1,30 @@
+<h2>Comments</h2>
+<pre><code># A comment runs to the end of the line
+// so does this one
+/* A block comment
+   can span lines */</code></pre>
+
+<h2>Passes</h2>
+<pre><code>tokenize	nil	# tokenizer passes take no file
+nlp	sentences	# an NLP++ pass: spec/sentences.nlp
+rec	phrases	# a recursive pass
+pat	legacy	# an older name for nlp
+zone	_line	# run the passes below inside each _line node
+nlp	inside
+endzone	nil	// a // comment can follow a pass too</code></pre>
+
+<h2>Inactive passes</h2>
+<pre><code>nlp	dates
+/nlp	debugDates	# a leading slash switches the pass off</code></pre>
+
+<h2>Full example</h2>
+<pre><code># Source: https://github.com/VisualText/analyzer-templates/blob/main/Date%20and%20Times/spec/analyzer.seq
+dicttokz	nil	# Gen:   Convert input to token list
+nlp	funcs	# Declare shared helper functions (NumberType)
+nlp	numbers	# Tag numbers as candidate month/day/year values
+nlp	ordinals	# Recognize ordinals (1st, 2nd) and am/pm markers
+nlp	times	# Recognize clock times (10:04:23 pm, 10:04am)
+nlp	zulu	# Recognize zulu / ISO 8601 timestamps
+nlp	dates	# Recognize date expressions in many formats
+nlp	datesDay	# Recognize dates with weekdays and standalone years
+nlp	highlight	# Highlight recognized _date and _time nodes</code></pre>
