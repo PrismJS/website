@@ -1,0 +1,51 @@
+<h2>Pass headers</h2>
+<pre><code>***************
+    PASS 6 (telephone)
+***************
+
+PAT OUTPUT TREE:</code></pre>
+
+<h2>Nodes and leaves</h2>
+<pre><code>   _LINE [0,13,0,13,5,21,node]
+      _telephone [0,12,0,12,6,59,node,fired,blt, ("area" 20) ("prefix" 1234) ("station" 1234)]
+         020 [0,2,0,2,0,0,num,fired, ("NOSP" 1)]
+         \_ [3,3,3,3,0,0,white,fired]
+         1234 [4,7,4,7,0,0,num,fired, ("SP" 1)]
+         \_ [8,8,8,8,0,0,white,fired]
+         1234 [9,12,9,12,0,0,num,fired, ("SP" 1)]
+      \n [13,13,13,13,0,0,white]</code></pre>
+
+<h2>Variables</h2>
+<pre><code>x [0,0,0,0,0,0,alpha, ("i" -1) ("f" 1.5) ("big" 1.23457e+06) ("s" "two words")]
+y [1,1,1,1,0,0,alpha, ("con" concept:"telephone1") ("node" pnode:"_LINE") ("arr" 1 "two")]</code></pre>
+
+<h2>Full example</h2>
+<pre><code>FINAL OUTPUT TREE:
+
+_ROOT [0,367,0,367,0,0,node,un, ("TOT LINES" 1) ("TOT TABS" 0) ("TOT LOWERS" 0) ("TOT CAPS" 0) ("TOT UPPERS" 0) ("TOT NUMS" 70)]
+   _LINE [0,13,0,13,5,21,node]
+      _telephone [0,12,0,12,7,19,node, ("area" 20) ("prefix" 1234) ("station" 1234) ("con" concept:"telephone1")]
+         020 [0,2,0,2,0,0,num, ("NOSP" 1)]
+         \_ [3,3,3,3,0,0,white]
+         1234 [4,7,4,7,0,0,num, ("SP" 1)]
+         \_ [8,8,8,8,0,0,white]
+         1234 [9,12,9,12,0,0,num, ("SP" 1)]
+      \n [13,13,13,13,0,0,white]
+   _LINE [14,27,14,27,5,21,node]
+      _telephone [14,26,14,26,7,19,node, ("area" 420) ("prefix" 123) ("station" 4123) ("type" "mobile") ("con" concept:"telephone2")]
+         + [14,14,14,14,0,0,punct, ("SP" 1) ("NL" 1)]
+         442012341234 [15,26,15,26,0,0,num, ("NOSP" 1)]
+      \n [27,27,27,27,0,0,white]
+   _LINE [28,39,28,39,5,21,node]
+      _telephone [28,38,28,38,7,19,node, ("area" 8) ("prefix" 601) ("station" 12345) ("con" concept:"telephone3")]
+         8 [28,28,28,28,0,0,num, ("SP" 1) ("NL" 1)]
+         \_ [29,29,29,29,0,0,white]
+         601 [30,32,30,32,0,0,num, ("SP" 1)]
+         \_ [33,33,33,33,0,0,white]
+         12345 [34,38,34,38,0,0,num, ("SP" 1)]
+      \n [39,39,39,39,0,0,white]
+   _LINE [40,52,40,52,5,21,node]
+      _telephone [40,51,40,51,7,19,node, ("area" 706) ("prefix" 11) ("station" 2345) ("type" "mobile") ("con" concept:"telephone4")]
+         + [40,40,40,40,0,0,punct, ("SP" 1) ("NL" 1)]
+         37060112345 [41,51,41,51,0,0,num, ("NOSP" 1)]
+      \n [52,52,52,52,0,0,white]</code></pre>

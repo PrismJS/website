@@ -1,0 +1,54 @@
+<h2>Comments</h2>
+<pre><code># A comment runs to the end of the line
+/* A block comment
+   can span lines */</code></pre>
+
+<h2>Concepts</h2>
+<pre><code>animals
+  mammals
+    dog
+    cat
+  birds
+    robin</code></pre>
+
+<h2>Attributes</h2>
+<pre><code>months
+  january: num=1, abbr=jan
+  september: num=9, abbr=sep, synonym=sept
+  march: name="March", days=31</code></pre>
+
+<h2>Lists</h2>
+<pre><code>currency
+  $: name=[dollar,escudo,peso]
+    XOF: currency="West African CFA", country=[Benin,"Burkina Faso",Mali]</code></pre>
+
+<h2>Full example</h2>
+<pre><code># Source: https://github.com/VisualText/visualtext-files/blob/main/misc/currency.kbb (excerpt)
+# Currency symbols
+currency
+  $: name=[dollar,escudo]
+    BND: currency="Brunei Dollar", country=Brunei
+    SGD: currency="Singapore Dollar", country=Singapore
+    USD: currency="United States Dollar", country="Timor-Leste"
+    CVE: currency="Cape Verde Escudo", country="Cabo Verde"
+    LRD: currency="Liberian Dollar", country=Liberia
+    NAD: currency="Namibian Dollar", country=Namibia
+    ZWD: currency="Zimbabwean Dollar", country=Zimbabwe
+  Ar: name=ariary
+    MGA: currency="Malagasy Ariary", country=Madagascar
+  CF: name=franc
+    KMF: currency="Comorian Franc", country=Comoros
+  CFA: name=cfa
+    XOF: currency="West African CFA", country=[Benin,"Burkina Faso","Cote d'Ivoire","Guinea-Bissau",Mali,Niger,Senegal]
+  D: name=dalasi
+    GMD: currency="Gambian Dalasi", country=Gambia
+  DH: name=dirham
+    MAD: currency="Moroccan Dirham", country=Morocco
+  EEK: name=kroon
+    EEK: currency="Estonian Kroon", country=Estonia
+  FBu: name=franc
+    BIF: currency="Burundian Franc", country=Burundi
+  FC: name=franc
+    CDF: currency="Congolese franc", country="Democratic Republic of the Congo"
+  FCFA: name=cfa
+    XAF: currency="Central African CFA", country=[Cameroon,"Central African Republic (CAR)","Republic of the Congo","Equatorial Guinea"]</code></pre>
