@@ -1,72 +1,88 @@
-
 <h2>Comments</h2>
-<pre><code>;Text of Comment
-		;		Comment with tabs before
-</code></pre>
+<pre><code>; Set up the scene.
+    ; Indented comment.
+@back Beach ; A comment after a command.
+# Start ; A comment after a label.
+Kohaku: Hello![shake Camera ; A comment inside an inline command.]</code></pre>
 
-<h2>Define</h2>
-<pre><code>
-&gt;DefineKey define 12 super usefull lines
-</code></pre>
+<h2>Labels and navigation</h2>
+<pre><code>#Start
+# Epilogue
+# After the storm
+@goto #Epilogue
+@goto Chapter1#Start
+@goto Multi Word Script # After the storm
+@gosub Shared#Greeting
+@choice "Continue" goto:#Epilogue</code></pre>
 
-<h2>Label</h2>
-<pre><code># Section
-#Section without whitespace
- # Section with whitespace
-	# SectionWithTab	
-</code></pre>
+<h2>Commands</h2>
+<pre><code>@save
+@wait 1
+@char Kohaku.Happy pos:50 look:right
+@bgm PianoTheme fade:1.5 loop:false
+@camera offset:-1,0.5 time:2
+@print Hello, world!
+@print "Hello, world!"
+@print "She said \"Hello!\""</code></pre>
 
-<h2>Command</h2>
-<pre><code>
-@
-@ cmdWithWhiteSpaceBefore
-@cmdWithTrailingSemicolon:
-@paramlessCmd
- @cmdWithNoParamsAndWhitespaceBefore
-		@cmdWithNoParamsAndTabBefore
-					 @cmdWithNoParamsAndTabAndSpacesBefore
-           @cmdWithNoParamsWrappedInWhitespaces             
-@cmdWithNoParamWithTrailingSpace 
-@cmdWithNoParamWithMultipleTrailingSpaces   
-@cmdWithNoParamWithTrailingTab	
-@cmdWithNoParamWithTrailingTabAndSpaces	  
-@cmdWithPositiveIntParam 1
-@cmdWithNegativeIntParam -1
-@cmdWithPositiveFloatParamAndNoFraction 1.
-@cmdWithPositiveFloatParamAndFraction 1.10
-@cmdWithPositiveHegativeFloatParamAndNoFraction -1.
-@cmdWithPositiveHegativeFloatParamAndFraction -1.10
-@cmdWithBoolParamAndPositive true
-@cmdWithBoolParamAndNegative false
-@cmdWithStringParam hello$co\:mma"d"
-@cmdWithQuotedStringNamelessParameter "hello grizzly"
-@cmdWithQuotedStringNamelessParameterWithEscapedQuotesInTheValue "hello \"grizzly\""
-@set choice="moe"
-@command hello.grizzly
-@command one,two,three
-@command 1,2,3
-@command true,false,true
-@command hi:grizzly
-@command hi:1
-@command hi:true
-@command 1 in:forest danger:true
-@char 1 pos:0.25,-0.75 look:right
-</code></pre>
+<h2>Boolean flags</h2>
+<pre><code>@char Kohaku visible!
+@char Kohaku !visible
+@hide Kohaku wait!
+@show Yuko !wait</code></pre>
 
-<h2>Generic Text</h2>
-<pre><code>Generic text with inlined commands[i] example[command 1 danger:true] more text here [act danger:false true:false]
-"Integer: a = {a} malesuada a + b = {a + b}", Random(a, b) = {Random(a, b)}, Random("foo", "bar", "foobar") = {Random("foo", "bar", "foobar")}
-UnclosedExpression{ab{cndum dui dolor tincidu{nt [s[fa]sdf [
-"Integer: a = {a} malesuada a + b = {a + b}", Random(a, b) = {Random(a, b)}, Random("foo", "bar", "foobar") = {Random("foo", "bar", "foobar")},}
-</code></pre>
+<h2>Generic text and authors</h2>
+<pre><code>A warm breeze blows across the beach.
+Kohaku: Welcome back!
+Kohaku.Happy: It's good to see you.
+Kohaku,Yuko: Hello![&lt; as:"All Together"]</code></pre>
+
+<h2>Inline commands</h2>
+<pre><code>Kohaku: Hello [char Kohaku.Happy pos:50]world!
+Wait a moment.[wait 1] Let's go.
+Click to continue.[-] Thanks!
+Continue without waiting for input.[>]
+Hello[&lt; speed:0.5] world![&lt; speed:2.5 nowait!]
+Test result:[if score>8] Perfect![or score>6] Passed.[else] Failed.[endif]</code></pre>
 
 <h2>Expressions</h2>
-<pre><code>{}
-{ Abs(a, d) + 12 - 1 / -230.0 + "Lol ipsum" }
-Expressions inside a generic text line: Loreim ipsu,{ Abs(a, d) + 12 - 1 / -230.0 + "Lol ipsum" } doler sit amen {¯\_(ツ)_/¯}.
-@ExpressionInsteadOfNamelessParameterValue {x > 0}
-@ExpressionBlendedWithNamelessParameterValue sdf{x > 0}df
-@ExpressionsInsideNamedParameterValueWrappedInQuotes text:"{a} &lt; {b}"
-@ExpressionsBlendedWithNamedParameterValue param:32r2f,df{x > 0},d.{Abs(0) + 12.24 > 0}ff
-@ExpressionsInsteadOfNamelessParameterAndQuotedParameter {remark} if:remark=="Saying \\"Stop { "the" } car\\" was a mistake."
-</code></pre>
+<pre><code>Kohaku: You have {score} points{random("!", "?")}
+@print {score}
+@print "Score: {score + 1}"
+@char Kohaku visible:{score > 10}
+@set score = score + 1
+@set roll = random(1, 10) ; Roll a random number.
+@choice "Take a point" set:score = score + 1</code></pre>
+
+<h2>Conditional execution</h2>
+<pre><code>@print "I'm still alive." if: not dead
+@char Kohaku if:score > 10 pos:50
+@choice "Continue" if:met &amp;&amp; score > 0 goto:#Next
+@if score > 10
+    Kohaku.Happy: Well done!
+@or score == 10
+    Kohaku: Almost there.
+@else
+    Kohaku.Sad: Try again.
+@unless dead
+    @print "Let's keep going."
+@while i &lt; 3
+    @set i = i + 1</code></pre>
+
+<h2>Text tags</h2>
+<pre><code>Hello &lt;b>bold&lt;/b> and &lt;i>italic&lt;/i> text.
+&lt;color=red>Red&lt;/color> text.
+Wait for input&lt;->then continue.
+My favorite color is &lt;/red/blue/green>.
+Your score is &lt;:score>.
+Hello &lt;@char Kohaku.Happy pos:50>world!</code></pre>
+
+<h2>Text identifiers</h2>
+<pre><code>Kohaku: Hey!|#1|[-] What's up?|#2|
+@choice "Say hello|#3|" goto:#Greeting
+@choice "Leave|#4|" goto:#Exit</code></pre>
+
+<h2>Escaping</h2>
+<pre><code>Literal brackets: \[not a command\]
+Literal braces: \{not an expression\}
+Literal tag: \&lt;b></code></pre>
