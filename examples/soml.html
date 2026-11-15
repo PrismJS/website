@@ -1,0 +1,72 @@
+<h2>Comments</h2>
+<pre><code># A line comment
+/* A block comment
+on two lines */
+port: 8080 # A comment after a value</code></pre>
+
+<h2>Keys</h2>
+<pre><code>name: 'web'
+max-connections: 100
+404: '/errors/not-found.html'
+'cache control': 'no-store'</code></pre>
+
+<h2>Strings</h2>
+<pre><code>path: 'C:\Users\jane\dev'
+pattern: '^\d{4}-\d{2}-\d{2}$'
+greeting: "Hello,\n\"world\" \u{1f44b}"
+notes:
+	'''
+	A block string keeps its line breaks.
+	The closing quotes set how much indentation is removed.
+	'''</code></pre>
+
+<h2>Numbers</h2>
+<pre><code>retries: 3
+offset: -42
+ratio: 0.75
+epsilon: 1e-9
+budget: 1_000_000
+mode: 0o644
+mask: 0b1010_1100
+color: 0xFF8800
+limit: infinity</code></pre>
+
+<h2>Dates, instants, and durations</h2>
+<pre><code>launch: 2027-09-19
+deployed-at: 2026-09-19T14:00:00Z
+backup-at: 2026-09-19T02:30:00.250+02:00
+timeout: 30s
+retry-after: 1m30s
+poll: 500ms</code></pre>
+
+<h2>Full example</h2>
+<pre><code># Configuration for the API gateway.
+name: 'api-gateway'
+enabled: true
+owner: null
+replicas: 3
+timeout: 30s
+released-at: 2026-09-19T14:00:00Z
+
+description:
+	'''
+	Terminates TLS and routes requests
+	to internal services.
+	'''
+
+allowed-origins: [
+	'https://example.com'
+	'https://example.org'
+]
+
+listen: {
+	host: '0.0.0.0'
+	port: 8080
+}
+
+routes: [
+	{path: '/api', service: 'backend', timeout: 5s}
+	{path: '/static', service: 'cdn', cache: true}
+]
+
+healthcheck: {path: '/health', interval: 10s}</code></pre>
