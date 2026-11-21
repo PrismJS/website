@@ -16,7 +16,7 @@ bne label1
 
 <h2>Assembler directives</h2>
 <pre><code>
-.segment CODE
+.segment "CODE"
 .word $07d3
 </code></pre>
 
@@ -36,4 +36,30 @@ LDA label1,x  ; "x"
 LDA #127
 STA $80f0
 LDY #%01011000
+</code></pre>
+
+<h2>Full example:</h2>
+<pre><code>
+; calculate all 8 bit Fibonacci numbers
+
+BUFFER = $1000
+
+fibonacci:
+   clc
+   cld
+   ldx   #1
+   stx   BUFFER+1
+   dex
+   stx   BUFFER
+@loop:
+   lda   BUFFER,x
+   inx
+   adc   BUFFER,x
+   bcs   @done
+   inx
+   sta   BUFFER,x
+   dex
+   bne   @loop
+@done:
+   rts
 </code></pre>
